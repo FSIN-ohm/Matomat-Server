@@ -3,5 +3,7 @@ The Matomat Server
 
 This is the Matomat server.
 
-- [Matomat Kanbahn board](https://github.com/FSIN-ohm/Matomat-Server/projects/2)
-- [Documentation](https://fsin-ohm.github.io/Matomat-Documentation/)
+This is the Matomat server
+- [Kanban board](https://github.com/orgs/FSIN-ohm/projects/1)
+- [Documentation](https://github.com/FSIN-ohm/Matomat-Documentation)
+
