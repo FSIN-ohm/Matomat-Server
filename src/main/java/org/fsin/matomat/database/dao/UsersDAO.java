@@ -5,14 +5,13 @@ import org.fsin.matomat.database.model.UserEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
-import javax.sql.DataSource;
 import java.sql.ResultSet;
 import java.util.List;
 
 public class UsersDAO implements BasicDAO<UserEntry> {
     JdbcTemplate template;
-    public UsersDAO(DataSource dataSource) {
-        template = new JdbcTemplate(dataSource);
+    public UsersDAO(JdbcTemplate template) {
+        this.template = template;
     }
 
     private RowMapper<UserEntry> rowMapper = (ResultSet rs, int rowNum) -> {

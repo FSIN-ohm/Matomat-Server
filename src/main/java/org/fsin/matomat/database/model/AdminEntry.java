@@ -1,12 +1,21 @@
 package org.fsin.matomat.database.model;
 
 public class AdminEntry {
+    private Integer id;
     private String username;
     private byte[] password;
     private String email;
     private byte[] password_salt;
 
     private UserEntry corespondingUser;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getUsername() {
         return username;
