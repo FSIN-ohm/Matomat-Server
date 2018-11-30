@@ -32,7 +32,7 @@ VALUES
        (5, '2014-12-18 18:17:17', 4, 1),
        (6, '2014-12-18 19:17:17', 2, 3);
 
-INSERT INTO Transfare_amount
+INSERT INTO Transfers
     (transaction_ID, charged_amount)
 VALUES
        (4, 10.00),
