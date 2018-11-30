@@ -39,7 +39,7 @@ VALUES
        (5, 15.00),
        (6, 12.00);
 
-INSERT INTO transaction_amount_products
+INSERT INTO Purchases
     (Transaction_ID, Product_ID, count)
 VALUES
        (1, 1, 50),
