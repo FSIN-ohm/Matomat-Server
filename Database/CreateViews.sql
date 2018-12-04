@@ -87,3 +87,15 @@ CREATE VIEW product_stocks AS
     LEFT JOIN sold_products sp ON bp.user_id = sp.user_id AND sp.product_id = bp.product_id
       WHERE NOT ISNULL(IFNULL(bp.product_id, sp.product_id))
         AND IFNULL(bp.bought_products, 0) - IFNULL(sp.sold_products, 0) > 0;
+
+DROP VIEW IF EXISTS virtual_product;
+CREATE VIEW virtual_product AS
+  SELECT P.ID,
+         price,
+         name,
+         image_url,
+         reorder_point,
+         product_hash
+  FROM Products P
+  JOIN Product_infos info on P.Product_info_ID = info.ID
+  WHERE info.available = 1;
