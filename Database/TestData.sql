@@ -14,13 +14,22 @@ INSERT INTO Admins
 VALUES
        (1, 'himler', 'christopf', 'himler@finanzen.urg', 'aasdfasfd', 3);
 
-INSERT INTO Products
-    (ID, name, price, image_url, reorder_point, available, product_hash)
+
+INSERT INTO Product_infos
+    (ID, name, image_url, reorder_point, product_hash, available)
 VALUES
-       (1, 'Mate', '0.70', 'https://matebild.com/bild.jpg', 50, 1, 'aksdjfkj'),
-       (2, 'Snickers', '0.20', 'https://snickersbild.com/bild.jpg', 20, 1, 'laksdjfje'),
-       (3, 'Mars', '0.20', 'https://marsbild.com/bild.jpg', 50, 0, 'fi3jjf'),
-       (4, 'Wasser', '0.50', 'https://lolbild.com/bild.jpg', 70, 1, 'eieiiej');
+       (1, 'Mate', 'https://matebild.com/bild.jpg', 50, 'aksdjfkj', 1),
+       (2, 'Snickers', 'https://snickersbild.com/bild.jpg', 20, 'laksdjfje', 1),
+       (3, 'Mars', 'https://marsbild.com/bild.jpg', 50, 'fi3jjf', 0),
+       (4, 'Wasser', 'https://lolbild.com/bild.jpg', 70, 'eieiiej', 1);
+
+INSERT INTO Products
+    (ID, price, Product_info_ID)
+VALUES
+       (1, '0.70', 1),
+       (2, '0.20', 2),
+       (3, '0.20', 3),
+       (4, '0.50', 4);
 
 
 INSERT INTO Transactions
