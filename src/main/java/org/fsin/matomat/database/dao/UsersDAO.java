@@ -1,6 +1,5 @@
 package org.fsin.matomat.database.dao;
 
-import org.fsin.matomat.BasicDAO;
 import org.fsin.matomat.database.model.UserEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -8,7 +7,7 @@ import org.springframework.jdbc.core.RowMapper;
 import java.sql.ResultSet;
 import java.util.List;
 
-public class UsersDAO implements BasicDAO<UserEntry> {
+public class UsersDAO {
     JdbcTemplate template;
     public UsersDAO(JdbcTemplate template) {
         this.template = template;
@@ -20,10 +19,10 @@ public class UsersDAO implements BasicDAO<UserEntry> {
         entry.setAuthHash(rs.getBytes("auth_hash"));
         entry.setBalance(rs.getInt("Balance"));
         entry.setLastSeen(rs.getDate("LastSeen"));
+        entry.setAvialable(rs.getBoolean("available"));
         return entry;
     };
 
-    @Override
     public List<UserEntry> getAll() {
         return template.query("select * from Users", rowMapper);
     }

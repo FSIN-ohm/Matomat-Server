@@ -6,8 +6,7 @@ public class AdminEntry {
     private byte[] password;
     private String email;
     private byte[] password_salt;
-
-    private UserEntry corespondingUser;
+    private int corespondingUser_id;
 
     public Integer getId() {
         return id;
@@ -49,11 +48,11 @@ public class AdminEntry {
         this.password_salt = password_salt;
     }
 
-    public UserEntry getCorespondingUser() {
-        return corespondingUser;
+    public int getCorespondingUser_id() {
+        return corespondingUser_id;
     }
 
-    public void setCorespondingUser(UserEntry corespondingUser) {
-        this.corespondingUser = corespondingUser;
+    public void setCorespondingUser_id(int corespondingUser_id) {
+        this.corespondingUser_id = corespondingUser_id;
     }
 }

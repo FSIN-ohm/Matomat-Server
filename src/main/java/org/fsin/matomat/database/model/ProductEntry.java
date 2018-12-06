@@ -1,12 +1,12 @@
 package org.fsin.matomat.database.model;
 
-public class ProductsEntry {
+public class ProductEntry {
     private Integer id;
     private String name;
     private Integer price;
-    private Integer stock;
     private String imageUrl;
     private Integer reorderPoint;
+    private byte[] productHash;
     private boolean isAvailable;
 
     public Integer getId() {
@@ -33,14 +33,6 @@ public class ProductsEntry {
         this.price = price;
     }
 
-    public Integer getStock() {
-        return stock;
-    }
-
-    public void setStock(Integer stock) {
-        this.stock = stock;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -55,6 +47,14 @@ public class ProductsEntry {
 
     public void setReorderPoint(Integer reorderPoint) {
         this.reorderPoint = reorderPoint;
+    }
+
+    public byte[] getProductHash() {
+        return productHash;
+    }
+
+    public void setProductHash(byte[] productHash) {
+        this.productHash = productHash;
     }
 
     public boolean isAvailable() {

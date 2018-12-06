@@ -7,6 +7,7 @@ public class UserEntry {
     private byte[] authHash;
     private Integer balance;
     private Date lastSeen;
+    private Boolean avialable;
 
     public Integer getId() {
         return id;
@@ -38,5 +39,13 @@ public class UserEntry {
 
     public void setLastSeen(Date lastSeen) {
         this.lastSeen = lastSeen;
+    }
+
+    public Boolean getAvialable() {
+        return avialable;
+    }
+
+    public void setAvialable(Boolean avialable) {
+        this.avialable = avialable;
     }
 }
