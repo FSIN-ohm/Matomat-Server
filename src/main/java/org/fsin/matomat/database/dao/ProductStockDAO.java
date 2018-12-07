@@ -1,11 +1,11 @@
 package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.ProductStockEntry;
+import org.fsin.matomat.database.model.UserEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.List;
 
 public class ProductStockDAO {
@@ -25,5 +25,9 @@ public class ProductStockDAO {
 
     public List<ProductStockEntry> getAll() {
         return template.query("select * from product_stocks", rowMapper);
+    }
+
+    public List<ProductStockEntry> getStockForUser(UserEntry user) {
+        return template.query("select * from product_stocks where user_id = ?", rowMapper, user.getId());
     }
 }

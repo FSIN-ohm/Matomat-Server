@@ -31,4 +31,12 @@ public class UsersDAO {
         template.update("call ADD_USER(?)",
                 user.getAuthHash());
     }
+
+    public UserEntry getUser(int id) {
+        return template.queryForObject("select * from Users where ID = ?", rowMapper, id);
+    }
+
+    public UserEntry getUser(byte[] authHash) {
+        return template.queryForObject("select * from Users where auth_hash = ?", rowMapper, authHash);
+    }
 }

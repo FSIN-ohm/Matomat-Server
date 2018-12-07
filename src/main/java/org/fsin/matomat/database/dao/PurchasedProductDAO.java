@@ -1,5 +1,7 @@
 package org.fsin.matomat.database.dao;
 
+import org.fsin.matomat.database.model.ProductEntry;
+import org.fsin.matomat.database.model.PurchaseEntry;
 import org.fsin.matomat.database.model.PurchasedProductEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,5 +26,13 @@ public class PurchasedProductDAO {
 
     public List<PurchasedProductEntry> getAll() {
         return template.query("select * from Purchases", rowMapper);
+    }
+
+    public List<PurchasedProductEntry> getByPurchase(PurchaseEntry purchaseEntry) {
+        return template.query("select * from Purchases where Transaction_ID = ?", rowMapper, purchaseEntry.getTransaction_id());
+    }
+
+    public List<PurchasedProductEntry> getByProduct(ProductEntry product) {
+        return template.query("select * from Purchases where Product_ID = ?", rowMapper, product.getId());
     }
 }

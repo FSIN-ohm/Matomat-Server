@@ -43,4 +43,15 @@ public class AdminDAO {
                 admin.getPassword(),
                 admin.getEmail());
     }
+
+    public AdminEntry getAdmin(int id) {
+        return template.queryForObject("select * from Admins where ID = ?", rowMapper, id);
+    }
+
+    public AdminEntry getAdmin(String username, byte[] passwordHash) {
+        return template.queryForObject("select * from Admins where username = ? and password = ?",
+                rowMapper,
+                username,
+                passwordHash);
+    }
 }

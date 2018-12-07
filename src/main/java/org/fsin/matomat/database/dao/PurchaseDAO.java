@@ -3,6 +3,7 @@ package org.fsin.matomat.database.dao;
 import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.database.model.PurchaseEntry;
 import org.fsin.matomat.database.model.PurchasedProductEntry;
+import org.fsin.matomat.database.model.UserEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -28,6 +29,14 @@ public class PurchaseDAO {
 
     public List<PurchaseEntry> getAll() {
         return template.query("select * from virtual_purchases", rowMapper);
+    }
+
+    public List<PurchaseEntry> getBySender(UserEntry sender) {
+        return template.query("select * from virtual_purchases where sender = ?", rowMapper, sender.getId());
+    }
+
+    public List<PurchaseEntry> getByRecipient(UserEntry recipient) {
+        return template.query("select * from virtual_purchases where recipient = ?", rowMapper, recipient.getId());
     }
 
     public void addNewPurchase(PurchaseEntry purchase, List<PurchasedProductEntry> ppList) {
