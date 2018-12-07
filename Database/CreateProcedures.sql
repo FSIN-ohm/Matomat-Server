@@ -57,19 +57,20 @@ CREATE PROCEDURE ADD_PRODUCT
   reorder_p INT(11),
   hash binary(64))
   BEGIN
-    INSERT INTO Product_infos
-        (name, image_url, reorder_point, product_hash, available)
-    VALUES
-           (product_name, i_url, reorder_p, hash, 1);
     INSERT INTO Products
-        (price, Product_info_ID)
+        (price)
     VALUES
-           (product_price, LAST_INSERT_ID());
+           (product_price);
+
+    INSERT INTO Product_infos
+        (product_ID, name, image_url, reorder_point, product_hash, available)
+    VALUES
+           (LAST_INSERT_ID(), product_name, i_url, reorder_p, hash, 1);
   end;
 
 DROP PROCEDURE IF EXISTS SET_PRODUCT;
 CREATE PROCEDURE SET_PRODUCT
-  (product_id INTEGER,
+  (p_id INTEGER,
     product_name VARCHAR(45),
   i_url VARCHAR(128),
   reorder_p INT(11),
@@ -80,7 +81,7 @@ CREATE PROCEDURE SET_PRODUCT
             image_url = i_url,
             reorder_point = reorder_p,
             product_hash = hash
-    WHERE ID = product_id;
+    WHERE product_ID = p_id;
   end;
 
 DROP PROCEDURE IF EXISTS ADD_TRANSFER;

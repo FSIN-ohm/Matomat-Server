@@ -1,9 +1,11 @@
 package org.fsin.matomat.database.model;
 
+import java.math.BigDecimal;
+
 public class ProductEntry {
     private Integer id;
     private String name;
-    private Integer price;
+    private BigDecimal price;
     private String imageUrl;
     private Integer reorderPoint;
     private byte[] productHash;
@@ -25,11 +27,11 @@ public class ProductEntry {
         this.name = name;
     }
 
-    public Integer getPrice() {
+    public BigDecimal getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(BigDecimal price) {
         this.price = price;
     }
 

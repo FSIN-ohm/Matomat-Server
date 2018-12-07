@@ -28,4 +28,19 @@ public class AdminDAO {
     public List<AdminEntry> getAll() {
         return template.query("select * from Admins", rowMapper);
     }
+
+    public void addAdmin(AdminEntry admin) {
+        template.update("call ADD_ADMIN(?, ? ?)",
+                admin.getUsername(),
+                admin.getPassword(),
+                admin.getEmail());
+    }
+
+    public void updateAdmin(AdminEntry admin) {
+        template.update("call SET_ADMIN(?, ?, ?, ?)",
+                admin.getId(),
+                admin.getUsername(),
+                admin.getPassword(),
+                admin.getEmail());
+    }
 }

@@ -17,7 +17,7 @@ public class ProductDAO {
     private RowMapper<ProductEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         ProductEntry entry = new ProductEntry();
         entry.setId(rs.getInt("ID"));
-        entry.setPrice(rs.getInt("price"));
+        entry.setPrice(rs.getBigDecimal("price"));
         entry.setName(rs.getString("name"));
         entry.setImageUrl(rs.getString("image_url"));
         entry.setReorderPoint(rs.getInt("reorder_point"));
@@ -28,5 +28,23 @@ public class ProductDAO {
 
     public List<ProductEntry> getAll() {
         return template.query("SELECT * FROM virtual_product", rowMapper);
+    }
+
+    public void addProduct(ProductEntry product) {
+        template.update("call ADD_PRODUCT(?, ?, ?, ?, ?)",
+                product.getPrice(),
+                product.getName(),
+                product.getImageUrl(),
+                product.getReorderPoint(),
+                product.getProductHash());
+    }
+
+    public void updateProduct(ProductEntry product) {
+        template.update("call SET_PRODUCT(?, ?, ?, ?, ?)",
+                product.getId(),
+                product.getName(),
+                product.getImageUrl(),
+                product.getReorderPoint(),
+                product.getProductHash());
     }
 }

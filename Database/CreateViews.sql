@@ -98,7 +98,7 @@ CREATE VIEW virtual_product AS
          product_hash,
          available
   FROM Products P
-  JOIN Product_infos info on P.Product_info_ID = info.ID;
+  JOIN Product_infos info on P.ID = info.product_ID;
 
 
 DROP VIEW IF EXISTS virtual_purchases;

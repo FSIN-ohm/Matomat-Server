@@ -26,4 +26,9 @@ public class UsersDAO {
     public List<UserEntry> getAll() {
         return template.query("select * from Users", rowMapper);
     }
+
+    public void addUser(UserEntry user) {
+        template.update("call ADD_USER(?)",
+                user.getAuthHash());
+    }
 }

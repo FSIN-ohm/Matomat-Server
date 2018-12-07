@@ -27,4 +27,11 @@ public class TransferDAO {
     public List<TransferEntry> getAll() {
         return template.query("select * from transfer_transactions", rowMapper);
     }
+
+    public void addTransfare(TransferEntry transfer) {
+        template.update("call ADD_TRANSFER(?, ?, ?)",
+                transfer.getSender_id(),
+                transfer.getReceiver_id(),
+                transfer.getCharched_amount());
+    }
 }
