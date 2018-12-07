@@ -1,6 +1,7 @@
 package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.ProductEntry;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,11 +27,11 @@ public class ProductDAO {
         return entry;
     };
 
-    public List<ProductEntry> getAll() {
+    public List<ProductEntry> getAll() throws DataAccessException {
         return template.query("SELECT * FROM virtual_product", rowMapper);
     }
 
-    public void addProduct(ProductEntry product) {
+    public void addProduct(ProductEntry product) throws DataAccessException {
         template.update("call ADD_PRODUCT(?, ?, ?, ?, ?)",
                 product.getPrice(),
                 product.getName(),
@@ -39,7 +40,7 @@ public class ProductDAO {
                 product.getProductHash());
     }
 
-    public void updateProduct(ProductEntry product) {
+    public void updateProduct(ProductEntry product) throws DataAccessException {
         template.update("call SET_PRODUCT(?, ?, ?, ?, ?)",
                 product.getId(),
                 product.getName(),

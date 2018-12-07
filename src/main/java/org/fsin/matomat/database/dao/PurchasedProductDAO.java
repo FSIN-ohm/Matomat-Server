@@ -3,6 +3,7 @@ package org.fsin.matomat.database.dao;
 import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.database.model.PurchaseEntry;
 import org.fsin.matomat.database.model.PurchasedProductEntry;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -24,15 +25,15 @@ public class PurchasedProductDAO {
         return entry;
     };
 
-    public List<PurchasedProductEntry> getAll() {
+    public List<PurchasedProductEntry> getAll() throws DataAccessException {
         return template.query("select * from Purchases", rowMapper);
     }
 
-    public List<PurchasedProductEntry> getByPurchase(PurchaseEntry purchaseEntry) {
+    public List<PurchasedProductEntry> getByPurchase(PurchaseEntry purchaseEntry) throws DataAccessException {
         return template.query("select * from Purchases where Transaction_ID = ?", rowMapper, purchaseEntry.getTransaction_id());
     }
 
-    public List<PurchasedProductEntry> getByProduct(ProductEntry product) {
+    public List<PurchasedProductEntry> getByProduct(ProductEntry product) throws DataAccessException {
         return template.query("select * from Purchases where Product_ID = ?", rowMapper, product.getId());
     }
 }

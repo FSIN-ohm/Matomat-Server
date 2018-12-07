@@ -1,6 +1,7 @@
 package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.AdminEntry;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,18 +26,18 @@ public class AdminDAO {
         return adminEntry;
     };
 
-    public List<AdminEntry> getAll() {
+    public List<AdminEntry> getAll() throws DataAccessException {
         return template.query("select * from Admins", rowMapper);
     }
 
-    public void addAdmin(AdminEntry admin) {
+    public void addAdmin(AdminEntry admin) throws DataAccessException {
         template.update("call ADD_ADMIN(?, ? ?)",
                 admin.getUsername(),
                 admin.getPassword(),
                 admin.getEmail());
     }
 
-    public void updateAdmin(AdminEntry admin) {
+    public void updateAdmin(AdminEntry admin) throws DataAccessException {
         template.update("call SET_ADMIN(?, ?, ?, ?)",
                 admin.getId(),
                 admin.getUsername(),
@@ -44,11 +45,11 @@ public class AdminDAO {
                 admin.getEmail());
     }
 
-    public AdminEntry getAdmin(int id) {
+    public AdminEntry getAdmin(int id) throws DataAccessException {
         return template.queryForObject("select * from Admins where ID = ?", rowMapper, id);
     }
 
-    public AdminEntry getAdmin(String username, byte[] passwordHash) {
+    public AdminEntry getAdmin(String username, byte[] passwordHash) throws DataAccessException {
         return template.queryForObject("select * from Admins where username = ? and password = ?",
                 rowMapper,
                 username,

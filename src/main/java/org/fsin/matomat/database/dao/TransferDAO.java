@@ -2,6 +2,7 @@ package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.TransferEntry;
 import org.fsin.matomat.database.model.UserEntry;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -25,19 +26,19 @@ public class TransferDAO {
         return entry;
     };
 
-    public List<TransferEntry> getAll() {
+    public List<TransferEntry> getAll() throws DataAccessException {
         return template.query("select * from transfer_transactions", rowMapper);
     }
 
-    public List<TransferEntry> getBySender(UserEntry sender) {
+    public List<TransferEntry> getBySender(UserEntry sender) throws DataAccessException {
         return template.query("select * from transfer_transactions where sender = ?", rowMapper, sender.getId());
     }
 
-    public List<TransferEntry> getByRecipient(UserEntry recipient) {
+    public List<TransferEntry> getByRecipient(UserEntry recipient) throws DataAccessException {
         return template.query("select * from transfer_transactions where recipient = ?", rowMapper, recipient.getId());
     }
 
-    public void addTransfare(TransferEntry transfer) {
+    public void addTransfare(TransferEntry transfer) throws DataAccessException {
         template.update("call ADD_TRANSFER(?, ?, ?)",
                 transfer.getSender_id(),
                 transfer.getReceiver_id(),

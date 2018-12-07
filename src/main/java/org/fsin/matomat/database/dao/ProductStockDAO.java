@@ -2,6 +2,7 @@ package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.ProductStockEntry;
 import org.fsin.matomat.database.model.UserEntry;
+import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -23,11 +24,11 @@ public class ProductStockDAO {
         return entry;
     };
 
-    public List<ProductStockEntry> getAll() {
+    public List<ProductStockEntry> getAll() throws DataAccessException {
         return template.query("select * from product_stocks", rowMapper);
     }
 
-    public List<ProductStockEntry> getStockForUser(UserEntry user) {
+    public List<ProductStockEntry> getStockForUser(UserEntry user) throws DataAccessException {
         return template.query("select * from product_stocks where user_id = ?", rowMapper, user.getId());
     }
 }
