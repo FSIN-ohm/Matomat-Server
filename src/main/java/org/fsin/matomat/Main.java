@@ -1,10 +1,12 @@
 package org.fsin.matomat;
 
-
-import org.fsin.matomat.database.dao.ProductStockDAO;
-import org.fsin.matomat.database.model.ProductStockEntry;
+import org.fsin.matomat.database.dao.PurchaseDAO;
+import org.fsin.matomat.database.model.PurchaseEntry;
+import org.fsin.matomat.database.model.PurchasedProductEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
+
+import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] argv) {
@@ -15,10 +17,19 @@ public class Main {
             dataSource.setUsername("root");
             dataSource.setPassword("root");
             JdbcTemplate template = new JdbcTemplate(dataSource);
-            for(ProductStockEntry e :
-                    new ProductStockDAO(template).getAll()) {
-                System.out.println(e.getProduct_id() + " " + e.getUser_id() + " " + e.getSock());
-            }
+            PurchaseEntry p = new PurchaseEntry();
+            p.setSender_id(4);
+            p.setRecipient_id(1);
+            PurchasedProductEntry pp = new PurchasedProductEntry();
+            pp.setProduct_id(1);
+            pp.setCount(3);
+            ArrayList<PurchasedProductEntry> ppList = new ArrayList<>();
+            ppList.add(pp);
+            pp = new PurchasedProductEntry();
+            pp.setProduct_id(2);
+            pp.setCount(5);
+            ppList.add(pp);
+            new PurchaseDAO(template).addNewPurchase(p, ppList);
         } catch (Exception e) {
             e.printStackTrace();
         }

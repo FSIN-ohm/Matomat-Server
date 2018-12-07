@@ -1,6 +1,8 @@
 package org.fsin.matomat.database.dao;
 
+import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.database.model.PurchaseEntry;
+import org.fsin.matomat.database.model.PurchasedProductEntry;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -26,5 +28,23 @@ public class PurchaseDAO {
 
     public List<PurchaseEntry> getAll() {
         return template.query("select * from virtual_purchases", rowMapper);
+    }
+
+    public void addNewPurchase(PurchaseEntry purchase, List<PurchasedProductEntry> ppList) {
+        PurchasedProductEntry first = ppList.get(0);
+        Integer transaction_id =
+                template.queryForObject("select ADD_PURCHASE(?,?,?,?)",
+                Integer.class,
+                purchase.getSender_id(),
+                purchase.getRecipient_id(),
+                first.getProduct_id(),
+                first.getCount());
+
+        for(int i = 1; i < ppList.size(); i++) {
+            template.update("CALL ADD_PURCHASE_TO_EXISTING_TRANSACTION(?, ?, ?)",
+                    transaction_id,
+                    ppList.get(i).getProduct_id(),
+                    ppList.get(i).getCount());
+        }
     }
 }
