@@ -1,5 +1,6 @@
 plugins {
     id 'java'
+    id "org.springframework.boot" version "2.1.1.RELEASE"
 }
 
 group 'org.fsin.'
@@ -15,4 +16,6 @@ dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.12'
     compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
     compile("org.springframework:spring-jdbc:5.1.2.RELEASE")
+    compile("org.springframework:spring-web:5.1.2.RELEASE")
+    compile("org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE")
 }
