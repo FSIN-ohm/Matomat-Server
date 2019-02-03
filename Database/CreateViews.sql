@@ -95,7 +95,19 @@ CREATE VIEW virtual_product AS
          name,
          image_url,
          reorder_point,
-         product_hash
+         product_hash,
+         available
   FROM Products P
-  JOIN Product_infos info on P.Product_info_ID = info.ID
-  WHERE info.available = 1;
+  JOIN Product_infos info on P.ID = info.product_ID;
+
+
+DROP VIEW IF EXISTS virtual_purchases;
+CREATE VIEW virtual_purchases AS
+SELECT T.ID,
+         T.Date,
+         T.sender,
+         T.recipient,
+         cfp.charged_amount
+  FROM Transactions T
+  JOIN charges_for_purchases cfp ON cfp.ID = T.ID
+  ORDER BY T.Id;
