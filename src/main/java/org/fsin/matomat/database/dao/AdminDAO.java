@@ -17,28 +17,30 @@ public class AdminDAO {
 
     private RowMapper<AdminEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         AdminEntry adminEntry = new AdminEntry();
-        adminEntry.setId(rs.getInt("ID"));
+        adminEntry.setId(rs.getInt("id"));
         adminEntry.setUsername(rs.getString("username"));
-        adminEntry.setPassword(rs.getBytes("password"));
+        adminEntry.setPassword(rs.getString("password"));
         adminEntry.setEmail(rs.getString("email"));
-        adminEntry.setPassword_salt(rs.getBytes("password_salt"));
-        adminEntry.setCorespondingUser_id(rs.getInt("User_ID"));
+        adminEntry.setPassword_salt(rs.getString("password_salt"));
+        adminEntry.setCorespondingUser_id(rs.getInt("user_id"));
         return adminEntry;
     };
 
     public List<AdminEntry> getAll() throws DataAccessException {
-        return template.query("select * from Admins", rowMapper);
+        return template.query("select * from admins", rowMapper);
     }
 
     public void addAdmin(AdminEntry admin) throws DataAccessException {
-        template.update("call ADD_ADMIN(?, ? ?)",
+        template.update("call admin_create(?, ?, ?, ?)",
                 admin.getUsername(),
+                admin.getEmail(),
                 admin.getPassword(),
-                admin.getEmail());
+                admin.getPassword_salt()
+                );
     }
 
     public void updateAdmin(AdminEntry admin) throws DataAccessException {
-        template.update("call SET_ADMIN(?, ?, ?, ?)",
+        template.update("call admin_update(?, ?, ?, ?)",
                 admin.getId(),
                 admin.getUsername(),
                 admin.getPassword(),
@@ -46,13 +48,16 @@ public class AdminDAO {
     }
 
     public AdminEntry getAdmin(int id) throws DataAccessException {
-        return template.queryForObject("select * from Admins where ID = ?", rowMapper, id);
+        return template.queryForObject("select * from admins where id = ?", rowMapper, id);
     }
 
-    public AdminEntry getAdmin(String username, byte[] passwordHash) throws DataAccessException {
-        return template.queryForObject("select * from Admins where username = ? and password = ?",
-                rowMapper,
-                username,
-                passwordHash);
+    public AdminEntry getAdmin(String username) throws DataAccessException {
+        try {
+            return template.queryForObject("select * from admins where username = ?",
+                    rowMapper,
+                    username);
+        } catch (Exception e){
+            return null;
+        }
     }
 }

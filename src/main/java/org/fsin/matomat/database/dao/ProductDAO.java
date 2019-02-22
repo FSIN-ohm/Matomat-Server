@@ -17,35 +17,53 @@ public class ProductDAO {
 
     private RowMapper<ProductEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         ProductEntry entry = new ProductEntry();
-        entry.setId(rs.getInt("ID"));
+        entry.setId(rs.getInt("prod_id"));
         entry.setPrice(rs.getBigDecimal("price"));
         entry.setName(rs.getString("name"));
         entry.setImageUrl(rs.getString("image_url"));
         entry.setReorderPoint(rs.getInt("reorder_point"));
-        entry.setProductHash(rs.getBytes("product_hash"));
+        //entry.setProductHash(rs.getBytes("product_hash"));
         entry.setAvailable(rs.getBoolean("available"));
         return entry;
     };
 
     public List<ProductEntry> getAll() throws DataAccessException {
-        return template.query("SELECT * FROM virtual_product", rowMapper);
+        return template.query("SELECT * FROM products_all", rowMapper);
+    }
+
+    public List<ProductEntry> getActive() throws DataAccessException {
+        return template.query("SELECT * FROM products_current", rowMapper);
+    }
+
+    public ProductEntry getDetail(int id)throws DataAccessException {
+        return template.queryForObject("SELECT * FROM products_current where id = ?", rowMapper, id);
     }
 
     public void addProduct(ProductEntry product) throws DataAccessException {
-        template.update("call ADD_PRODUCT(?, ?, ?, ?, ?)",
-                product.getPrice(),
+        template.update("call product_add(?, ?, ?, ?)",
                 product.getName(),
+                product.getPrice(),
                 product.getImageUrl(),
-                product.getReorderPoint(),
-                product.getProductHash());
+                product.getReorderPoint()
+                //product.getProductHash());
+        );
     }
 
     public void updateProduct(ProductEntry product) throws DataAccessException {
-        template.update("call SET_PRODUCT(?, ?, ?, ?, ?)",
+        template.update("call product_update(?, ?, ?, ?, ?)",
                 product.getId(),
                 product.getName(),
                 product.getImageUrl(),
-                product.getReorderPoint(),
-                product.getProductHash());
+                product.getReorderPoint()
+                //product.getProductHash());
+        );
+    }
+
+    public void updatePrice(ProductEntry product)throws DataAccessException {
+        template.update("call product_update_price(?, ?)",
+                product.getId(),
+                product.getPrice()
+                //product.getProductHash());
+        );
     }
 }

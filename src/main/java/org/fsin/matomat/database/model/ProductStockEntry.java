@@ -3,7 +3,7 @@ package org.fsin.matomat.database.model;
 public class ProductStockEntry {
     private int user_id;
     private int product_id;
-    private int sock;
+    private int stock;
 
     public int getUser_id() {
         return user_id;
@@ -21,11 +21,11 @@ public class ProductStockEntry {
         this.product_id = product_id;
     }
 
-    public int getSock() {
-        return sock;
+    public int getStock() {
+        return stock;
     }
 
-    public void setSock(int sock) {
-        this.sock = sock;
+    public void setSock(int stock) {
+        this.stock = stock;
     }
 }

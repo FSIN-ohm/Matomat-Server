@@ -18,11 +18,11 @@ public class TransferDAO {
 
     RowMapper<TransferEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         TransferEntry entry = new TransferEntry();
-        entry.setTransaction_id(rs.getInt("ID"));
+        entry.setId(rs.getInt("ID"));
         entry.setDate(rs.getDate("Date"));
-        entry.setSender_id(rs.getInt("sender"));
-        entry.setReceiver_id(rs.getInt("recipient"));
-        entry.setCharched_amount(rs.getBigDecimal("charged_amount"));
+        entry.setSenderId(rs.getInt("sender"));
+        entry.setRecipientId(rs.getInt("recipient"));
+        entry.setCharged_amount(rs.getBigDecimal("charged_amount"));
         return entry;
     };
 
@@ -40,8 +40,8 @@ public class TransferDAO {
 
     public void addTransfare(TransferEntry transfer) throws DataAccessException {
         template.update("call ADD_TRANSFER(?, ?, ?)",
-                transfer.getSender_id(),
-                transfer.getReceiver_id(),
-                transfer.getCharched_amount());
+                transfer.getSenderId(),
+                transfer.getRecipientId(),
+                transfer.getCharged_amount());
     }
 }

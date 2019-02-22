@@ -16,28 +16,36 @@ public class UsersDAO {
 
     private RowMapper<UserEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         UserEntry entry = new UserEntry();
-        entry.setId(rs.getInt("ID"));
-        entry.setAuthHash(rs.getBytes("auth_hash"));
-        entry.setBalance(rs.getInt("Balance"));
-        entry.setLastSeen(rs.getDate("LastSeen"));
-        entry.setAvialable(rs.getBoolean("available"));
+        entry.setId(rs.getInt("id"));
+        entry.setAuthHash(rs.getBinaryStream("auth_hash").toString());
+        entry.setBalance(rs.getInt("balance"));
+        entry.setLastSeen(rs.getDate("last_seen"));
+        //entry.setAvialable(rs.getBoolean("available"));
+        return entry;
+    };
+
+    private RowMapper<UserEntry> rowMapperDetail = (ResultSet rs, int rowNum) -> {
+        UserEntry entry = new UserEntry();
+        entry.setId(rs.getInt("id"));
+        entry.setBalance(rs.getInt("balance"));
+        entry.setLastSeen(rs.getDate("last_seen"));
+        //entry.setAvialable(rs.getBoolean("available"));
         return entry;
     };
 
     public List<UserEntry> getAll() throws DataAccessException {
-        return template.query("select * from Users", rowMapper);
+        return template.query("select * from user_balance", rowMapperDetail);
     }
 
     public void addUser(UserEntry user) throws DataAccessException {
-        template.update("call ADD_USER(?)",
-                user.getAuthHash());
+        template.update("call user_create(?)", user.getAuthHash());
     }
 
     public UserEntry getUser(int id) throws DataAccessException {
-        return template.queryForObject("select * from Users where ID = ?", rowMapper, id);
+        return template.queryForObject("select * from users where id = ?", rowMapper, id);
     }
 
-    public UserEntry getUser(byte[] authHash) throws DataAccessException {
-        return template.queryForObject("select * from Users where auth_hash = ?", rowMapper, authHash);
+    public UserEntry getUser(String authHash) throws DataAccessException {
+        return template.queryForObject("select * from users where auth_hash = unhex(?)", rowMapper, authHash);
     }
 }

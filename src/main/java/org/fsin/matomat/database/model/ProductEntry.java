@@ -8,7 +8,7 @@ public class ProductEntry {
     private BigDecimal price;
     private String imageUrl;
     private Integer reorderPoint;
-    private byte[] productHash;
+    //private byte[] productHash;
     private boolean isAvailable;
 
     public Integer getId() {
@@ -51,13 +51,13 @@ public class ProductEntry {
         this.reorderPoint = reorderPoint;
     }
 
-    public byte[] getProductHash() {
-        return productHash;
-    }
-
-    public void setProductHash(byte[] productHash) {
-        this.productHash = productHash;
-    }
+//    public byte[] getProductHash() {
+//        return productHash;
+//    }
+//
+//    public void setProductHash(byte[] productHash) {
+//        this.productHash = productHash;
+//    }
 
     public boolean isAvailable() {
         return isAvailable;

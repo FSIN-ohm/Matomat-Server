@@ -1,53 +1,54 @@
 package org.fsin.matomat.database.model;
 
 import java.math.BigDecimal;
-import java.sql.Date;
-import java.util.List;
 
 public class PurchaseEntry {
-    private int transaction_id;
-    private Date date;
-    private int sender_id;
-    private int recipient_id;
-    private BigDecimal charge_amount;
 
-    public int getTransaction_id() {
-        return transaction_id;
+    private int productsId;
+    private int count;
+    private String name;
+
+    public String getName() {
+        return name;
     }
 
-    public void setTransaction_id(int transaction_id) {
-        this.transaction_id = transaction_id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Date getDate() {
-        return date;
+    public BigDecimal getPrice() {
+        return price;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 
-    public int getSender_id() {
-        return sender_id;
+    private BigDecimal price;
+    private String image_url;
+
+    public String getImage_url() {
+        return image_url;
     }
 
-    public void setSender_id(int sender_id) {
-        this.sender_id = sender_id;
+    public void setImage_url(String image_url) {
+        this.image_url = image_url;
     }
 
-    public int getRecipient_id() {
-        return recipient_id;
+    public int getProductsId() {
+        return productsId;
     }
 
-    public void setRecipient_id(int recipient_id) {
-        this.recipient_id = recipient_id;
+    public void setProductsId(int productsId) {
+        this.productsId = productsId;
     }
 
-    public BigDecimal getCharge_amount() {
-        return charge_amount;
+    public int getCount() {
+        return count;
     }
 
-    public void setCharge_amount(BigDecimal charge_amount) {
-        this.charge_amount = charge_amount;
+    public void setCount(int count) {
+        this.count = count;
     }
+
 }

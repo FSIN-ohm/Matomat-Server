@@ -3,9 +3,9 @@ package org.fsin.matomat.database.model;
 public class AdminEntry {
     private Integer id;
     private String username;
-    private byte[] password;
+    private String password;
     private String email;
-    private byte[] password_salt;
+    private String password_salt;
     private int corespondingUser_id;
 
     public Integer getId() {
@@ -24,11 +24,11 @@ public class AdminEntry {
         this.username = username;
     }
 
-    public byte[] getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    public void setPassword(byte[] password) {
+    public void setPassword(String password) {
         this.password = password;
     }
 
@@ -40,11 +40,11 @@ public class AdminEntry {
         this.email = email;
     }
 
-    public byte[] getPassword_salt() {
+    public String getPassword_salt() {
         return password_salt;
     }
 
-    public void setPassword_salt(byte[] password_salt) {
+    public void setPassword_salt(String password_salt) {
         this.password_salt = password_salt;
     }
 
