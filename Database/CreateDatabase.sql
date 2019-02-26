@@ -600,7 +600,10 @@ FROM
     product_detail ON products.product_detail_id = product_detail.id;
 CREATE USER 'matomat_system' IDENTIFIED BY 'test1234';
 
+<<<<<<< HEAD
 GRANT EXECUTE ON `matohmat`.* TO 'matomat_system'@'%';
+=======
+>>>>>>> adf485e815a7aceadbf9658bdb4ce3ef3bef2527
 GRANT SELECT, INSERT, TRIGGER ON TABLE `matohmat`.* TO 'matomat_system';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `matohmat`.* TO 'matomat_system';
 GRANT INSERT, SELECT, UPDATE, TRIGGER ON TABLE `matohmat`.`admins` TO 'matomat_system';
