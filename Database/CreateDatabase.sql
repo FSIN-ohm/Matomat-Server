@@ -598,7 +598,6 @@ FROM
     product_detail ON products.product_detail_id = product_detail.id;
 CREATE USER 'matomat_system' IDENTIFIED BY 'test1234';
 
-GRANT EXECUTE ON ROUTINE TO 'matomat_system';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `matohmat`.* TO 'matomat_system';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `matohmat`.* TO 'matomat_system';
 GRANT INSERT, SELECT, UPDATE, TRIGGER ON TABLE `matohmat`.`admins` TO 'matomat_system';
