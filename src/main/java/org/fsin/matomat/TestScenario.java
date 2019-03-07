@@ -1,7 +1,5 @@
 package org.fsin.matomat;
 
-import com.sun.org.apache.xerces.internal.impl.dv.util.HexBin;
-import com.sun.tools.internal.xjc.reader.xmlschema.bindinfo.BIConversion;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.*;
 
@@ -130,7 +128,7 @@ public class TestScenario {
             // create user 1
             {
                 UserEntry user1 = new UserEntry();
-                user1.setAuthHash(HexBin.encode( sha1.digest( "user1".getBytes() ) ) );
+                user1.setAuthHash("user1".getBytes());
 
                 db.userCreate(user1.getAuthHash());
 

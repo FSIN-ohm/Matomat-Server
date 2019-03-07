@@ -30,7 +30,7 @@ public class Database {
      * Create a user
      * @param authHash the users authentication hash
      **/
-    public void userCreate(String authHash){
+    public void userCreate(byte[] authHash){
         UserEntry user = new UserEntry();
         user.setAuthHash(authHash);
         new UsersDAO(template).addUser(user);
@@ -41,7 +41,7 @@ public class Database {
      * @param authHash the users authentication hash value
      * @return the users id
      */
-    public UserEntry userAuthenticate(String authHash){
+    public UserEntry userAuthenticate(byte[] authHash){
 
         UserEntry user = null;
 

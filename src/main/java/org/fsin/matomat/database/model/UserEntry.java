@@ -4,7 +4,7 @@ import java.sql.Date;
 
 public class UserEntry {
     private Integer id;
-    private String authHash;
+    private byte[] authHash;
     private Integer balance;
     private Date lastSeen;
     private Boolean avialable;
@@ -17,11 +17,11 @@ public class UserEntry {
         this.id = id;
     }
 
-    public String getAuthHash() {
+    public byte[] getAuthHash() {
         return authHash;
     }
 
-    public void setAuthHash(String authHash) {
+    public void setAuthHash(byte[] authHash) {
         this.authHash = authHash;
     }
 

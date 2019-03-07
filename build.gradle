@@ -18,4 +18,5 @@ dependencies {
     compile("org.springframework:spring-jdbc:5.1.2.RELEASE")
     compile("org.springframework:spring-web:5.1.2.RELEASE")
     compile("org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE")
+    compile("commons-codec:commons-codec:1.12")
 }
