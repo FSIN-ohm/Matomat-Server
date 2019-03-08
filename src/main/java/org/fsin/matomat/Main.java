@@ -20,9 +20,6 @@ public class Main {
         try{
             db = new Database("127.0.0.1", "matohmat", "root", "root");
 
-            TestScenario test = new TestScenario(db);
-            test.run();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
