@@ -29,9 +29,11 @@ public class Main {
 
     @RestController
     class HalloWelt {
-        @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+        @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
         public ResponseEntity<String> hello() {
-            return new ResponseEntity<String>("Hello World!", HttpStatus.OK);
+            return new ResponseEntity<String>("<html>This is the Matohmat REST intorface. "
+                    + "Please read in the <a href=\"https://fsin-ohm.github.io/Matomat-Documentation/\">Documentation</a> "+
+                    "how to use this.</html>", HttpStatus.OK);
         }
     }
 }
