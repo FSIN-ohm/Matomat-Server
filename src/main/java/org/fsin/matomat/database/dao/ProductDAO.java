@@ -22,8 +22,9 @@ public class ProductDAO {
         entry.setName(rs.getString("name"));
         entry.setImageUrl(rs.getString("image_url"));
         entry.setReorderPoint(rs.getInt("reorder_point"));
-        //entry.setProductHash(rs.getBytes("product_hash"));
+        entry.setProductHash(rs.getBytes("product_hash"));
         entry.setAvailable(rs.getBoolean("available"));
+        entry.setItemsPerCrate(rs.getInt("items_per_crate"));
         return entry;
     };
 
@@ -40,22 +41,24 @@ public class ProductDAO {
     }
 
     public void addProduct(ProductEntry product) throws DataAccessException {
-        template.update("call product_add(?, ?, ?, ?)",
+        template.update("call product_add(?, ?, ?, ?, ?, ?)",
                 product.getName(),
                 product.getPrice(),
                 product.getImageUrl(),
-                product.getReorderPoint()
-                //product.getProductHash());
+                product.getReorderPoint(),
+                product.getProductHash(),
+                product.getItemsPerCrate()
         );
     }
 
     public void updateProduct(ProductEntry product) throws DataAccessException {
-        template.update("call product_update(?, ?, ?, ?, ?)",
+        template.update("call product_update(?, ?, ?, ?, ?, ?, ?)",
                 product.getId(),
                 product.getName(),
                 product.getImageUrl(),
-                product.getReorderPoint()
-                //product.getProductHash());
+                product.getReorderPoint(),
+                product.getProductHash(),
+                product.getItemsPerCrate()
         );
     }
 
@@ -63,7 +66,6 @@ public class ProductDAO {
         template.update("call product_update_price(?, ?)",
                 product.getId(),
                 product.getPrice()
-                //product.getProductHash());
         );
     }
 }

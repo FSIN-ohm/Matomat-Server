@@ -8,8 +8,9 @@ public class ProductEntry {
     private BigDecimal price;
     private String imageUrl;
     private Integer reorderPoint;
-    //private byte[] productHash;
     private boolean isAvailable;
+    private byte[] productHash;
+    private Integer itemsPerCrate;
 
     public Integer getId() {
         return id;
@@ -51,13 +52,13 @@ public class ProductEntry {
         this.reorderPoint = reorderPoint;
     }
 
-//    public byte[] getProductHash() {
-//        return productHash;
-//    }
-//
-//    public void setProductHash(byte[] productHash) {
-//        this.productHash = productHash;
-//    }
+    public byte[] getProductHash() {
+        return productHash;
+    }
+
+    public void setProductHash(byte[] productHash) {
+        this.productHash = productHash;
+    }
 
     public boolean isAvailable() {
         return isAvailable;
@@ -65,5 +66,13 @@ public class ProductEntry {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Integer getItemsPerCrate() {
+        return itemsPerCrate;
+    }
+
+    public void setItemsPerCrate(Integer itemsPerCrate) {
+        this.itemsPerCrate = itemsPerCrate;
     }
 }
