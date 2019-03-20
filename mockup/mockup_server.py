@@ -10,8 +10,14 @@ def returnFileOnGet(filename):
     if flask.request.method == "GET":
         with open(filename) as file:
             return Response(file.read(), mimetype='application/json')
-    else:
+    elif flask.request.method == "POST":
+        return Response('', 201)
+    elif flask.request.method == "PATCH":
+        return Response('', 202)
+    elif flask.request.method == "DELETE":
         return Response('', 200)
+    else:
+        return Response('', 404)
 
 @app.route("/")
 def hello():
@@ -19,61 +25,61 @@ def hello():
 
 ##### USERS #####
 
-@app.route("/users", methods=["GET", "POST"])
+@app.route("/v1/users", methods=["GET", "POST"])
 def users():
     return returnFileOnGet("users.json")
 
-@app.route("/users/me")
+@app.route("/v1/users/me")
 def usersMe():
     return returnFileOnGet("user_me.json")
 
-@app.route("/users/0", methods=["GET", "DELETE"])
+@app.route("/v1/users/0", methods=["GET", "DELETE", "PATCH"])
 def users0():
     return returnFileOnGet("user0.json")
 
 ##### ADMINS #####
 
-@app.route("/admins", methods=["GET", "POST"])
+@app.route("/v1/admins", methods=["GET", "POST"])
 def admins():
     return returnFileOnGet("admins.json")
 
-@app.route("/admins/me")
+@app.route("/v1/admins/me")
 def adminsMe():
     return returnFileOnGet("admin_me.json")
 
-@app.route("/admins/0", methods=["GET", "PATCH", "DELETE"])
+@app.route("/v1/admins/0", methods=["GET", "PATCH", "DELETE"])
 def admins0():
     return returnFileOnGet("admin0.json")
 
 ##### PRODUCTS #####
 
-@app.route("/products", methods=["GET", "POST"])
+@app.route("/v1/products", methods=["GET", "POST"])
 def products():
     return returnFileOnGet("products.json")
 
-@app.route("/products/0", methods=["GET", "PATCH", "DELETE"])
+@app.route("/v1/products/0", methods=["GET", "PATCH", "DELETE"])
 def product0():
     return returnFileOnGet("product0.json")
 
 ##### TRANSACTIONS #####
 
-@app.route("/transactions", methods=["GET", "POST"])
+@app.route("/v1/transactions", methods=["GET", "POST"])
 def transactions():
     return returnFileOnGet("transactions.json")
 
-@app.route("/transactions/0")
+@app.route("/v1/transactions/0")
 def transactions0():
     return returnFileOnGet("transaction0.json")
 
-@app.route("/transactions/1")
+@app.route("/v1/transactions/1")
 def transactions1():
     return returnFileOnGet("transaction1.json")
 
-@app.route("/transactions/2")
+@app.route("/v1/transactions/2")
 def transactions2():
     return returnFileOnGet("transaction2.json")
 
-@app.route("/transactions/3")
+@app.route("/v1/transactions/3")
 def transactions3():
     return returnFileOnGet("transaction3.json")
 

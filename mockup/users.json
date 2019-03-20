@@ -1,14 +1,17 @@
 [
     {
 	"id":1,
-	"auth_hash":"84893938489849"
+	"auth_hash":"84893938489849",
+    "name":"HansPeter"
     },
     {
 	"id":2,
-	"auth_hash":"84893938489849"
+	"auth_hash":"84893938489849",
+    "name":"RhinoAirplane"
     },
     {
 	"id":3,
-	"auth_hash":"84893938489849"
+	"auth_hash":"84893938489849",
+    "name":"RandomGenerated"
     }
 ]
