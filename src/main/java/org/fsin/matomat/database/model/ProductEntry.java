@@ -9,7 +9,7 @@ public class ProductEntry {
     private String imageUrl;
     private Integer reorderPoint;
     private boolean isAvailable;
-    private byte[] productHash;
+    private String barcode;
     private Integer itemsPerCrate;
 
     public Integer getId() {
@@ -52,20 +52,20 @@ public class ProductEntry {
         this.reorderPoint = reorderPoint;
     }
 
-    public byte[] getProductHash() {
-        return productHash;
-    }
-
-    public void setProductHash(byte[] productHash) {
-        this.productHash = productHash;
-    }
-
     public boolean isAvailable() {
         return isAvailable;
     }
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public String getBarcode() {
+        return barcode;
+    }
+
+    public void setBarcode(String barcode) {
+        this.barcode = barcode;
     }
 
     public Integer getItemsPerCrate() {

@@ -22,7 +22,7 @@ public class ProductDAO {
         entry.setName(rs.getString("name"));
         entry.setImageUrl(rs.getString("image_url"));
         entry.setReorderPoint(rs.getInt("reorder_point"));
-        entry.setProductHash(rs.getBytes("product_hash"));
+        entry.setBarcode(rs.getString("barcode"));
         entry.setAvailable(rs.getBoolean("available"));
         entry.setItemsPerCrate(rs.getInt("items_per_crate"));
         return entry;
@@ -46,7 +46,7 @@ public class ProductDAO {
                 product.getPrice(),
                 product.getImageUrl(),
                 product.getReorderPoint(),
-                product.getProductHash(),
+                product.getBarcode(),
                 product.getItemsPerCrate()
         );
     }
@@ -57,7 +57,7 @@ public class ProductDAO {
                 product.getName(),
                 product.getImageUrl(),
                 product.getReorderPoint(),
-                product.getProductHash(),
+                product.getBarcode(),
                 product.getItemsPerCrate()
         );
     }

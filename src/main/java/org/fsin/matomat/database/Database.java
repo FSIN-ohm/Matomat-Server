@@ -12,8 +12,21 @@ public class Database {
 
     private JdbcTemplate template;
     private Connection connection;
+    private static Database db = null;
 
-    public Database(String host, String schema, String username, String password){
+    public static void init(String host, String schema, String username, String password) {
+        db = new Database(host, schema, username, password);
+    }
+
+    public static Database getInstance() throws Exception {
+        if(db == null) {
+            throw new Exception("Database not initialized");
+        } else {
+            return db;
+        }
+    }
+
+    private Database(String host, String schema, String username, String password){
 
             DriverManagerDataSource dataSource = new DriverManagerDataSource();
             dataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
@@ -166,5 +179,9 @@ public class Database {
     }
 
     public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
+    }
+
+    public JdbcTemplate getTemplate() {
+        return template;
     }
 }

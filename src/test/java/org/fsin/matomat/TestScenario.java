@@ -17,8 +17,9 @@ public class TestScenario {
     static Database db;
 
     @BeforeClass
-    public static void setupClass() {
-        db = new Database("127.0.0.1", "matohmat", "root", "root");
+    public static void setupClass() throws Exception {
+        Database.init("127.0.0.1", "matohmat", "root", "root");
+        db = Database.getInstance();
     }
 
 
