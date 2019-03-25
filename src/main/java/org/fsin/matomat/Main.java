@@ -26,23 +26,4 @@ public class Main {
 
         SpringApplication.run(Main.class, argv);
     }
-
-    @RestController
-    class HalloWelt {
-        @RequestMapping(value = "/", method = RequestMethod.GET, produces = MediaType.TEXT_HTML_VALUE)
-        public ResponseEntity<String> hello() {
-            return new ResponseEntity<String>("<html>This is the Matohmat REST intorface. "
-                    + "Please read in the <a href=\"https://fsin-ohm.github.io/Matomat-Documentation/\">Documentation</a> "+
-                    "how to use this.</html>", HttpStatus.OK);
-        }
-    }
 }
-
-/*
-Entitys:
-
-Money
-Product
-User(Admin)
-Transaction(Purchase, Transfer, Oredr)
- */

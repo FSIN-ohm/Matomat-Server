@@ -1,4 +1,4 @@
-package org.fsin.matomat.database.rest_model;
+package org.fsin.matomat.rest.model;
 
 public class Greeting {
     public final long id;

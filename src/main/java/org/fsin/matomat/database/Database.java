@@ -5,7 +5,6 @@ import org.fsin.matomat.database.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
-import java.math.BigDecimal;
 import java.sql.Connection;
 import java.util.List;
 

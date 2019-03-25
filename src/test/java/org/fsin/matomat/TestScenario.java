@@ -1,3 +1,5 @@
+package org.fsin.matomat;
+
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.*;
 import org.junit.BeforeClass;
@@ -8,6 +10,7 @@ import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 
 public class TestScenario {
 

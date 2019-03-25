@@ -1,3 +1,4 @@
+package org.fsin.matomat;
 import org.fsin.matomat.database.dao.UsersDAO;
 import org.fsin.matomat.database.model.UserEntry;
 import org.junit.Test;
