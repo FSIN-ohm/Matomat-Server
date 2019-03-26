@@ -3,7 +3,6 @@ package org.fsin.matomat.rest.v1;
 import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.Purchase;
 import org.fsin.matomat.rest.model.Transaction;
-import org.fsin.matomat.rest.model.Transfare;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
