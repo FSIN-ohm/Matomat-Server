@@ -20,7 +20,7 @@ public class TransactionsController {
                 new Product()
         };
         purchase.setProducts(products);
-        Transfare transfare = new Transfare();
+        Transaction transfare = new Transaction();
         transfare.setAmount(400);
         Transaction[] transactions = new Transaction[] {
                 purchase,

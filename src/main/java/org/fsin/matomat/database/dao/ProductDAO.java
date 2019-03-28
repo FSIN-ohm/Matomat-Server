@@ -33,7 +33,7 @@ public class ProductDAO {
     }
 
     public List<ProductEntry> getActive() throws DataAccessException {
-        return template.query("SELECT * FROM products_current", rowMapper);
+        return template.query("SELECT * FROM products_all WHERE available = 1", rowMapper);
     }
 
     public ProductEntry getDetail(int id)throws DataAccessException {
