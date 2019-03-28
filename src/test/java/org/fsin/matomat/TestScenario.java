@@ -73,14 +73,11 @@ public class TestScenario {
 
             byte[] salt = new byte[20];
             rand.nextBytes(salt);
-            admin1.setPassword_salt(new String(salt));
+            admin1.setPasswordSalt(new String(salt));
             admin1.setPassword(new String(sha1.digest((new String(salt) + "TestPassword1").getBytes())));
 
-            try {
-                db.adminCreate(admin1);
-            }catch (Exception e){
+            db.adminCreate(admin1);
 
-            }
         }
 
         // authenticate admin 1
@@ -205,7 +202,7 @@ public class TestScenario {
                 System.out.print("\t");
                 System.out.print(admin.getEmail());
                 System.out.print("\t");
-                System.out.println(admin.getCorespondingUser_id());
+                System.out.println(admin.getCorespondingUserId());
             }
 
             System.out.println("\nAll Products");

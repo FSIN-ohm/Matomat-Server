@@ -7,7 +7,8 @@ public class UserEntry {
     private byte[] authHash;
     private Integer balance;
     private Date lastSeen;
-    private Boolean avialable;
+    private boolean available;
+    private String name;
 
     public Integer getId() {
         return id;
@@ -41,11 +42,19 @@ public class UserEntry {
         this.lastSeen = lastSeen;
     }
 
-    public Boolean getAvialable() {
-        return avialable;
+    public Boolean isAvailable() {
+        return available;
     }
 
-    public void setAvialable(Boolean avialable) {
-        this.avialable = avialable;
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

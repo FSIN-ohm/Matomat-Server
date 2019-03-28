@@ -3,13 +3,13 @@ package org.fsin.matomat.rest.model;
 import java.util.Date;
 
 public class Admin {
-    public int id;
-    public int user_id;
-    public long balance;
-    public Date last_seen;
-    public boolean available;
-    public String user_name;
-    public String email;
+    private int id;
+    private int user_id;
+    private long balance;
+    private Date last_seen;
+    private boolean available;
+    private String user_name;
+    private String email;
 
     public int getId() {
         return id;

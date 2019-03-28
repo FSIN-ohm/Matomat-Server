@@ -29,7 +29,7 @@ public class UsersDAO {
         }
         entry.setBalance(rs.getInt("balance"));
         entry.setLastSeen(rs.getDate("last_seen"));
-        //entry.setAvialable(rs.getBoolean("available"));
+        entry.setAvailable(rs.getBoolean("available"));
         return entry;
     };
 
@@ -38,7 +38,7 @@ public class UsersDAO {
         entry.setId(rs.getInt("id"));
         entry.setBalance(rs.getInt("balance"));
         entry.setLastSeen(rs.getDate("last_seen"));
-        //entry.setAvialable(rs.getBoolean("available"));
+        entry.setAvailable(rs.getBoolean("available"));
         return entry;
     };
 
@@ -48,6 +48,14 @@ public class UsersDAO {
 
     public void addUser(UserEntry user) throws DataAccessException {
         template.update("call user_create(?)", Hex.encodeHexString(user.getAuthHash()));
+    }
+
+    public void updateUser(UserEntry user) throws DataAccessException {
+        template.update("call user_update(?, ?, ?, ?)",
+                user.getId(),
+                user.getAuthHash(),
+                user.getName(),
+                user.isAvailable());
     }
 
     public UserEntry getUser(int id) throws DataAccessException {

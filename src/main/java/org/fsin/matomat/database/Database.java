@@ -68,6 +68,10 @@ public class Database {
 
     /* ********** Admins **********/
 
+    public List<AdminEntry> adminGetAll() {
+        return new AdminDAO(template).getAll();
+    }
+
     /**
      * Add Admin
      * @param detail details of the admin
@@ -174,9 +178,6 @@ public class Database {
     public List<TransactionEntry> transactionsGetAll(){ return new TransactionDAO(template).getAll(); }
 
     public List<PurchaseEntry> transactionGetProducts(int TransactionId){ return new TransactionDAO(template).getProducts(TransactionId); }
-
-    public List<AdminEntry> adminGetAll() { return new AdminDAO(template).getAll();
-    }
 
     public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
     }

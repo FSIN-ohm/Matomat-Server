@@ -5,8 +5,9 @@ public class AdminEntry {
     private String username;
     private String password;
     private String email;
-    private String password_salt;
-    private int corespondingUser_id;
+    private String passwordSalt;
+    private int corespondingUserId;
+    private boolean isAvailable;
 
     public Integer getId() {
         return id;
@@ -40,19 +41,27 @@ public class AdminEntry {
         this.email = email;
     }
 
-    public String getPassword_salt() {
-        return password_salt;
+    public String getPasswordSalt() {
+        return passwordSalt;
     }
 
-    public void setPassword_salt(String password_salt) {
-        this.password_salt = password_salt;
+    public void setPasswordSalt(String passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 
-    public int getCorespondingUser_id() {
-        return corespondingUser_id;
+    public int getCorespondingUserId() {
+        return corespondingUserId;
     }
 
-    public void setCorespondingUser_id(int corespondingUser_id) {
-        this.corespondingUser_id = corespondingUser_id;
+    public void setCorespondingUserId(int corespondingUserId) {
+        this.corespondingUserId = corespondingUserId;
+    }
+
+    public boolean isAvailable() {
+        return isAvailable;
+    }
+
+    public void setAvailable(boolean available) {
+        isAvailable = available;
     }
 }

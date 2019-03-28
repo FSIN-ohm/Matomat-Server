@@ -1,8 +1,8 @@
 package org.fsin.matomat.rest.model;
 
 public class Order extends Transaction {
-    public Product[] products;
-    public long buy_cost;
+    private Product[] products;
+    private long buy_cost;
 
     public Product[] getProducts() {
         return products;

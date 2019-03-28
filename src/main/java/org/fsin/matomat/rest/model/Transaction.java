@@ -3,12 +3,12 @@ package org.fsin.matomat.rest.model;
 import java.util.Date;
 
 public class Transaction {
-    public int id;
-    public Date date;
-    public long sender;
-    public long receiver;
-    public int amount;
-    public String transaction_type;
+    private int id;
+    private Date date;
+    private long sender;
+    private long receiver;
+    private int amount;
+    private String transaction_type;
 
     public int getId() {
         return id;

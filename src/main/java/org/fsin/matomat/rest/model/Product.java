@@ -1,14 +1,14 @@
 package org.fsin.matomat.rest.model;
 
 public class Product {
-    public int id;
-    public String name;
-    public int price;
-    public String thumbnail;
-    public int reorder_point;
-    public String barcode;
-    public boolean is_available;
-    public int items_per_crate;
+    private int id;
+    private String name;
+    private int price;
+    private String thumbnail;
+    private int reorder_point;
+    private String barcode;
+    private boolean is_available;
+    private int items_per_crate;
 
     public int getId() {
         return id;

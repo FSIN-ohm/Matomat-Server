@@ -17,7 +17,7 @@ public class TransactionsController {
                                       @RequestParam(value="user", defaultValue="") String user,
                                       @RequestParam(value="type", defaultValue="") String value) {
         Purchase purchase = new Purchase();
-        purchase.date = new Date();
+        purchase.setDate(new Date());
         Product products[] = new Product[] {
                 new Product(),
                 new Product()
