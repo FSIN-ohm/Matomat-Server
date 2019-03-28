@@ -40,11 +40,12 @@ public class AdminDAO {
     }
 
     public void updateAdmin(AdminEntry admin) throws DataAccessException {
-        template.update("call admin_update(?, ?, ?, ?)",
+        template.update("call admin_update(?, ?, ?, ?, ?)",
                 admin.getId(),
                 admin.getUsername(),
                 admin.getPassword(),
-                admin.getEmail());
+                admin.getEmail(),
+                admin.getPassword_salt());
     }
 
     public AdminEntry getAdmin(int id) throws DataAccessException {

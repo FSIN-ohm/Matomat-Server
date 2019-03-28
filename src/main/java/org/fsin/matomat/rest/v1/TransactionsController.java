@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 public class TransactionsController {
     @RequestMapping("/v1/transactions")
@@ -15,6 +17,7 @@ public class TransactionsController {
                                       @RequestParam(value="user", defaultValue="") String user,
                                       @RequestParam(value="type", defaultValue="") String value) {
         Purchase purchase = new Purchase();
+        purchase.date = new Date();
         Product products[] = new Product[] {
                 new Product(),
                 new Product()
