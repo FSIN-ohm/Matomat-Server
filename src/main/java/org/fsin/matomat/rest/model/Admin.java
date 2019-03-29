@@ -1,12 +1,12 @@
 package org.fsin.matomat.rest.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class Admin {
     private int id;
     private int user_id;
     private long balance;
-    private Date last_seen;
+    private LocalDateTime last_seen;
     private boolean available;
     private String user_name;
     private String email;
@@ -35,11 +35,11 @@ public class Admin {
         this.balance = balance;
     }
 
-    public Date getLast_seen() {
+    public LocalDateTime getLast_seen() {
         return last_seen;
     }
 
-    public void setLast_seen(Date last_seen) {
+    public void setLast_seen(LocalDateTime last_seen) {
         this.last_seen = last_seen;
     }
 

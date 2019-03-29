@@ -25,9 +25,9 @@ public class AdminsController {
 
             admin.setId(entry.getId());
             admin.setAvailable(entry.isAvailable());
-            // admins[i].balance = well shit
+            admin.setBalance(entry.getBalance());
             admin.setEmail(entry.getEmail());
-            //admin.last_seen = well fuck
+            admin.setLast_seen(entry.getLastSeen().toLocalDateTime());
             admin.setUser_id(entry.getCorespondingUserId());
             admin.setUser_name(entry.getUsername());
             admins[i] = admin;

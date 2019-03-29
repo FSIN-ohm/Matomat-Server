@@ -1,13 +1,18 @@
 package org.fsin.matomat.database.model;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+
 public class AdminEntry {
-    private Integer id;
+    private int id;
     private String username;
     private String password;
     private String email;
     private String passwordSalt;
     private int corespondingUserId;
     private boolean isAvailable;
+    private Timestamp lastSeen;
+    private int balance;
 
     public Integer getId() {
         return id;
@@ -63,5 +68,21 @@ public class AdminEntry {
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Timestamp getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Timestamp lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
     }
 }

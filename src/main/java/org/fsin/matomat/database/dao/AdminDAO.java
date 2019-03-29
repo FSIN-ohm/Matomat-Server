@@ -24,11 +24,13 @@ public class AdminDAO {
         adminEntry.setPassword(rs.getString("password_salt"));
         adminEntry.setCorespondingUserId(rs.getInt("user_id"));
         adminEntry.setAvailable(rs.getBoolean("available"));
+        adminEntry.setBalance(rs.getInt("balance"));
+        adminEntry.setLastSeen(rs.getTimestamp("last_seen"));
         return adminEntry;
     };
 
     public List<AdminEntry> getAll() throws DataAccessException {
-        return template.query("select * from admin_users", rowMapper);
+        return template.query("select * from admin_balance", rowMapper);
     }
 
     public void addAdmin(AdminEntry admin) throws DataAccessException {
@@ -50,12 +52,12 @@ public class AdminDAO {
     }
 
     public AdminEntry getAdmin(int id) throws DataAccessException {
-        return template.queryForObject("select * from admin_users where id = ?", rowMapper, id);
+        return template.queryForObject("select * from admin_balance where id = ?", rowMapper, id);
     }
 
     public AdminEntry getAdmin(String username) throws DataAccessException {
         try {
-            return template.queryForObject("select * from admin_users where username = ?",
+            return template.queryForObject("select * from admin_balance where username = ?",
                     rowMapper,
                     username);
         } catch (Exception e){
