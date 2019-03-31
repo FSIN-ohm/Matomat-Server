@@ -95,27 +95,33 @@ public class TestScenario {
             ProductEntry mate = new ProductEntry();
             mate.setName("Mate");
             mate.setPrice(new BigDecimal(2.0));
-            mate.setReorderPoint(10);
+            mate.setReorderPoint(40);
             mate.setAvailable(true);
             mate.setImageUrl("localhost/404");
+            mate.setItemsPerCrate(20);
+            mate.setBarcode("f848f929fjiehald");
 
             db.productAdd(mate);
 
             ProductEntry cola = new ProductEntry();
             cola.setName("Kola");
             cola.setPrice(new BigDecimal(1.5));
-            cola.setReorderPoint(10);
+            cola.setReorderPoint(40);
             cola.setAvailable(true);
             cola.setImageUrl("localhost/404");
+            cola.setItemsPerCrate(15);
+            cola.setBarcode("ifj48jafighiejaf==");
 
             db.productAdd(cola);
 
             ProductEntry bier = new ProductEntry();
             bier.setName("Bier");
             bier.setPrice(new BigDecimal(2.5));
-            bier.setReorderPoint(10);
+            bier.setReorderPoint(30);
             bier.setAvailable(true);
             bier.setImageUrl("localhost/404");
+            bier.setItemsPerCrate(10);
+            bier.setBarcode("afihgeijafsdf3fasdf=");
 
             db.productAdd(bier);
 
@@ -125,6 +131,8 @@ public class TestScenario {
             snickers.setReorderPoint(10);
             snickers.setAvailable(true);
             snickers.setImageUrl("localhost/404");
+            snickers.setItemsPerCrate(200);
+            snickers.setBarcode("if84hg8498e8jf8j8");
 
             db.productAdd(snickers);
 
