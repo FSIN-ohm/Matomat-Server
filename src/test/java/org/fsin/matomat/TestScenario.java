@@ -269,28 +269,8 @@ public class TestScenario {
                 System.out.print(transaction.getRecipientId());
                 System.out.print("\t\t\t");
                 System.out.println(transaction.getAmount());
-
-                for (PurchaseEntry product : db.transactionGetProducts(transaction.getId() ) ) {
-                    System.out.println("\t\t----------------------------------------");
-                    System.out.println("\t\t|ID\tName\t\tPrice\tCount\tImege Url");
-                    System.out.print("\t\t|");
-                    System.out.print(product.getProductsId());
-                    System.out.print("\t");
-                    System.out.print(product.getName());
-                    System.out.print("\t\t");
-                    System.out.print(product.getPrice());
-                    System.out.print("\t");
-                    System.out.print(product.getCount());
-                    System.out.print("\t");
-                    System.out.println(product.getImage_url());
-                    System.out.println("\t\t----------------------------------------");
-                }
             }
 
-
-            //db.transactionsGetAll();
-
-            // list all the things
         }
     }
 }

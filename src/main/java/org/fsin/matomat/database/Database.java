@@ -175,9 +175,9 @@ public class Database {
         new TransactionDAO(template).addOrder(order);
     }
 
-    public List<TransactionEntry> transactionsGetAll(){ return new TransactionDAO(template).getAll(); }
-
-    public List<PurchaseEntry> transactionGetProducts(int TransactionId){ return new TransactionDAO(template).getProducts(TransactionId); }
+    public List<TransactionEntry> transactionsGetAll(){
+        return new TransactionDAO(template).getAll();
+    }
 
     public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
     }

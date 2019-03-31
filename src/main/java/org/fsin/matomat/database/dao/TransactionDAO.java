@@ -27,16 +27,6 @@ public class TransactionDAO {
         return entry;
     };
 
-    RowMapper<PurchaseEntry> rowMapperPurchase = (ResultSet rs, int rowNum) -> {
-        PurchaseEntry entry = new PurchaseEntry();
-        entry.setProductsId(rs.getInt("id"));
-        entry.setCount(rs.getInt("count"));
-        entry.setName(rs.getString("name"));
-        entry.setPrice(rs.getBigDecimal("price"));
-        entry.setImage_url("image_url");
-        return entry;
-    };
-
     public List<TransactionEntry> getAll() throws DataAccessException {
         return template.query("select * from transactions_total", rowMapperTransaction);
     }
@@ -105,25 +95,4 @@ public class TransactionDAO {
             e.printStackTrace();
         }
     }
-
-    public List<PurchaseEntry> getProducts(int transactionId) throws  DataAccessException {
-        return template.query("SELECT id, name, count, image_url, price FROM purchase_detail WHERE id = ?", rowMapperPurchase, transactionId);
-    }
 }
-
-/*
-String sql = "insert into employee (name, city, phone) values (?, ?, ?)";
-Connection connection = new getConnection();
-PreparedStatement ps = connection.prepareStatement(sql);
-
-for (Employee employee: employees) {
-
-	ps.setString(1, employee.getName());
-	ps.setString(2, employee.getCity());
-	ps.setString(3, employee.getPhone());
-	ps.addBatch();
-}
-ps.executeBatch();
-ps.close();
-connection.close();
- */
