@@ -148,25 +148,24 @@ public class TestScenario {
             user1 = db.userAuthenticate( user1.getAuthHash() );
 
             // deposit
-            TransferEntry deposit = new TransferEntry();
+            TransactionEntry deposit = new TransactionEntry();
             deposit.setRecipientId(user1.getId());
-            deposit.setCharged_amount(new BigDecimal(10.0));
+            deposit.setAmount(new BigDecimal(10.0));
             db.transactionDeposit(deposit);
 
-            // purchase
-            Purchase purchase = new Purchase();
+            // purchaseEntry
+            TransactionEntry purchaseEntry = new TransactionEntry();
 
-            purchase.setSenderId(user1.getId());
+            purchaseEntry.setSenderId(user1.getId());
 
-            PurchaseEntry product1 = new PurchaseEntry();
+            ProductCountEntry product1 = new ProductCountEntry();
             product1.setProductsId(1);
             product1.setCount(3);
 
-            List<PurchaseEntry> products = new ArrayList<PurchaseEntry>();
+            List<ProductCountEntry> products = new ArrayList<ProductCountEntry>();
             products.add(product1);
-            purchase.setProducts(products);
 
-            db.transactionPurchase(purchase);
+            db.transactionPurchase(purchaseEntry, products);
         }
 
         // create user 2

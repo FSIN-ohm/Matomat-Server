@@ -5,11 +5,20 @@ import java.util.Date;
 
 public class TransactionEntry {
 
+    public enum TransactionType {
+        PURCHASE,
+        ORDER,
+        DEPOSIT,
+        WITHDRAW,
+        TRANSFERE
+    };
+
     private int id;
     private Date date;
     private int senderId;
     private int recipientId;
     private BigDecimal amount;
+    private TransactionType type;
 
 
     public BigDecimal getAmount() {
@@ -52,6 +61,11 @@ public class TransactionEntry {
         this.recipientId = recipientId;
     }
 
+    public TransactionType getType() {
+        return type;
+    }
 
-
+    public void setType(TransactionType type) {
+        this.type = type;
+    }
 }

@@ -155,24 +155,24 @@ public class Database {
     /* ********** Transactions **********/
 
 
-    public void transactionPurchase(Purchase purchase){
-        new TransactionDAO(template).addPurchase(purchase);
+    public void transactionPurchase(TransactionEntry purchaseEntry, List<ProductCountEntry> products){
+        new TransactionDAO(template).addPurchase(purchaseEntry, products);
     }
 
-    public void transactionDeposit(TransferEntry deposit){
+    public void transactionDeposit(TransactionEntry deposit){
         new TransactionDAO(template).addDeposit(deposit);
     }
 
-    public void transactionWithdraw(TransferEntry withdraw){
+    public void transactionWithdraw(TransactionEntry withdraw){
         new TransactionDAO(template).addWithdraw(withdraw);
     }
 
-    public void transactionTransfer(TransferEntry transfer){
-        new TransferDAO(template).addTransfare(transfer);
+    public void transactionTransfer(TransactionEntry transfer){
+        new TransactionDAO(template).addTransfare(transfer);
     }
 
-    public void transactionOrder(Order order){
-        new TransactionDAO(template).addOrder(order);
+    public void transactionOrder(OrderEntry orderEntry, List<ProductCountEntry> products){
+        new TransactionDAO(template).addOrder(orderEntry, products);
     }
 
     public List<TransactionEntry> transactionsGetAll(){

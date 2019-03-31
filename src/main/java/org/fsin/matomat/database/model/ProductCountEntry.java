@@ -1,8 +1,6 @@
 package org.fsin.matomat.database.model;
 
-import java.math.BigDecimal;
-
-public class PurchaseEntry {
+public class ProductCountEntry {
 
     private int productsId;
     private int count;
