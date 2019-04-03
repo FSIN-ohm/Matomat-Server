@@ -168,7 +168,7 @@ public class Database {
     }
 
     public void transactionTransfer(TransactionEntry transfer){
-        new TransactionDAO(template).addTransfare(transfer);
+        new TransactionDAO(template).addTransfer(transfer);
     }
 
     public void transactionOrder(OrderEntry orderEntry, List<ProductCountEntry> products){

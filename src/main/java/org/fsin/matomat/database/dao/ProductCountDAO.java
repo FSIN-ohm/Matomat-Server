@@ -1,10 +1,10 @@
 package org.fsin.matomat.database.dao;
 
-import org.fsin.matomat.database.model.OrderEntry;
-import org.fsin.matomat.database.model.ProductCountEntry;
-import org.fsin.matomat.database.model.TransactionEntry;
+import org.fsin.matomat.database.model.*;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
+import java.sql.ResultSet;
 import java.util.List;
 
 public class ProductCountDAO {
@@ -15,12 +15,16 @@ public class ProductCountDAO {
         this.template = template;
     }
 
+    private static final RowMapper<ProductCountEntry> rowMapper = (ResultSet rs, int rowNum) -> {
+        ProductCountEntry entry = new ProductCountEntry();
+        entry.setCount(rs.getInt("count"));
+        entry.setProductsId(rs.getInt("products_id"));
+        return entry;
+    };
+
     public List<ProductCountEntry> getByPurchase(TransactionEntry purchaseEntry) {
-
+        return template.query("select * from purchase_amount_products where transaction_id = ?",
+                rowMapper,
+                purchaseEntry.getId());
     }
-
-    public List<ProductCountEntry> getByOrder(OrderEntry orderEntry) {
-
-    }
-
 }

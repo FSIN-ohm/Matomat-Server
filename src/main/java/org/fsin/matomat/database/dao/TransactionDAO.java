@@ -27,16 +27,28 @@ public class TransactionDAO {
         return entry;
     };
 
+    private static final RowMapper<OrderEntry> orderRowMapper = (ResultSet rs, int rowNum) -> {
+        OrderEntry entry = new OrderEntry();
+        entry.setId(rs.getInt("id"));
+        entry.setDate(rs.getDate("date"));
+        entry.setSenderId(rs.getInt("sender"));
+        entry.setRecipientId(rs.getInt("recipient"));
+        entry.setAmount(rs.getBigDecimal("amount"));
+        entry.setAdminId(rs.getInt("admin_id"));
+        entry.setBuyCost(rs.getBigDecimal("buy_cost"));
+        return entry;
+    };
+
     public List<TransactionEntry> getAll() throws DataAccessException {
         return template.query("select * from transactions_total", rowMapper);
     }
 
-    public TransactionEntry getTransaction(int id) {
-        
+    public TransactionEntry getTransaction(Integer id) {
+        return template.queryForObject("select * from transactions_total where id = ?;", rowMapper, id);
     }
 
-    public OrderEntry getOrder(int id) {
-
+    public OrderEntry getOrder(Integer id) {
+        return template.queryForObject("select * from orders_total where id = ?;", orderRowMapper, id);
     }
 
     public List<TransactionEntry> getBySender(UserEntry sender) throws DataAccessException {
@@ -70,7 +82,7 @@ public class TransactionDAO {
     public void addOrder(OrderEntry orderEntry, List<ProductCountEntry> products) {
         int transactionId = template.update(
                 "call transaction_order(?, ?)",
-                orderEntry.getAdmin_id(), orderEntry.getCost()
+                orderEntry.getAdminId(), orderEntry.getBuyCost()
         );
 
         String sql = "INSERT INTO ordered_products(order_transaction_id, product_detail_id, count) VALUES (?, ?, ?)";

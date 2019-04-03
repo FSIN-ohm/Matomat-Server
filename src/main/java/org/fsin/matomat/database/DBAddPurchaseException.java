@@ -1,23 +1,22 @@
 package org.fsin.matomat.database;
 
-import org.fsin.matomat.database.model.ProductStockEntry;
-import org.fsin.matomat.database.model.PurchasedProductEntry;
+import org.fsin.matomat.database.model.ProductCountEntry;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 
 public class DBAddPurchaseException extends Exception {
-    private List<PurchasedProductEntry> productsThatCouldNotBeAdded;
-    public DBAddPurchaseException(List<PurchasedProductEntry> errordProducts, String message, DataAccessException e) {
+    private List<ProductCountEntry> productsThatCouldNotBeAdded;
+    public DBAddPurchaseException(List<ProductCountEntry> errordProducts, String message, DataAccessException e) {
         super(message, e);
         productsThatCouldNotBeAdded = errordProducts;
     }
 
-    public List<PurchasedProductEntry> getProductsThatCouldNotBeAdded() {
+    public List<ProductCountEntry> getProductsThatCouldNotBeAdded() {
         return productsThatCouldNotBeAdded;
     }
 
-    public void setProductsThatCouldNotBeAdded(List<PurchasedProductEntry> productsThatCouldNotBeAdded) {
+    public void setProductsThatCouldNotBeAdded(List<ProductCountEntry> productsThatCouldNotBeAdded) {
         this.productsThatCouldNotBeAdded = productsThatCouldNotBeAdded;
     }
 }

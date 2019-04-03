@@ -3,22 +3,22 @@ package org.fsin.matomat.database.model;
 import java.math.BigDecimal;
 
 public class OrderEntry extends TransactionEntry {
-    BigDecimal cost;
-    int admin_id;
+    BigDecimal buyCost;
+    int adminId;
 
-    public BigDecimal getCost() {
-        return cost;
+    public BigDecimal getBuyCost() {
+        return buyCost;
     }
 
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public void setBuyCost(BigDecimal buyCost) {
+        this.buyCost = buyCost;
     }
 
-    public int getAdmin_id() {
-        return admin_id;
+    public int getAdminId() {
+        return adminId;
     }
 
-    public void setAdmin_id(int admin_id) {
-        this.admin_id = admin_id;
+    public void setAdminId(int adminId) {
+        this.adminId = adminId;
     }
 }

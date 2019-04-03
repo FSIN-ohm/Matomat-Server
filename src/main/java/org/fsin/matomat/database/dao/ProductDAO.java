@@ -37,7 +37,7 @@ public class ProductDAO {
     }
 
     public ProductEntry getDetail(int id)throws DataAccessException {
-        return template.queryForObject("SELECT * FROM products_current where id = ?", rowMapper, id);
+        return template.queryForObject("SELECT * FROM products_all where id = ?", rowMapper, id);
     }
 
     public void addProduct(ProductEntry product) throws DataAccessException {
