@@ -26,7 +26,17 @@ public class UsersDAO {
     };
 
     public List<UserEntry> getAll() throws DataAccessException {
-        return template.query("select * from user_balance", rowMapper);
+        return getAll(0, 1000000, false);
+    }
+
+    public List<UserEntry> getAll(int from, int to, boolean onlyAvailable) {
+        if(onlyAvailable) {
+            return template.query("select * from user_balance"
+                    + " where ? <= id and id < ?"
+                    + " and available = true", rowMapper, from, to);
+        } else {
+            return template.query("select * from user_balance where ? <= id and id < ?", rowMapper, from, to);
+        }
     }
 
     public void addUser(UserEntry user) throws DataAccessException {

@@ -49,21 +49,15 @@ public class Database {
     }
 
     /** Authenticate a user by his hash
-     * If the user does not exist it is created
      * @param authHash the users authentication hash value
      * @return the users id
      */
-    public UserEntry userAuthenticate(byte[] authHash){
+    public UserEntry userAuthenticate(byte[] authHash) throws Exception {
+        return new UsersDAO(template).getUser(authHash);
+    }
 
-        UserEntry user = null;
-
-        try {
-            user = new UsersDAO(template).getUser(authHash);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return user;
+    public UserEntry getUser(int id) {
+        return new UsersDAO(template).getUser(id);
     }
 
     /* ********** Admins **********/
@@ -168,7 +162,7 @@ public class Database {
     }
 
     public void transactionTransfer(TransactionEntry transfer){
-        new TransactionDAO(template).addTransfare(transfer);
+        new TransactionDAO(template).addTransfer(transfer);
     }
 
     public void transactionOrder(OrderEntry orderEntry, List<ProductCountEntry> products){
@@ -179,7 +173,8 @@ public class Database {
         return new TransactionDAO(template).getAll();
     }
 
-    public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
+    public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
+        return new UsersDAO(template).getAll(from, to, onlyAvailable);
     }
 
     public JdbcTemplate getTemplate() {

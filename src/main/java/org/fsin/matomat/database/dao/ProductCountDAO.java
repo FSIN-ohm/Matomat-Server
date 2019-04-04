@@ -15,12 +15,4 @@ public class ProductCountDAO {
         this.template = template;
     }
 
-    public List<ProductCountEntry> getByPurchase(TransactionEntry purchaseEntry) {
-
-    }
-
-    public List<ProductCountEntry> getByOrder(OrderEntry orderEntry) {
-
-    }
-
 }

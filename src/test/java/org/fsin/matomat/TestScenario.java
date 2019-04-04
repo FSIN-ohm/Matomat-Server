@@ -247,7 +247,7 @@ public class TestScenario {
             System.out.println("\nUsers");
             System.out.println("=======================================");
             System.out.println("ID\tLast Seen\tBalance");
-            for (UserEntry user : db.usersGetAll() ) {
+            for (UserEntry user : db.usersGetAll(0, 100000, false) ) {
                 System.out.print(user.getId());
                 System.out.print("\t");
                 System.out.print(user.getLastSeen());

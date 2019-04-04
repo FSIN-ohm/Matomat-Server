@@ -31,14 +31,6 @@ public class TransactionDAO {
         return template.query("select * from transactions_total", rowMapper);
     }
 
-    public TransactionEntry getTransaction(int id) {
-        
-    }
-
-    public OrderEntry getOrder(int id) {
-
-    }
-
     public List<TransactionEntry> getBySender(UserEntry sender) throws DataAccessException {
         return template.query("select * from transactions_total where sender = ?", rowMapper, sender.getId());
     }
