@@ -40,6 +40,7 @@ public class UsersDAO {
     }
 
     public void addUser(UserEntry user) throws DataAccessException {
+        System.out.println(Hex.encodeHexString(user.getAuthHash()));
         template.update("call user_create(?)", Hex.encodeHexString(user.getAuthHash()));
     }
 

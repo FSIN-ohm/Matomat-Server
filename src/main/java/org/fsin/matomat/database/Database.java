@@ -74,8 +74,8 @@ public class Database {
 
     /* ********** Admins **********/
 
-    public List<AdminEntry> adminGetAll() {
-        return new AdminDAO(template).getAll();
+    public List<AdminEntry> adminGetAll(int from, int to, boolean onlyAvailable) {
+        return new AdminDAO(template).getAll(from, to, onlyAvailable);
     }
 
     /**
@@ -106,7 +106,9 @@ public class Database {
      * @param id id of the admin
      * @return details for the admin
      */
-    public AdminEntry adminGetDetail(int id){ return null; }
+    public AdminEntry adminGetDetail(int id) {
+        return new AdminDAO(template).getAdmin(id);
+    }
 
     /* ********** Products **********/
 
