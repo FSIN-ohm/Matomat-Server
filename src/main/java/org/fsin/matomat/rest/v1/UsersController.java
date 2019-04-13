@@ -2,14 +2,17 @@ package org.fsin.matomat.rest.v1;
 
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.UserEntry;
+import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
+import javax.xml.crypto.Data;
+import java.rmi.AlreadyBoundException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @RestController
@@ -52,6 +55,27 @@ public class UsersController {
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }
+    }
+
+    @PostMapping("/v1/users")
+    public ResponseEntity createUser(@RequestBody UserCreate userCreate)
+        throws Exception {
+        try {
+            Database database = Database.getInstance();
+            database.userCreate(userCreate.getAuth_hash().getBytes());
+        } catch (java.sql.SQLIntegrityConstraintViolationException e) {
+            throw new AlreadyExistsException();
+        }
+        return new ResponseEntity(HttpStatus.CREATED);
+    }
+
+    @PatchMapping("/v1/users/{id}")
+    public ResponseEntity patchUser(@PathVariable("id") int id,
+            @RequestBody UserUpdate userUpdate)
+        throws Exception {
+        Database db = Database.getInstance();
+        db.userUpdate(id, userUpdate.getAuth_hash().getBytes(), userUpdate.getName());
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
 }

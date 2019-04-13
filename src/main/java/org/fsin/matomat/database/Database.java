@@ -48,6 +48,18 @@ public class Database {
         new UsersDAO(template).addUser(user);
     }
 
+    /**
+     * Update a user
+     * @param authHash the users authentication hash
+     **/
+    public void userUpdate(int id, byte[] authHash, String name){
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAuthHash(authHash);
+        entry.setName(name);
+        dao.updateUser(entry);
+    }
+
     /** Authenticate a user by his hash
      * @param authHash the users authentication hash value
      * @return the users id
