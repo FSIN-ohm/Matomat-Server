@@ -101,6 +101,23 @@ public class AdminsController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @DeleteMapping("/v1/admins/{id}")
+    public ResponseEntity deleteAdmin(@PathVariable int id)
+        throws Exception {
+        try {
+            Database db = Database.getInstance();
+            AdminEntry entry = db.adminGetDetail(id);
+            byte[] salt = generateRandomSalt();
+            entry.setPassword(hexHashPwd("", salt));
+            entry.setPasswordSalt(salt);
+            entry.setAvailable(false);
+            db.adminUpdate(entry);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
+        }
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
     /***************** UTILS **************************/
 
     private byte[] generateRandomSalt() {

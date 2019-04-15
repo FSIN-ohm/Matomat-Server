@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Random;
 
 public class Database {
 
@@ -57,6 +58,14 @@ public class Database {
         UserEntry entry = dao.getUser(id);
         entry.setAuthHash(authHash);
         entry.setName(name);
+        dao.updateUser(entry);
+    }
+
+    public void userDelete(int id) {
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAvailable(false);
+        entry.setAuthHash(generateRandomBinary());
         dao.updateUser(entry);
     }
 
@@ -197,5 +206,13 @@ public class Database {
 
     public JdbcTemplate getTemplate() {
         return template;
+    }
+
+    /***************** UTILS **************************/
+
+    private byte[] generateRandomBinary() {
+        byte[] array = new byte[20]; // length is bounded by 7
+        new Random().nextBytes(array);
+        return array;
     }
 }

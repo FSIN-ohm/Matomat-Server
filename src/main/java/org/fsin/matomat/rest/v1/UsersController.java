@@ -14,6 +14,7 @@ import javax.xml.crypto.Data;
 import java.rmi.AlreadyBoundException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
+import java.util.Random;
 
 @RestController
 public class UsersController {
@@ -70,12 +71,27 @@ public class UsersController {
     }
 
     @PatchMapping("/v1/users/{id}")
-    public ResponseEntity patchUser(@PathVariable("id") int id,
+    public ResponseEntity patchUser(@PathVariable int id,
             @RequestBody UserUpdate userUpdate)
         throws Exception {
-        Database db = Database.getInstance();
-        db.userUpdate(id, userUpdate.getAuth_hash().getBytes(), userUpdate.getName());
-        return new ResponseEntity(HttpStatus.ACCEPTED);
+        try {
+            Database db = Database.getInstance();
+            db.userUpdate(id, userUpdate.getAuth_hash().getBytes(), userUpdate.getName());
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
+        }
     }
 
+    @DeleteMapping("/v1/users/{id}")
+    public ResponseEntity deleteUser(@PathVariable int id)
+        throws Exception {
+        try {
+            Database db = Database.getInstance();
+            db.userDelete(id);
+            return new ResponseEntity(HttpStatus.OK);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
+        }
+    }
 }
