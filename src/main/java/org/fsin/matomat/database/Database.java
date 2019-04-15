@@ -110,6 +110,10 @@ public class Database {
         return new AdminDAO(template).getAdmin(id);
     }
 
+    public void adminUpdate(AdminEntry detail) {
+        new AdminDAO(template).updateAdmin(detail);
+    }
+
     /* ********** Products **********/
 
     /**

@@ -7,6 +7,7 @@ import org.fsin.matomat.database.model.AdminEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
+import org.fsin.matomat.rest.model.AdminChange;
 import org.fsin.matomat.rest.model.AdminCreate;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -70,7 +71,7 @@ public class AdminsController {
             AdminEntry entry = new AdminEntry();
             entry.setUsername(adminCreate.getUser_name());
             entry.setEmail(adminCreate.getEmail());
-            byte[] salt = generateRandomString();
+            byte[] salt = generateRandomSalt();
             entry.setPasswordSalt(salt);
             entry.setPassword(hexHashPwd(adminCreate.getPassword(), salt));
 
@@ -81,9 +82,28 @@ public class AdminsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @PatchMapping("/v1/admins/{id}")
+    public ResponseEntity patchAdmin(@PathVariable int id,
+                                     @RequestBody AdminChange adminChange)
+        throws Exception {
+        try {
+            Database db = Database.getInstance();
+            AdminEntry entry = db.adminGetDetail(id);
+            entry.setUsername(adminChange.getUser_name());
+            byte[] salt = generateRandomSalt();
+            entry.setPassword(hexHashPwd(adminChange.getPassword(), salt));
+            entry.setPasswordSalt(salt);
+            entry.setEmail(adminChange.getEmail());
+            db.adminUpdate(entry);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
+        }
+        return new ResponseEntity(HttpStatus.ACCEPTED);
+    }
+
     /***************** UTILS **************************/
 
-    private byte[] generateRandomString() {
+    private byte[] generateRandomSalt() {
         byte[] array = new byte[64]; // length is bounded by 7
         new Random().nextBytes(array);
         return array;

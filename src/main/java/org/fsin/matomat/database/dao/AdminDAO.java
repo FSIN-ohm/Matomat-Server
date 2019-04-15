@@ -52,8 +52,8 @@ public class AdminDAO {
         template.update("call admin_update(?, ?, ?, ?, ?, ?)",
                 admin.getId(),
                 admin.getUsername(),
-                admin.getPassword(),
                 admin.getEmail(),
+                admin.getPassword(),
                 admin.getPasswordSalt(),
                 admin.isAvailable());
     }
