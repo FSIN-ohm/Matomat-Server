@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Random;
 
 public class Database {
 
@@ -48,28 +49,42 @@ public class Database {
         new UsersDAO(template).addUser(user);
     }
 
+    /**
+     * Update a user
+     * @param authHash the users authentication hash
+     **/
+    public void userUpdate(int id, byte[] authHash, String name){
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAuthHash(authHash);
+        entry.setName(name);
+        dao.updateUser(entry);
+    }
+
+    public void userDelete(int id) {
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAvailable(false);
+        entry.setAuthHash(generateRandomBinary());
+        dao.updateUser(entry);
+    }
+
     /** Authenticate a user by his hash
-     * If the user does not exist it is created
      * @param authHash the users authentication hash value
      * @return the users id
      */
-    public UserEntry userAuthenticate(byte[] authHash){
+    public UserEntry userAuthenticate(byte[] authHash) throws Exception {
+        return new UsersDAO(template).getUser(authHash);
+    }
 
-        UserEntry user = null;
-
-        try {
-            user = new UsersDAO(template).getUser(authHash);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return user;
+    public UserEntry getUser(int id) {
+        return new UsersDAO(template).getUser(id);
     }
 
     /* ********** Admins **********/
 
-    public List<AdminEntry> adminGetAll() {
-        return new AdminDAO(template).getAll();
+    public List<AdminEntry> adminGetAll(int from, int to, boolean onlyAvailable) {
+        return new AdminDAO(template).getAll(from, to, onlyAvailable);
     }
 
     /**
@@ -100,7 +115,13 @@ public class Database {
      * @param id id of the admin
      * @return details for the admin
      */
-    public AdminEntry adminGetDetail(int id){ return null; }
+    public AdminEntry adminGetDetail(int id) {
+        return new AdminDAO(template).getAdmin(id);
+    }
+
+    public void adminUpdate(AdminEntry detail) {
+        new AdminDAO(template).updateAdmin(detail);
+    }
 
     /* ********** Products **********/
 
@@ -179,10 +200,19 @@ public class Database {
         return new TransactionDAO(template).getAll();
     }
 
-    public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
+    public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
+        return new UsersDAO(template).getAll(from, to, onlyAvailable);
     }
 
     public JdbcTemplate getTemplate() {
         return template;
+    }
+
+    /***************** UTILS **************************/
+
+    private byte[] generateRandomBinary() {
+        byte[] array = new byte[20]; // length is bounded by 7
+        new Random().nextBytes(array);
+        return array;
     }
 }

@@ -6,9 +6,9 @@ import java.sql.Timestamp;
 public class AdminEntry {
     private int id;
     private String username;
-    private String password;
+    private byte[] password;
+    private byte[] passwordSalt;
     private String email;
-    private String passwordSalt;
     private int corespondingUserId;
     private boolean isAvailable;
     private Timestamp lastSeen;
@@ -30,13 +30,6 @@ public class AdminEntry {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getEmail() {
         return email;
@@ -44,14 +37,6 @@ public class AdminEntry {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
     }
 
     public int getCorespondingUserId() {
@@ -84,5 +69,21 @@ public class AdminEntry {
 
     public void setBalance(int balance) {
         this.balance = balance;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 }

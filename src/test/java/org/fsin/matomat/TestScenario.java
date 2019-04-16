@@ -1,5 +1,6 @@
 package org.fsin.matomat;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.*;
 import org.junit.BeforeClass;
@@ -59,10 +60,7 @@ public class TestScenario {
          * display transaction interleaved with their products
          */
 
-        MessageDigest sha1;
         Random rand;
-
-        sha1 = MessageDigest.getInstance("SHA1");
         rand = new Random();
 
         // create admin 1
@@ -71,10 +69,10 @@ public class TestScenario {
             admin1.setUsername("DER Admin");
             admin1.setEmail("DERadministrator@example.net");
 
-            byte[] salt = new byte[20];
+            byte[] salt = new byte[64];
             rand.nextBytes(salt);
-            admin1.setPasswordSalt(new String(salt));
-            admin1.setPassword(new String(sha1.digest((new String(salt) + "TestPassword1").getBytes())));
+            admin1.setPasswordSalt(salt);
+            admin1.setPassword(DigestUtils.sha512((new String(salt) + "TestPassword1").getBytes()));
 
             db.adminCreate(admin1);
 
@@ -202,7 +200,7 @@ public class TestScenario {
             System.out.println("\nAdmins");
             System.out.println("=======================================");
             System.out.println("ID\tUsername\teMail\t\tUserID");
-            for (AdminEntry admin : db.adminGetAll() ) {
+            for (AdminEntry admin : db.adminGetAll(1, 100000, true)) {
                 System.out.print(admin.getId());
                 System.out.print("\t");
                 System.out.print(admin.getUsername());
@@ -247,7 +245,7 @@ public class TestScenario {
             System.out.println("\nUsers");
             System.out.println("=======================================");
             System.out.println("ID\tLast Seen\tBalance");
-            for (UserEntry user : db.usersGetAll() ) {
+            for (UserEntry user : db.usersGetAll(0, 100000, false) ) {
                 System.out.print(user.getId());
                 System.out.print("\t");
                 System.out.print(user.getLastSeen());
