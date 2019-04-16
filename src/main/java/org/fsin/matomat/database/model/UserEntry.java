@@ -1,12 +1,12 @@
 package org.fsin.matomat.database.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class UserEntry {
     private Integer id;
     private byte[] authHash;
     private Integer balance;
-    private Date lastSeen;
+    private Timestamp lastSeen;
     private boolean available;
     private String name;
 
@@ -34,14 +34,6 @@ public class UserEntry {
         this.balance = balance;
     }
 
-    public Date getLastSeen() {
-        return lastSeen;
-    }
-
-    public void setLastSeen(Date lastSeen) {
-        this.lastSeen = lastSeen;
-    }
-
     public Boolean isAvailable() {
         return available;
     }
@@ -56,5 +48,17 @@ public class UserEntry {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Timestamp getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Timestamp lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public void setAvailable(boolean available) {
+        this.available = available;
     }
 }

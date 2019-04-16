@@ -19,7 +19,7 @@ public class UsersDAO {
         UserEntry entry = new UserEntry();
         entry.setId(rs.getInt("id"));
         entry.setBalance(rs.getInt("balance"));
-        entry.setLastSeen(rs.getDate("last_seen"));
+        entry.setLastSeen(rs.getTimestamp("last_seen"));
         entry.setAvailable(rs.getBoolean("available"));
         entry.setName(rs.getString("name"));
         return entry;

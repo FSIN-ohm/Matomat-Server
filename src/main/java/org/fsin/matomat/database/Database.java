@@ -129,48 +129,32 @@ public class Database {
      * add a new product
      * @param product details for the product
      */
-    public void productAdd(ProductEntry product){
-        new ProductDAO(template).addProduct(product);
+    public void productAdd(ProductEntry product, ProductDetailEntry productDetail){
+        new ProductDAO(template).addProduct(product, productDetail);
     }
 
     /**
      * Change detail of a product
-     * Checks if the the price or other details have changed and performs the appropriate action.
      * @param changedProduct
      */
-    public void productUpdate(ProductEntry changedProduct){
-        ProductEntry currentProduct = productGetDetail(changedProduct.getId());
-        if(changedProduct.getPrice() == currentProduct.getPrice()){
-            new ProductDAO(template).updatePrice(changedProduct);
-        }
-        new ProductDAO(template).updateProduct(changedProduct);
+    public void productDetailUpdate(ProductDetailEntry changedProduct){
+        new ProductDetailDAO(template).updateDetail(changedProduct);
     }
 
-    /**
-     * Get all existing products
-     * Includes inactive products
-     * @return List of products
-     */
+    public void productPriceUpdate(ProductEntry product) {
+        new ProductDAO(template).updatePrice(product);
+    }
+
     public List<ProductEntry> productsGetAll() {
         return new ProductDAO(template).getAll();
     }
 
-    /**
-     * Get All products currently on offer
-     * Excludes all inactive products
-     * @return List of products
-     */
-    public List<ProductEntry> productsGetActive(){
-        return new ProductDAO(template).getActive();
+    public List<ProductEntry> productsGetActive() {
+        return new ProductDAO(template).getAllActive();
     }
 
-    /**
-     * Get detail for a Product
-     * @param id id of the product
-     * @return Detail of the product
-     */
-    public ProductEntry productGetDetail(int id){
-        return new ProductDAO(template).getDetail(id);
+    public List<ProductDetailEntry> productDetailGetAll(boolean onlyAvailable) {
+        return new ProductDetailDAO(template).getAll(onlyAvailable);
     }
 
     /* ********** Transactions **********/

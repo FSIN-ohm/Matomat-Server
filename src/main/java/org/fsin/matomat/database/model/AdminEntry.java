@@ -1,6 +1,5 @@
 package org.fsin.matomat.database.model;
 
-import java.sql.Time;
 import java.sql.Timestamp;
 
 public class AdminEntry {

@@ -10,11 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.Data;
-import java.rmi.AlreadyBoundException;
-import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
-import java.util.Random;
 
 @RestController
 public class UsersController {
@@ -23,7 +19,7 @@ public class UsersController {
         User user = new User();
         user.setId(entry.getId());
         user.setName(entry.getName());
-        user.setLast_seen(entry.getLastSeen());
+        user.setLast_seen(entry.getLastSeen().toLocalDateTime());
         user.setAvailable(entry.isAvailable());
         user.setBalance(entry.getBalance());
         return user;

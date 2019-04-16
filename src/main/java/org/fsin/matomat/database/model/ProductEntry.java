@@ -1,31 +1,20 @@
 package org.fsin.matomat.database.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class ProductEntry {
-    private Integer id;
-    private String name;
+    private int id;
     private BigDecimal price;
-    private String imageUrl;
-    private Integer reorderPoint;
-    private boolean isAvailable;
-    private String barcode;
-    private Integer itemsPerCrate;
+    private Timestamp validFrom;
+    private int productDetailId;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public BigDecimal getPrice() {
@@ -36,43 +25,19 @@ public class ProductEntry {
         this.price = price;
     }
 
-    public String getImageUrl() {
-        return imageUrl;
+    public Timestamp getValidFrom() {
+        return validFrom;
     }
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
+    public void setValidFrom(Timestamp validFrom) {
+        this.validFrom = validFrom;
     }
 
-    public Integer getReorderPoint() {
-        return reorderPoint;
+    public int getProductDetailId() {
+        return productDetailId;
     }
 
-    public void setReorderPoint(Integer reorderPoint) {
-        this.reorderPoint = reorderPoint;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public String getBarcode() {
-        return barcode;
-    }
-
-    public void setBarcode(String barcode) {
-        this.barcode = barcode;
-    }
-
-    public Integer getItemsPerCrate() {
-        return itemsPerCrate;
-    }
-
-    public void setItemsPerCrate(Integer itemsPerCrate) {
-        this.itemsPerCrate = itemsPerCrate;
+    public void setProductDetailId(int productDetailId) {
+        this.productDetailId = productDetailId;
     }
 }
