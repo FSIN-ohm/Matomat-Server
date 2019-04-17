@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 import flask
 from flask import Flask
 from flask import Response
@@ -60,6 +59,14 @@ def products():
 @app.route("/v1/products/0", methods=["GET", "PATCH", "DELETE"])
 def product0():
     return returnFileOnGet("product0.json")
+
+@app.route("/v1/product_infos", methods=["GET", "POST"])
+def product_infos():
+    return returnFileOnGet("product_infos.json")
+
+@app.route("/v1/product_infos/0", methods=["GET", "POST", "PATCH"])
+def product_infos0():
+    return returnFileOnGet("product_infos0.json")
 
 ##### TRANSACTIONS #####
 
