@@ -4,10 +4,11 @@ import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.ProductDetailEntry;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.ProductInfo;
+import org.fsin.matomat.rest.model.ProductInfoChange;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -44,6 +45,26 @@ public class ProductsInfoController {
         Database db = Database.getInstance();
         try {
             return mapEntryToProductInfo(db.productDetailGetById(id));
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
+        }
+    }
+
+    @PatchMapping("/v1/product_infos/{id}")
+    public ResponseEntity patchInfo(@PathVariable int id,
+                                    @RequestBody ProductInfoChange change)
+        throws Exception {
+        try {
+            Database db = Database.getInstance();
+            ProductDetailEntry entry = db.productDetailGetById(id);
+            entry.setName(change.getName());
+            entry.setImageUrl(change.getThumbnail());
+            entry.setReorderPoint(change.getReorder_point());
+            entry.setItemsPerCrate(change.getItems_per_crate());
+            entry.setBarcode(change.getBarcode());
+            entry.setAvailable(change.isIs_available());
+            db.productDetailUpdate(entry);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }
