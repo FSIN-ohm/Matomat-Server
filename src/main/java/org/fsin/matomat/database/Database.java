@@ -153,8 +153,12 @@ public class Database {
         return new ProductDAO(template).getAllActive();
     }
 
-    public List<ProductDetailEntry> productDetailGetAll(boolean onlyAvailable) {
-        return new ProductDetailDAO(template).getAll(onlyAvailable);
+    public List<ProductDetailEntry> productDetailGetAll() {
+        return new ProductDetailDAO(template).getAll();
+    }
+
+    public ProductDetailEntry productDetailGetById(int id) {
+        return new ProductDetailDAO(template).getById(id);
     }
 
     public ProductEntry productsGetById(int id) {

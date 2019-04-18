@@ -24,12 +24,11 @@ public class ProductDetailDAO {
         entry.setAvailable(rs.getBoolean("available"));
         entry.setBarcode(rs.getString("barcode"));
         entry.setItemsPerCrate(rs.getInt("items_per_crate"));
+        entry.setName(rs.getString("name"));
         return entry;
     };
 
-    public List<ProductDetailEntry> getAll(boolean onlyAvailable) throws DataAccessException {
-        if(onlyAvailable)
-            return template.query("SELECT * from product_detail where available = 1", rowMapper);
+    public List<ProductDetailEntry> getAll() throws DataAccessException {
         return template.query("SELECT * from product_detail", rowMapper);
     }
 
