@@ -4,6 +4,7 @@ import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.ProductDetailEntry;
 import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.ProductAdd;
@@ -55,6 +56,14 @@ public class ProductsController {
     @PostMapping("/v1/products")
     public ResponseEntity addProduct(@RequestBody ProductAdd productAdd)
         throws Exception {
+
+        checkRequest(productAdd.getBarcode());
+        checkRequest(productAdd.getItems_per_crate());
+        checkRequest(productAdd.getName());
+        checkRequest(productAdd.getPrice());
+        checkRequest(productAdd.getReorder_point());
+        checkRequest(productAdd.getThumbnail());
+
         try {
             Database db = Database.getInstance();
             ProductEntry productEntry = new ProductEntry();
@@ -69,6 +78,14 @@ public class ProductsController {
             return new ResponseEntity(HttpStatus.CREATED);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
+        }
+    }
+
+    /***************** UTILS **************************/
+
+    private void checkRequest(Object object) throws BadRequestException {
+        if(object == null) {
+            throw new BadRequestException();
         }
     }
 }

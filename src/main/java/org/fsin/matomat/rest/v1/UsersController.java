@@ -3,6 +3,7 @@ package org.fsin.matomat.rest.v1;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.UserEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -57,6 +58,7 @@ public class UsersController {
     @PostMapping("/v1/users")
     public ResponseEntity createUser(@RequestBody UserCreate userCreate)
         throws Exception {
+        checkRequest(userCreate.getAuth_hash());
         try {
             Database database = Database.getInstance();
             database.userCreate(userCreate.getAuth_hash().getBytes());
@@ -88,6 +90,14 @@ public class UsersController {
             return new ResponseEntity(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
+        }
+    }
+
+    /***************** UTILS **************************/
+
+    private void checkRequest(Object object) throws BadRequestException {
+        if(object == null) {
+            throw new BadRequestException();
         }
     }
 }

@@ -5,6 +5,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.AdminEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
 import org.fsin.matomat.rest.model.AdminChange;
@@ -25,7 +26,6 @@ public class AdminsController {
 
     private Admin mapEntryToAdmin(AdminEntry entry) {
         Admin admin = new Admin();
-
         admin.setId(entry.getId());
         admin.setAvailable(entry.isAvailable());
         admin.setBalance(entry.getBalance());
@@ -66,6 +66,11 @@ public class AdminsController {
     @PostMapping("/v1/admins")
     public ResponseEntity createAdmin(@RequestBody AdminCreate adminCreate)
         throws Exception {
+
+        checkRequest(adminCreate.getEmail());
+        checkRequest(adminCreate.getUser_name());
+        checkRequest(adminCreate.getPassword());
+
         try {
             Database db = Database.getInstance();
             AdminEntry entry = new AdminEntry();
@@ -86,6 +91,11 @@ public class AdminsController {
     public ResponseEntity patchAdmin(@PathVariable int id,
                                      @RequestBody AdminChange adminChange)
         throws Exception {
+
+        checkRequest(adminChange.getEmail());
+        checkRequest(adminChange.getPassword());
+        checkRequest(adminChange.getUser_name());
+
         try {
             Database db = Database.getInstance();
             AdminEntry entry = db.adminGetDetail(id);
@@ -128,5 +138,11 @@ public class AdminsController {
 
     private byte[] hexHashPwd(String password, byte[] salt) {
         return DigestUtils.sha512((new String(salt) + password).getBytes());
+    }
+
+    private void checkRequest(Object object) throws BadRequestException {
+        if(object == null) {
+            throw new BadRequestException();
+        }
     }
 }
