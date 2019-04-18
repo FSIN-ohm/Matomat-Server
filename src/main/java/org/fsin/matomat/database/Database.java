@@ -157,6 +157,10 @@ public class Database {
         return new ProductDetailDAO(template).getAll(onlyAvailable);
     }
 
+    public ProductEntry productsGetById(int id) {
+        return new ProductDAO(template).getById(id);
+    }
+
     /* ********** Transactions **********/
 
 
