@@ -1,6 +1,7 @@
 package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.*;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -10,6 +11,12 @@ import java.sql.ResultSet;
 import java.util.List;
 
 public class TransactionDAO {
+
+    public static class UnknownTransactionTypeException extends RuntimeException {
+        public UnknownTransactionTypeException(String message) {
+            super(message);
+        }
+    }
 
     public JdbcTemplate template;
 
@@ -24,6 +31,7 @@ public class TransactionDAO {
         entry.setSenderId(rs.getInt("sender"));
         entry.setRecipientId(rs.getInt("recipient"));
         entry.setAmount(rs.getBigDecimal("amount"));
+        entry.setType(getTypeFromString(rs.getString("type")));
         return entry;
     };
 
@@ -35,12 +43,36 @@ public class TransactionDAO {
         entry.setRecipientId(rs.getInt("recipient"));
         entry.setAmount(rs.getBigDecimal("amount"));
         entry.setAdminId(rs.getInt("admin_id"));
+        entry.setType(getTypeFromString(rs.getString("type")));
         entry.setBuyCost(rs.getBigDecimal("buy_cost"));
         return entry;
     };
 
-    public List<TransactionEntry> getAll() throws DataAccessException {
-        return template.query("select * from transactions_total", rowMapper);
+    public List<TransactionEntry> getAll(long from,
+                                         long to,
+                                         TransactionEntry.TransactionType type) throws DataAccessException {
+        if(type == TransactionEntry.TransactionType.ANY)
+            return template.query("select * from transactions_total"
+                    + " where ? <= id and id < ?", rowMapper, from, to);
+        return template.query("select * from transactions_total"
+                + " where ? <= id and id < ?"
+                + " and type = ?", rowMapper, from, to, type.value());
+    }
+
+    public List<TransactionEntry> getAll(long from,
+                                         long to,
+                                         TransactionEntry.TransactionType type,
+                                         int user) throws DataAccessException {
+        if(type == TransactionEntry.TransactionType.ANY)
+            return template.query("select * from transactions_total"
+                    + " where ? <= id and id < ?"
+                    + " and sender = ?"
+                    + " or recipient = ?", rowMapper, from, to, user, user);
+        return template.query("select * from transactions_total"
+                + " where ? <= id and id < ?"
+                + " and where type = ?"
+                + " and sender = ?"
+                + " or recipient = ?", rowMapper, from, to, type, user);
     }
 
     public TransactionEntry getTransaction(Integer id) {
@@ -127,5 +159,19 @@ public class TransactionDAO {
 
     public static RowMapper<TransactionEntry> getRowMapper() {
         return rowMapper;
+    }
+
+    /***************** UTILS **************************/
+
+    public static TransactionEntry.TransactionType getTypeFromString(String type) {
+        switch (type) {
+            case "purchase": return TransactionEntry.TransactionType.PURCHASE;
+            case "order": return TransactionEntry.TransactionType.ORDER;
+            case "deposit": return TransactionEntry.TransactionType.DEPOSIT;
+            case "withdraw": return TransactionEntry.TransactionType.WITHDRAW;
+            case "transfere": return TransactionEntry.TransactionType.TRANSFERE;
+            case "": return TransactionEntry.TransactionType.ANY;
+            default: throw new UnknownTransactionTypeException("Transactin type not known: " + type);
+        }
     }
 }

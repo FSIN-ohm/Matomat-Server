@@ -6,12 +6,23 @@ import java.util.Date;
 public class TransactionEntry {
 
     public enum TransactionType {
-        PURCHASE,
-        ORDER,
-        DEPOSIT,
-        WITHDRAW,
-        TRANSFERE
-    };
+        PURCHASE("purchase"),
+        ORDER("order"),
+        DEPOSIT("deposit"),
+        WITHDRAW("withdraw"),
+        TRANSFERE("transfere"),
+        ANY("any");
+
+        private String value;
+
+        TransactionType (String v) {
+            value = v;
+        }
+
+        public String value() {
+            return value;
+        }
+    }
 
     private int id;
     private Date date;

@@ -188,8 +188,12 @@ public class Database {
         new TransactionDAO(template).addOrder(orderEntry, products);
     }
 
-    public List<TransactionEntry> transactionsGetAll(){
-        return new TransactionDAO(template).getAll();
+    public List<TransactionEntry> transactionsGetAll(long from, long to, TransactionEntry.TransactionType type){
+        return new TransactionDAO(template).getAll(from, to, type);
+    }
+
+    public List<TransactionEntry> transactionsGetAll(long from, long to, TransactionEntry.TransactionType type, int user){
+        return new TransactionDAO(template).getAll(from, to, type, user);
     }
 
     public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
