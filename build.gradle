@@ -1,7 +1,9 @@
 plugins {
     id 'java'
-    id "org.springframework.boot" version "2.1.1.RELEASE"
+    id "org.springframework.boot" version "2.1.4.RELEASE"
 }
+
+apply plugin: 'io.spring.dependency-management'
 
 group 'org.fsin.'
 version '0.1'
@@ -13,10 +15,13 @@ repositories {
 }
 
 dependencies {
-    testCompile group: 'junit', name: 'junit', version: '4.12'
-    compile group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
-    compile("org.springframework:spring-jdbc:5.1.2.RELEASE")
-    compile("org.springframework:spring-web:5.1.2.RELEASE")
-    compile("org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE")
-    compile("commons-codec:commons-codec:1.12")
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.13'
+    implementation 'org.springframework:spring-jdbc'
+    implementation 'org.springframework:spring-web'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation("commons-codec:commons-codec:1.12")
+    testImplementation 'org.springframework.boot:spring-boot-starter-webflux'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'io.projectreactor:reactor-test'
+    testImplementation group: 'junit', name: 'junit', version: '4.12'
 }
