@@ -39,6 +39,10 @@ public class Database {
 
     /* ********** Users **********/
 
+    public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
+        return new UsersDAO(template).getAll(from, to, onlyAvailable);
+    }
+
     /**
      * Create a user
      * @param authHash the users authentication hash
@@ -196,13 +200,26 @@ public class Database {
         return new TransactionDAO(template).getAll(from, to, type, user);
     }
 
-    public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
-        return new UsersDAO(template).getAll(from, to, onlyAvailable);
+    public TransactionEntry transactionGet(long id) {
+        return new TransactionDAO(template).getTransaction(id);
+    }
+
+    public List<ProductCountEntry> purchaseGetProducts(TransactionEntry purchase) {
+        return new ProductCountDAO(template).getByPurchase(purchase);
+    }
+
+    public OrderEntry orderGet(long id) {
+        return new OrderDAO(template).getOrder(id);
+    }
+
+    public List<OrderedProductEntry> orderGetProducts(OrderEntry order) {
+        return new OrderDAO(template).getOrderedProducts(order);
     }
 
     public JdbcTemplate getTemplate() {
         return template;
     }
+
 
     /***************** UTILS **************************/
 

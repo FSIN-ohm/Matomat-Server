@@ -248,7 +248,9 @@ public class TestScenario {
             System.out.println("\nTransactions");
             System.out.println("=======================================");
             System.out.println("ID\tDate\t\tSender\tReciever\tTotal");
-            for (TransactionEntry transaction : db.transactionsGetAll() ) {
+            for (TransactionEntry transaction : db.transactionsGetAll(1,
+                    100,
+                    TransactionEntry.TransactionType.ANY) ) {
                 System.out.print(transaction.getId());
                 System.out.print("\t");
                 System.out.print(transaction.getDate());

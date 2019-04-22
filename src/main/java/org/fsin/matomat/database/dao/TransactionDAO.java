@@ -35,19 +35,6 @@ public class TransactionDAO {
         return entry;
     };
 
-    private static final RowMapper<OrderEntry> orderRowMapper = (ResultSet rs, int rowNum) -> {
-        OrderEntry entry = new OrderEntry();
-        entry.setId(rs.getInt("id"));
-        entry.setDate(rs.getDate("date"));
-        entry.setSenderId(rs.getInt("sender"));
-        entry.setRecipientId(rs.getInt("recipient"));
-        entry.setAmount(rs.getBigDecimal("amount"));
-        entry.setAdminId(rs.getInt("admin_id"));
-        entry.setType(getTypeFromString(rs.getString("type")));
-        entry.setBuyCost(rs.getBigDecimal("buy_cost"));
-        return entry;
-    };
-
     public List<TransactionEntry> getAll(long from,
                                          long to,
                                          TransactionEntry.TransactionType type) throws DataAccessException {
@@ -75,21 +62,10 @@ public class TransactionDAO {
                 + " or recipient = ?", rowMapper, from, to, type, user);
     }
 
-    public TransactionEntry getTransaction(Integer id) {
+    public TransactionEntry getTransaction(long id) {
         return template.queryForObject("select * from transactions_total where id = ?;", rowMapper, id);
     }
 
-    public OrderEntry getOrder(Integer id) {
-        return template.queryForObject("select * from orders_total where id = ?;", orderRowMapper, id);
-    }
-
-    public List<TransactionEntry> getBySender(UserEntry sender) throws DataAccessException {
-        return template.query("select * from transactions_total where sender = ?", rowMapper, sender.getId());
-    }
-
-    public List<TransactionEntry> getByRecipient(UserEntry recipient) throws DataAccessException {
-        return template.query("select * from transactions_total where recipient = ?", rowMapper, recipient.getId());
-    }
 
     // ===============================================
     // =============== ADD TRANSACTIONS ==============
@@ -114,8 +90,7 @@ public class TransactionDAO {
     public void addOrder(OrderEntry orderEntry, List<ProductCountEntry> products) {
         int transactionId = template.update(
                 "call transaction_order(?, ?)",
-                orderEntry.getAdminId(), orderEntry.getBuyCost()
-        );
+                orderEntry.getAdminId(), orderEntry.getAmount());
 
         String sql = "INSERT INTO ordered_products(order_transaction_id, product_detail_id, count) VALUES (?, ?, ?)";
         try {

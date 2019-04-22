@@ -1,22 +1,30 @@
 package org.fsin.matomat.rest.model;
 
 public class Order extends Transaction {
-    private Product[] products;
-    private long buy_cost;
+    private int admin;
+    private OrderedProduct purchased[];
 
-    public Product[] getProducts() {
-        return products;
+    public Order() {
+
     }
 
-    public void setProducts(Product[] products) {
-        this.products = products;
+    public Order(Transaction t) {
+        super(t);
     }
 
-    public long getBuy_cost() {
-        return buy_cost;
+    public int getAdmin() {
+        return admin;
     }
 
-    public void setBuy_cost(long buy_cost) {
-        this.buy_cost = buy_cost;
+    public void setAdmin(int admin) {
+        this.admin = admin;
+    }
+
+    public OrderedProduct[] getPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(OrderedProduct[] purchased) {
+        this.purchased = purchased;
     }
 }
