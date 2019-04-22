@@ -11,6 +11,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
+import static org.fsin.matomat.rest.Utils.checkRequest;
+
 import java.util.List;
 
 @RestController
@@ -56,9 +59,11 @@ public class UsersController {
     }
 
     @PostMapping("/v1/users")
-    public ResponseEntity createUser(@RequestBody UserCreate userCreate)
+    public ResponseEntity createUser(@RequestBody CreateUser userCreate)
         throws Exception {
+
         checkRequest(userCreate.getAuth_hash());
+
         try {
             Database database = Database.getInstance();
             database.userCreate(userCreate.getAuth_hash().getBytes());
@@ -70,11 +75,15 @@ public class UsersController {
 
     @PatchMapping("/v1/users/{id}")
     public ResponseEntity patchUser(@PathVariable int id,
-            @RequestBody UserUpdate userUpdate)
+            @RequestBody UpdateUser updateUser)
         throws Exception {
+
+        checkRequest(updateUser.getAuth_hash());
+        checkRequest(updateUser.getName());
+
         try {
             Database db = Database.getInstance();
-            db.userUpdate(id, userUpdate.getAuth_hash().getBytes(), userUpdate.getName());
+            db.userUpdate(id, updateUser.getAuth_hash().getBytes(), updateUser.getName());
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
@@ -93,11 +102,4 @@ public class UsersController {
         }
     }
 
-    /***************** UTILS **************************/
-
-    private void checkRequest(Object object) throws BadRequestException {
-        if(object == null) {
-            throw new BadRequestException();
-        }
-    }
 }

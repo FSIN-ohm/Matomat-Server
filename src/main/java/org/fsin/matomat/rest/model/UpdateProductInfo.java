@@ -1,11 +1,11 @@
 package org.fsin.matomat.rest.model;
 
-public class ProductAdd {
+public class UpdateProductInfo {
     private String name;
-    private int price;
     private String thumbnail;
     private int reorder_point;
     private String barcode;
+    private boolean is_available;
     private int items_per_crate;
 
     public String getName() {
@@ -14,14 +14,6 @@ public class ProductAdd {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public String getThumbnail() {
@@ -46,6 +38,14 @@ public class ProductAdd {
 
     public void setBarcode(String barcode) {
         this.barcode = barcode;
+    }
+
+    public boolean isIs_available() {
+        return is_available;
+    }
+
+    public void setIs_available(boolean is_available) {
+        this.is_available = is_available;
     }
 
     public int getItems_per_crate() {

@@ -4,13 +4,16 @@ import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.ProductDetailEntry;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.ProductInfo;
-import org.fsin.matomat.rest.model.ProductInfoChange;
+import org.fsin.matomat.rest.model.UpdateProductInfo;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+
+
+import static org.fsin.matomat.rest.Utils.checkRequest;
 
 @RestController
 public class ProductsInfoController {
@@ -52,8 +55,15 @@ public class ProductsInfoController {
 
     @PatchMapping("/v1/product_infos/{id}")
     public ResponseEntity patchInfo(@PathVariable int id,
-                                    @RequestBody ProductInfoChange change)
+                                    @RequestBody UpdateProductInfo change)
         throws Exception {
+
+        checkRequest(change.getName());
+        checkRequest(change.getThumbnail());
+        checkRequest(change.getReorder_point());
+        checkRequest(change.getItems_per_crate());
+        checkRequest(change.getBarcode());
+
         try {
             Database db = Database.getInstance();
             ProductDetailEntry entry = db.productDetailGetById(id);

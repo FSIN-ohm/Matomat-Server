@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 
-public class TestScenario {
+public class DBTest {
 
     static Database db;
 

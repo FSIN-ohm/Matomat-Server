@@ -10,7 +10,7 @@ public class TransactionEntry {
         ORDER("order"),
         DEPOSIT("deposit"),
         WITHDRAW("withdraw"),
-        TRANSFERE("transfere"),
+        transfer("transfer"),
         ANY("any");
 
         private String value;

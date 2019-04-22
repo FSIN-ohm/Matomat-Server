@@ -1,6 +1,6 @@
 package org.fsin.matomat.rest.model;
 
-public class UserUpdate {
+public class UpdateUser {
     private String auth_hash;
     private String name;
 

@@ -2,6 +2,7 @@ package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.*;
 import org.fsin.matomat.rest.exceptions.BadRequestException;
+import org.fsin.matomat.rest.model.OrderedProduct;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -81,13 +82,13 @@ public class TransactionDAO {
     }
 
     public void addTransfer(TransactionEntry transfer) throws DataAccessException {
-        template.update("call ADD_TRANSFER(?, ?, ?)",
+        template.update("call transaction_transfer(?, ?, ?)",
                 transfer.getSenderId(),
                 transfer.getRecipientId(),
                 transfer.getAmount());
     }
 
-    public void addOrder(OrderEntry orderEntry, List<ProductCountEntry> products) {
+    public void addOrder(OrderEntry orderEntry, List<OrderedProductEntry> products) {
         int transactionId = template.update(
                 "call transaction_order(?, ?)",
                 orderEntry.getAdminId(), orderEntry.getAmount());
@@ -95,15 +96,16 @@ public class TransactionDAO {
         String sql = "INSERT INTO ordered_products(order_transaction_id, product_detail_id, count) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = template.getDataSource().getConnection().prepareStatement(sql);
-            for (ProductCountEntry product : products) {
+            for (OrderedProductEntry product : products) {
                 ps.setInt(1, transactionId);
-                ps.setInt(2, product.getProductsId());
+                ps.setInt(2, product.getInfo_id());
                 ps.setInt(3, product.getCount());
                 ps.addBatch();
             }
             ps.executeBatch();
         } catch (Exception e){
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -125,6 +127,7 @@ public class TransactionDAO {
         } catch (Exception e){
             System.out.println("inserting products failed");
             e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -144,7 +147,7 @@ public class TransactionDAO {
             case "order": return TransactionEntry.TransactionType.ORDER;
             case "deposit": return TransactionEntry.TransactionType.DEPOSIT;
             case "withdraw": return TransactionEntry.TransactionType.WITHDRAW;
-            case "transfere": return TransactionEntry.TransactionType.TRANSFERE;
+            case "transfer": return TransactionEntry.TransactionType.transfer;
             case "": return TransactionEntry.TransactionType.ANY;
             default: throw new UnknownTransactionTypeException("Transactin type not known: " + type);
         }

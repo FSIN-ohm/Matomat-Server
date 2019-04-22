@@ -1,6 +1,6 @@
 package org.fsin.matomat.rest.model;
 
-public class AdminCreate {
+public class UpdateAdmin {
     private String user_name;
     private String password;
     private String email;

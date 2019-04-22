@@ -1,25 +1,22 @@
 package org.fsin.matomat.rest.v1;
 
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.AdminEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
-import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
-import org.fsin.matomat.rest.model.AdminChange;
-import org.fsin.matomat.rest.model.AdminCreate;
+import org.fsin.matomat.rest.model.UpdateAdmin;
+import org.fsin.matomat.rest.model.CreateAdmin;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.xml.crypto.dsig.DigestMethod;
-import java.nio.charset.Charset;
-import java.security.MessageDigest;
 import java.util.List;
 import java.util.Random;
+
+import static org.fsin.matomat.rest.Utils.checkRequest;
 
 @RestController
 public class AdminsController {
@@ -64,21 +61,21 @@ public class AdminsController {
     }
 
     @PostMapping("/v1/admins")
-    public ResponseEntity createAdmin(@RequestBody AdminCreate adminCreate)
+    public ResponseEntity createAdmin(@RequestBody CreateAdmin createAdmin)
         throws Exception {
 
-        checkRequest(adminCreate.getEmail());
-        checkRequest(adminCreate.getUser_name());
-        checkRequest(adminCreate.getPassword());
+        checkRequest(createAdmin.getEmail());
+        checkRequest(createAdmin.getUser_name());
+        checkRequest(createAdmin.getPassword());
 
         try {
             Database db = Database.getInstance();
             AdminEntry entry = new AdminEntry();
-            entry.setUsername(adminCreate.getUser_name());
-            entry.setEmail(adminCreate.getEmail());
+            entry.setUsername(createAdmin.getUser_name());
+            entry.setEmail(createAdmin.getEmail());
             byte[] salt = generateRandomSalt();
             entry.setPasswordSalt(salt);
-            entry.setPassword(hexHashPwd(adminCreate.getPassword(), salt));
+            entry.setPassword(hexHashPwd(createAdmin.getPassword(), salt));
 
             db.adminCreate(entry);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
@@ -89,7 +86,7 @@ public class AdminsController {
 
     @PatchMapping("/v1/admins/{id}")
     public ResponseEntity patchAdmin(@PathVariable int id,
-                                     @RequestBody AdminChange adminChange)
+                                     @RequestBody UpdateAdmin adminChange)
         throws Exception {
 
         checkRequest(adminChange.getEmail());
@@ -138,11 +135,5 @@ public class AdminsController {
 
     private byte[] hexHashPwd(String password, byte[] salt) {
         return DigestUtils.sha512((new String(salt) + password).getBytes());
-    }
-
-    private void checkRequest(Object object) throws BadRequestException {
-        if(object == null) {
-            throw new BadRequestException();
-        }
     }
 }

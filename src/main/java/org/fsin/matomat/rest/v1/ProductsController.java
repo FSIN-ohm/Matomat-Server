@@ -7,7 +7,7 @@ import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Product;
-import org.fsin.matomat.rest.model.ProductAdd;
+import org.fsin.matomat.rest.model.CreateProduct;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,7 +21,7 @@ public class ProductsController {
 
     private Product mapEntryToProduct(ProductEntry entry) {
         Product product = new Product();
-        product.setPrice(entry.getPrice().intValue()*100);
+        product.setPrice((int)(entry.getPrice().doubleValue()*100.00));
         product.setId(entry.getId());
         product.setInfo_id(entry.getProductDetailId());
         product.setValid_from(entry.getValidFrom().toLocalDateTime());
@@ -54,7 +54,7 @@ public class ProductsController {
     }
 
     @PostMapping("/v1/products")
-    public ResponseEntity addProduct(@RequestBody ProductAdd productAdd)
+    public ResponseEntity addProduct(@RequestBody CreateProduct productAdd)
         throws Exception {
 
         checkRequest(productAdd.getBarcode());
@@ -67,13 +67,15 @@ public class ProductsController {
         try {
             Database db = Database.getInstance();
             ProductEntry productEntry = new ProductEntry();
-            productEntry.setPrice(new BigDecimal(productAdd.getPrice()/100));
+            productEntry.setPrice(new BigDecimal((int)(productAdd.getPrice()/100.00)));
+
             ProductDetailEntry productDetailEntry = new ProductDetailEntry();
             productDetailEntry.setBarcode(productAdd.getBarcode());
             productDetailEntry.setName(productAdd.getName());
             productDetailEntry.setItemsPerCrate(productAdd.getItems_per_crate());
             productDetailEntry.setReorderPoint(productAdd.getReorder_point());
             productDetailEntry.setImageUrl(productAdd.getThumbnail());
+
             db.productAdd(productEntry, productDetailEntry);
             return new ResponseEntity(HttpStatus.CREATED);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {

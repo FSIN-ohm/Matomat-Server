@@ -1,6 +1,6 @@
 package org.fsin.matomat.rest.model;
 
-public class UserCreate {
+public class CreateUser {
     private String client_key;
     private String auth_hash;
 
