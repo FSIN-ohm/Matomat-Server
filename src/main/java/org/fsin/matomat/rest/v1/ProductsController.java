@@ -8,6 +8,7 @@ import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.CreateProduct;
+import org.fsin.matomat.rest.model.UpdateProduct;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.List;
+
+import static org.fsin.matomat.rest.Utils.checkIfBelowZero;
 
 @RestController
 public class ProductsController {
@@ -60,8 +63,8 @@ public class ProductsController {
         checkRequest(productAdd.getBarcode());
         checkRequest(productAdd.getItems_per_crate());
         checkRequest(productAdd.getName());
-        checkRequest(productAdd.getPrice());
-        checkRequest(productAdd.getReorder_point());
+        checkIfBelowZero(productAdd.getPrice());
+        checkIfBelowZero(productAdd.getReorder_point());
         checkRequest(productAdd.getThumbnail());
 
         try {
@@ -81,6 +84,19 @@ public class ProductsController {
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
         }
+    }
+
+    @PatchMapping("/v1/products/{id}")
+    public ResponseEntity updatePrice(@PathVariable int id, @RequestBody UpdateProduct updateProduct)
+        throws Exception {
+        checkIfBelowZero(updateProduct.getPrice());
+
+        Database db = Database.getInstance();
+        ProductEntry entry = new ProductEntry();
+        entry.setId(id);
+        entry.setPrice(new BigDecimal(updateProduct.getPrice()/100.00));
+        db.productPriceUpdate(entry);
+        return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
     /***************** UTILS **************************/

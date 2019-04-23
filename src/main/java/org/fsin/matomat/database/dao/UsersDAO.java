@@ -18,7 +18,7 @@ public class UsersDAO {
     private RowMapper<UserEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         UserEntry entry = new UserEntry();
         entry.setId(rs.getInt("id"));
-        entry.setBalance(rs.getInt("balance"));
+        entry.setBalance(rs.getBigDecimal("balance"));
         entry.setLastSeen(rs.getTimestamp("last_seen"));
         entry.setAvailable(rs.getBoolean("available"));
         entry.setName(rs.getString("name"));

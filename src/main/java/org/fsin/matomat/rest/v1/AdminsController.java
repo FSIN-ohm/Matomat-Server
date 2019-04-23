@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Random;
 
-import static org.fsin.matomat.rest.Utils.checkRequest;
+import static org.fsin.matomat.rest.Utils.checkIfNotNull;
 
 @RestController
 public class AdminsController {
@@ -64,9 +64,9 @@ public class AdminsController {
     public ResponseEntity createAdmin(@RequestBody CreateAdmin createAdmin)
         throws Exception {
 
-        checkRequest(createAdmin.getEmail());
-        checkRequest(createAdmin.getUser_name());
-        checkRequest(createAdmin.getPassword());
+        checkIfNotNull(createAdmin.getEmail());
+        checkIfNotNull(createAdmin.getUser_name());
+        checkIfNotNull(createAdmin.getPassword());
 
         try {
             Database db = Database.getInstance();
@@ -89,9 +89,9 @@ public class AdminsController {
                                      @RequestBody UpdateAdmin adminChange)
         throws Exception {
 
-        checkRequest(adminChange.getEmail());
-        checkRequest(adminChange.getPassword());
-        checkRequest(adminChange.getUser_name());
+        checkIfNotNull(adminChange.getEmail());
+        checkIfNotNull(adminChange.getPassword());
+        checkIfNotNull(adminChange.getUser_name());
 
         try {
             Database db = Database.getInstance();

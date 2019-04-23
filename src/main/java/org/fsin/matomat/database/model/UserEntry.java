@@ -1,11 +1,12 @@
 package org.fsin.matomat.database.model;
 
+import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 public class UserEntry {
     private Integer id;
     private byte[] authHash;
-    private Integer balance;
+    private BigDecimal balance;
     private Timestamp lastSeen;
     private boolean available;
     private String name;
@@ -24,14 +25,6 @@ public class UserEntry {
 
     public void setAuthHash(byte[] authHash) {
         this.authHash = authHash;
-    }
-
-    public Integer getBalance() {
-        return balance;
-    }
-
-    public void setBalance(Integer balance) {
-        this.balance = balance;
     }
 
     public Boolean isAvailable() {
@@ -60,5 +53,13 @@ public class UserEntry {
 
     public void setAvailable(boolean available) {
         this.available = available;
+    }
+
+    public BigDecimal getBalance() {
+        return balance;
+    }
+
+    public void setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
 }

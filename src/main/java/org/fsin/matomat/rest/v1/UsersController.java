@@ -3,7 +3,6 @@ package org.fsin.matomat.rest.v1;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.UserEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
-import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -12,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
-import static org.fsin.matomat.rest.Utils.checkRequest;
+import static org.fsin.matomat.rest.Utils.checkIfNotNull;
 
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class UsersController {
         user.setName(entry.getName());
         user.setLast_seen(entry.getLastSeen().toLocalDateTime());
         user.setAvailable(entry.isAvailable());
-        user.setBalance(entry.getBalance());
+        user.setBalance((int)(entry.getBalance().doubleValue()*100.00));
         return user;
     }
 
@@ -62,7 +61,7 @@ public class UsersController {
     public ResponseEntity createUser(@RequestBody CreateUser userCreate)
         throws Exception {
 
-        checkRequest(userCreate.getAuth_hash());
+        checkIfNotNull(userCreate.getAuth_hash());
 
         try {
             Database database = Database.getInstance();
@@ -78,8 +77,8 @@ public class UsersController {
             @RequestBody UpdateUser updateUser)
         throws Exception {
 
-        checkRequest(updateUser.getAuth_hash());
-        checkRequest(updateUser.getName());
+        checkIfNotNull(updateUser.getAuth_hash());
+        checkIfNotNull(updateUser.getName());
 
         try {
             Database db = Database.getInstance();

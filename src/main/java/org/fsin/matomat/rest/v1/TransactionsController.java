@@ -15,7 +15,8 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.fsin.matomat.rest.Utils.checkRequest;
+import static org.fsin.matomat.rest.Utils.checkIfBelowOne;
+import static org.fsin.matomat.rest.Utils.checkIfNotNull;
 
 
 @RestController
@@ -119,8 +120,8 @@ public class TransactionsController {
     @PostMapping("/v1/transactions/transfer")
     public ResponseEntity createTransfer(@RequestBody CreateTransfer transfer)
         throws Exception {
-        checkRequest(transfer.getAmount());
-        checkRequest(transfer.getReceiver());
+        checkIfNotNull(transfer.getAmount());
+        checkIfNotNull(transfer.getReceiver());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
@@ -135,7 +136,7 @@ public class TransactionsController {
     @PostMapping("/v1/transactions/deposit")
     public ResponseEntity createDeposit(@RequestBody CreateDeposit deposit)
         throws Exception {
-        checkRequest(deposit.getAmount());
+        checkIfNotNull(deposit.getAmount());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
@@ -148,7 +149,7 @@ public class TransactionsController {
     @PostMapping("/v1/transactions/withdraw")
     public ResponseEntity createWithdraw(@RequestBody CreateWithdraw withdraw)
         throws Exception {
-        checkRequest(withdraw.getAmount());
+        checkIfNotNull(withdraw.getAmount());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
@@ -161,14 +162,18 @@ public class TransactionsController {
     @PostMapping("/v1/transactions/order")
     public ResponseEntity createOrder(@RequestBody CreateOrder order)
         throws Exception {
-        checkRequest(order.getAmount());
-        checkRequest(order.getOrders());
+        checkIfNotNull(order.getAmount());
+        checkIfNotNull(order.getOrders());
 
         Database db = Database.getInstance();
         OrderEntry entry = new OrderEntry();
         entry.setAdminId(3);        //TODO: Make this work with the current loged in admin
+        entry.setAmount(new BigDecimal(order.getAmount()/100.00));
         List<OrderedProductEntry> orderedProductEntries = new ArrayList<>(order.getOrders().length);
         for(OrderedProduct op : order.getOrders()) {
+            checkIfBelowOne(op.getAmount());
+            checkIfBelowOne(op.getProduct_info());
+
             OrderedProductEntry ope = new OrderedProductEntry();
             ope.setInfo_id(op.getProduct_info());
             ope.setCount(op.getAmount());
@@ -181,7 +186,7 @@ public class TransactionsController {
     @PostMapping("/v1/transactions/purchase")
     public ResponseEntity createPurchase(@RequestBody CreatePurchase purchase)
         throws Exception {
-        checkRequest(purchase.getOrders());
+        checkIfNotNull(purchase.getOrders());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
@@ -189,6 +194,9 @@ public class TransactionsController {
 
         List<ProductCountEntry> productCountEntries = new ArrayList<>(purchase.getOrders().length);
         for(ProductAmount productAmount : purchase.getOrders()) {
+            checkIfBelowOne(productAmount.getAmount());
+            checkIfBelowOne(productAmount.getProduct());
+
             ProductCountEntry pe = new ProductCountEntry();
             pe.setProductsId(productAmount.getProduct());
             pe.setCount(productAmount.getAmount());

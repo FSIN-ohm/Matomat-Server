@@ -89,9 +89,10 @@ public class TransactionDAO {
     }
 
     public void addOrder(OrderEntry orderEntry, List<OrderedProductEntry> products) {
-        int transactionId = template.update(
-                "call transaction_order(?, ?)",
-                orderEntry.getAdminId(), orderEntry.getAmount());
+        int transactionId = template.queryForObject(
+                "call transaction_order(?, ?)", int.class,
+                orderEntry.getAdminId(),
+                orderEntry.getAmount());
 
         String sql = "INSERT INTO ordered_products(order_transaction_id, product_detail_id, count) VALUES (?, ?, ?)";
         try {

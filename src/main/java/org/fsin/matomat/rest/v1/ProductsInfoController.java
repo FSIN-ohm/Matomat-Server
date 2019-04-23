@@ -12,8 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-
-import static org.fsin.matomat.rest.Utils.checkRequest;
+import static org.fsin.matomat.rest.Utils.*;
 
 @RestController
 public class ProductsInfoController {
@@ -58,11 +57,11 @@ public class ProductsInfoController {
                                     @RequestBody UpdateProductInfo change)
         throws Exception {
 
-        checkRequest(change.getName());
-        checkRequest(change.getThumbnail());
-        checkRequest(change.getReorder_point());
-        checkRequest(change.getItems_per_crate());
-        checkRequest(change.getBarcode());
+        checkIfNotNull(change.getName());
+        checkIfNotNull(change.getThumbnail());
+        checkIfBelowZero(change.getReorder_point());
+        checkIfBelowZero(change.getItems_per_crate());
+        checkIfNotNull(change.getBarcode());
 
         try {
             Database db = Database.getInstance();
