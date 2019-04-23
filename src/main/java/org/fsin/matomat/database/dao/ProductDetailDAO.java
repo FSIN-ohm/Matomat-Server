@@ -46,5 +46,4 @@ public class ProductDetailDAO {
                 entry.getBarcode(),
                 entry.getItemsPerCrate());
     }
-
 }
