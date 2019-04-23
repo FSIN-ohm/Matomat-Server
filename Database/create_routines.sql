@@ -1,8 +1,8 @@
 USE matohmat;
 
 DROP FUNCTION IF EXISTS random_name;
-CREATE
-  DEFINER = root@localhost FUNCTION random_name(s INT) RETURNS VARCHAR(45)
+DELIMITER $$
+CREATE FUNCTION random_name(s INT) RETURNS VARCHAR(45)
   DETERMINISTIC
 BEGIN
   DECLARE name VARCHAR(45);
@@ -16,10 +16,10 @@ BEGIN
                 substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', rand(@seed:=s+6)*36+1, 1),
                 substring('ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789', rand(@seed:=s+7)*36+1, 1));
   RETURN name;
-END;
+END$$
 
 DROP PROCEDURE IF EXISTS user_create;
-CREATE DEFINER=`root`@`localhost` PROCEDURE `user_create`( IN auth char(40) )
+CREATE PROCEDURE `user_create`( IN auth char(40) )
 BEGIN
 -- Check if user already exists to not delete his money balance
 	SET @existing = FALSE;
@@ -109,6 +109,7 @@ BEGIN
     VALUES (new_price, pid);
 END;
 
+DROP PROCEDURE IF EXISTS transaction_deposit;
 CREATE DEFINER=`root`@`localhost` PROCEDURE `transaction_deposit`( IN user_id_in INT, IN in_amount DECIMAL(13,2) )
 BEGIN
 	INSERT INTO transactions(sender, recipient) 
