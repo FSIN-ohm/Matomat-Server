@@ -1,10 +1,12 @@
 package org.fsin.matomat.database.model;
 
+import java.math.BigDecimal;
+
 public class ProductBoughtEntry {
     private int transactionId;
     private int productId;
     private int count;
-    private int unitPrice;
+    private BigDecimal unitPrice;
 
     public int getTransactionId() {
         return transactionId;
@@ -30,11 +32,11 @@ public class ProductBoughtEntry {
         this.count = count;
     }
 
-    public int getUnitPrice() {
+    public BigDecimal getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(int unitPrice) {
+    public void setUnitPrice(BigDecimal unitPrice) {
         this.unitPrice = unitPrice;
     }
 }

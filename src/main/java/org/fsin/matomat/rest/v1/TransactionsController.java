@@ -44,7 +44,7 @@ public class TransactionsController {
     private ProductCountPrice mapProductCountPrice(ProductBoughtEntry entry) {
         ProductCountPrice price = new ProductCountPrice();
         price.setAmount(entry.getCount());
-        price.setPrice_per_unit(entry.getUnitPrice());
+        price.setPrice_per_unit((int)(entry.getUnitPrice().doubleValue()*100.00));
         price.setProduct(entry.getProductId());
         return price;
     }

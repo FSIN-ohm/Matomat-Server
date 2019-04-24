@@ -48,7 +48,7 @@ public class ProductsController {
         return product;
     }
 
-    @RequestMapping("/v1/products{id}")
+    @RequestMapping("/v1/products/{id}")
     public Product getInfo(@PathVariable int id)
         throws Exception {
         Database db = Database.getInstance();

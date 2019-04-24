@@ -17,7 +17,7 @@ public class ProductBoughtDAO {
         entry.setCount(rs.getInt("count"));
         entry.setTransactionId(rs.getInt("transaction_id"));
         entry.setProductId(rs.getInt("product_id"));
-        entry.setUnitPrice(rs.getInt("unit_price"));
+        entry.setUnitPrice(rs.getBigDecimal("unit_price"));
         return entry;
     };
 
