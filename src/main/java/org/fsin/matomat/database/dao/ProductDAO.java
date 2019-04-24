@@ -27,7 +27,7 @@ public class ProductDAO {
         entry.setName(rs.getString("name"));
         entry.setStock(rs.getInt("stock"));
         entry.setPrice(rs.getBigDecimal("price"));
-        entry.setValidDate(rs.getTimestamp("balid_date"));
+        entry.setValidDate(rs.getTimestamp("valid_from"));
         return entry;
     };
 

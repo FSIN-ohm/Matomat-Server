@@ -77,6 +77,19 @@ CREATE VIEW products_stock AS
     JOIN products pd ON p.product_id = pd.id
     GROUP BY pd.id) AS sold ON sold. product_id = products.id;
 
+DROP VIEW IF EXISTS current_prices;
+CREATE VIEW current_prices AS
+  SELECT product_prices.id,
+         product_prices.product_id,
+         product_prices.price,
+         product_prices.valid_from
+  FROM product_prices
+  JOIN (SELECT product_id, MAX(valid_from) AS valid_date
+        FROM product_prices
+        GROUP BY product_id) AS valp
+    ON valp.product_id = product_prices.product_id
+    AND valp.valid_date = product_prices.valid_from;
+
 DROP VIEW IF EXISTS products_all;
 CREATE VIEW `products_all` AS
   SELECT
@@ -88,14 +101,10 @@ CREATE VIEW `products_all` AS
       available,
       items_per_crate,
       barcode,
-      valp.valid_date,
+      prices.valid_from,
       products_stock.stock
   FROM products
-  JOIN
-      (SELECT product_id, MAX(valid_from) AS valid_date
-        FROM product_prices
-        GROUP BY  product_id) AS valp ON valp.product_id = products.id
-  JOIN product_prices AS prices ON prices.product_id = products.id
+  JOIN current_prices AS prices ON prices.product_id = products.id
   JOIN products_stock on products_stock.id = products.id
   ORDER BY products.id;
 

@@ -30,9 +30,7 @@ public class PriceDAO {
     }
 
     public List<PriceEntry> getActive() throws DataAccessException {
-        return template.query("SELECT product_id, MAX(valid_from) AS valid_from\n" +
-                "        FROM product_prices\n" +
-                "        GROUP BY product_id", rowMapper);
+        return template.query("SELECT * from current_prices", rowMapper);
     }
 
     public HashMap<Integer, PriceEntry> getActiveAsProductIdHashMap() throws DataAccessException {
