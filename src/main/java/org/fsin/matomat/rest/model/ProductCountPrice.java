@@ -1,6 +1,6 @@
 package org.fsin.matomat.rest.model;
 
-public class ProductPrice {
+public class ProductCountPrice {
     private int product;
     private int amount;
     private int price_per_unit;

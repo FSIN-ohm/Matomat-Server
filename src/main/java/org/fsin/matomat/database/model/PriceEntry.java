@@ -7,7 +7,7 @@ public class PriceEntry {
     private int id;
     private BigDecimal price;
     private Timestamp validFrom;
-    private int productDetailId;
+    private int productId;
 
     public int getId() {
         return id;
@@ -33,11 +33,11 @@ public class PriceEntry {
         this.validFrom = validFrom;
     }
 
-    public int getProductDetailId() {
-        return productDetailId;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setProductDetailId(int productDetailId) {
-        this.productDetailId = productDetailId;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 }

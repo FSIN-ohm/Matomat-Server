@@ -132,3 +132,8 @@ CREATE OR REPLACE VIEW `user_balance` AS
           transactions_total
       GROUP BY recipient) as out_transactions ON recipient = users.id
   ORDER BY id;
+
+DROP VIEW IF EXISTS products_bought;
+CREATE VIEW products_bought AS
+  SELECT transaction_id, product_id, count, price AS unit_price FROM purchase_amount_products
+  JOIN product_prices pp ON purchase_amount_products.prices_id = pp.id;

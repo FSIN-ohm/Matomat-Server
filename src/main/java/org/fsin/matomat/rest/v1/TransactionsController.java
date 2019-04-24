@@ -1,6 +1,7 @@
 package org.fsin.matomat.rest.v1;
 
 import org.fsin.matomat.database.Database;
+import org.fsin.matomat.database.dao.ProductBoughtDAO;
 import org.fsin.matomat.database.dao.TransactionDAO;
 import org.fsin.matomat.database.model.*;
 import org.fsin.matomat.rest.exceptions.BadRequestException;
@@ -33,18 +34,19 @@ public class TransactionsController {
         return transaction;
     }
 
-    private ProductAmount mapProductAmount(ProductCountEntry entry) {
-        ProductAmount amount = new ProductAmount();
-        amount.setAmount(entry.getCount());
-        amount.setPrice(entry.getPriceId());
-        return amount;
-    }
-
     private OrderedProduct mapOrderedProduct(OrderedProductEntry entry) {
         OrderedProduct product = new OrderedProduct();
         product.setAmount(entry.getCount());
         product.setProduct_info(entry.getProductId());
         return product;
+    }
+
+    private ProductCountPrice mapProductCountPrice(ProductBoughtEntry entry) {
+        ProductCountPrice price = new ProductCountPrice();
+        price.setAmount(entry.getCount());
+        price.setPrice_per_unit(entry.getUnitPrice());
+        price.setProduct(entry.getProductId());
+        return price;
     }
 
     @RequestMapping("/v1/transactions")
@@ -108,14 +110,15 @@ public class TransactionsController {
 
     public Purchase purchase(TransactionEntry entry, Database db) {
         Purchase purchase = new Purchase(mapSimpleTransaction(entry));
-        List<ProductCountEntry> productCountEntries = db.purchaseGetProducts(entry);
-        ProductAmount purchased[] = new ProductAmount[productCountEntries.size()];
+        List<ProductBoughtEntry> productCountEntries = db.purchaseGetProducts(entry);
+        ProductCountPrice purchased[] = new ProductCountPrice[productCountEntries.size()];
         for(int i = 0; i < purchased.length; i++) {
-            purchased[i] = mapProductAmount(productCountEntries.get(i));
+            purchased[i] = mapProductCountPrice(productCountEntries.get(i));
         }
-        purchase.setProducts(purchased);
+        purchase.setPurchased(purchased);
         return purchase;
     }
+
 
     @PostMapping("/v1/transactions/transfer")
     public ResponseEntity createTransfer(@RequestBody CreateTransfer transfer)
@@ -183,6 +186,7 @@ public class TransactionsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+
     @PostMapping("/v1/transactions/purchase")
     public ResponseEntity createPurchase(@RequestBody CreatePurchase purchase)
         throws Exception {
@@ -192,15 +196,15 @@ public class TransactionsController {
         TransactionEntry entry = new TransactionEntry();
         entry.setSenderId(3); //TODO: Make this work with the current loged in user
 
-        List<ProductCountEntry> productCountEntries = new ArrayList<>(purchase.getOrders().length);
+        List<ProductBoughtEntry> productCountEntries = new ArrayList<>(purchase.getOrders().length);
         for(ProductAmount productAmount : purchase.getOrders()) {
             checkIfBelowOne(productAmount.getAmount());
-            checkIfBelowOne(productAmount.getPrice());
+            checkIfBelowOne(productAmount.getProduct());
 
-            ProductCountEntry pe = new ProductCountEntry();
-            pe.setPriceId(productAmount.getPrice());
-            pe.setCount(productAmount.getAmount());
-            productCountEntries.add(pe);
+            ProductBoughtEntry pbe = new ProductBoughtEntry();
+            pbe.setProductId(productAmount.getProduct());
+            pbe.setCount(productAmount.getAmount());
+            productCountEntries.add(pbe);
         }
 
         db.transactionPurchase(entry, productCountEntries);

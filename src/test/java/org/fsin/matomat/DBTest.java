@@ -159,11 +159,11 @@ public class DBTest {
 
             purchaseEntry.setSenderId(user1.getId());
 
-            ProductCountEntry product1 = new ProductCountEntry();
-            product1.setPriceId(1);
+            ProductBoughtEntry product1 = new ProductBoughtEntry();
+            product1.setProductId(1);
             product1.setCount(3);
 
-            List<ProductCountEntry> products = new ArrayList<ProductCountEntry>();
+            List<ProductBoughtEntry> products = new ArrayList<>();
             products.add(product1);
 
             db.transactionPurchase(purchaseEntry, products);

@@ -164,7 +164,7 @@ public class Database {
     /* ********** Transactions **********/
 
 
-    public void transactionPurchase(TransactionEntry purchaseEntry, List<ProductCountEntry> products){
+    public void transactionPurchase(TransactionEntry purchaseEntry, List<ProductBoughtEntry> products){
         new TransactionDAO(template).addPurchase(purchaseEntry, products);
     }
 
@@ -196,8 +196,8 @@ public class Database {
         return new TransactionDAO(template).getTransaction(id);
     }
 
-    public List<ProductCountEntry> purchaseGetProducts(TransactionEntry purchase) {
-        return new ProductCountDAO(template).getByPurchase(purchase);
+    public List<ProductBoughtEntry> purchaseGetProducts(TransactionEntry purchase) {
+        return new ProductBoughtDAO(template).getByPurchase(purchase);
     }
 
     public OrderEntry orderGet(long id) {

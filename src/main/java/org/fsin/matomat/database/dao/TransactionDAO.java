@@ -1,5 +1,6 @@
 package org.fsin.matomat.database.dao;
 
+import org.fsin.matomat.database.DBAddPurchaseException;
 import org.fsin.matomat.database.model.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -7,6 +8,7 @@ import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.HashMap;
 import java.util.List;
 
 public class TransactionDAO {
@@ -104,21 +106,23 @@ public class TransactionDAO {
             ps.executeBatch();
         } catch (Exception e){
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new DBAddPurchaseException(e);
         }
     }
 
 
-    public void addPurchase(TransactionEntry purchaseEntry, List<ProductCountEntry> products) throws DataAccessException {
+    public void addPurchase(TransactionEntry purchaseEntry, List<ProductBoughtEntry> productsBought) throws DataAccessException {
         int transactionId = template.queryForObject("call transaction_purchase(?)", int.class,
                 purchaseEntry.getSenderId());
+
+        HashMap<Integer, PriceEntry> prices = new PriceDAO(template).getActiveAsProductIdHashMap();
 
         String sql = "INSERT INTO purchase_amount_products(transaction_id, prices_id, count) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = template.getDataSource().getConnection().prepareStatement(sql);
-            for (ProductCountEntry product : products) {
+            for (ProductBoughtEntry product : productsBought) {
                 ps.setInt(1, transactionId);
-                ps.setInt(2, product.getPriceId());
+                ps.setInt(2, prices.get(product.getProductId()).getId());
                 ps.setInt(3, product.getCount());
                 ps.addBatch();
             }
@@ -126,7 +130,7 @@ public class TransactionDAO {
         } catch (Exception e){
             System.out.println("inserting products failed");
             e.printStackTrace();
-            throw new RuntimeException(e);
+            throw new DBAddPurchaseException(e);
         }
     }
 
