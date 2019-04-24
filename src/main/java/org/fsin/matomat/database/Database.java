@@ -141,8 +141,8 @@ public class Database {
         new ProductDAO(template).updateProduct(changedProduct);
     }
 
-    public void productPriceUpdate(ProductEntry product, PriceEntry price) {
-        new PriceDAO(template).updatePrice(product, price);
+    public void productPriceUpdate(ProductEntry product) {
+        new ProductDAO(template).updatePrice(product);
     }
 
     public List<PriceEntry> pricesGetAll() {

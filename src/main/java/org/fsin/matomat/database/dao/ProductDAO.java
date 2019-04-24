@@ -61,4 +61,9 @@ public class ProductDAO {
                 productEntry.getBarcode(),
                 productEntry.getItemsPerCrate());
     }
+
+    public int updatePrice(ProductEntry product) throws DataAccessException {
+        return template.update("call product_update_price(?, ?)",
+                product.getId(), product.getPrice());
+    }
 }

@@ -32,9 +32,4 @@ public class PriceDAO {
     public PriceEntry getById(int id) throws DataAccessException {
         return template.queryForObject("SELECT * FROM product_prices where id = ?", rowMapper, id);
     }
-
-    public int updatePrice(ProductEntry product, PriceEntry price) throws DataAccessException {
-        return template.update("call product_update_price(?, ?)",
-                product.getId(), price.getPrice());
-    }
 }

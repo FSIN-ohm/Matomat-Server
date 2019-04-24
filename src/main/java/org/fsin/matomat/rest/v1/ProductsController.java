@@ -6,7 +6,6 @@ import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.CreateProduct;
-import org.fsin.matomat.rest.model.Price;
 import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.UpdateProduct;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,18 +30,11 @@ public class ProductsController {
         product.setName(entry.getName());
         product.setReorder_point(entry.getReorderPoint());
         product.setThumbnail(entry.getImageUrl());
+        product.setStock(entry.getStock());
+        product.setValid_date(entry.getValid_date().toLocalDateTime());
+        product.setPrice((int)(entry.getPrice().doubleValue()*100.00));
         return product;
     }
-
-    private Price mapEntryToPrice(PriceEntry entry) {
-        Price price = new Price();
-        price.setPrice((int)(entry.getPrice().doubleValue()*100.00));
-        price.setId(entry.getId());
-        price.setInfo_id(entry.getProductDetailId());
-        price.setValid_from(entry.getValidFrom().toLocalDateTime());
-        return price;
-    }
-
 
     @RequestMapping("/v1/products")
     public Product[] getInfos(@RequestParam(value="onlyAvailable", defaultValue="true") boolean onlyAvailable)
@@ -107,10 +99,17 @@ public class ProductsController {
         checkIfBelowZero(change.getReorder_point());
         checkIfBelowZero(change.getItems_per_crate());
         checkIfNotNull(change.getBarcode());
+        checkIfBelowZero(change.getPrice());
 
         try {
             Database db = Database.getInstance();
             ProductEntry entry = db.productDetailGetById(id);
+
+            /** check if price should be changed **/
+            if((int)(entry.getPrice().doubleValue()*100.00) != change.getPrice()) {
+                db.productPriceUpdate(entry);
+            }
+
             entry.setName(change.getName());
             entry.setImageUrl(change.getThumbnail());
             entry.setReorderPoint(change.getReorder_point());
@@ -118,6 +117,7 @@ public class ProductsController {
             entry.setBarcode(change.getBarcode());
             entry.setAvailable(change.isIs_available());
             db.productUpdate(entry);
+
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();

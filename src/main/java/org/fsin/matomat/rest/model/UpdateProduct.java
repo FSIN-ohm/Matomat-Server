@@ -7,6 +7,7 @@ public class UpdateProduct {
     private String barcode;
     private boolean is_available;
     private int items_per_crate;
+    private int price;
 
     public String getName() {
         return name;
@@ -54,5 +55,13 @@ public class UpdateProduct {
 
     public void setItems_per_crate(int items_per_crate) {
         this.items_per_crate = items_per_crate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }
