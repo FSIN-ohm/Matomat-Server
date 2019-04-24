@@ -2,15 +2,15 @@ package org.fsin.matomat.database.model;
 
 public class ProductCountEntry {
 
-    private int productsId;
+    private int priceId;
     private int count;
 
-    public int getProductsId() {
-        return productsId;
+    public int getPriceId() {
+        return priceId;
     }
 
-    public void setProductsId(int productsId) {
-        this.productsId = productsId;
+    public void setPriceId(int priceId) {
+        this.priceId = priceId;
     }
 
     public int getCount() {

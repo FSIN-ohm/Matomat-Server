@@ -28,7 +28,6 @@ public class AdminsController {
         admin.setBalance(entry.getBalance());
         admin.setEmail(entry.getEmail());
         admin.setLast_seen(entry.getLastSeen().toLocalDateTime());
-        admin.setUser_id(entry.getCorespondingUserId());
         admin.setUser_name(entry.getUsername());
         return admin;
     }

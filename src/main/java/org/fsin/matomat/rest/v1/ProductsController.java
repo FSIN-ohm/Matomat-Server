@@ -1,13 +1,13 @@
 package org.fsin.matomat.rest.v1;
 
 import org.fsin.matomat.database.Database;
-import org.fsin.matomat.database.model.ProductDetailEntry;
+import org.fsin.matomat.database.model.PriceEntry;
 import org.fsin.matomat.database.model.ProductEntry;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
-import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
-import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.CreateProduct;
+import org.fsin.matomat.rest.model.Price;
+import org.fsin.matomat.rest.model.Product;
 import org.fsin.matomat.rest.model.UpdateProduct;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
@@ -17,40 +17,51 @@ import org.springframework.web.bind.annotation.*;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static org.fsin.matomat.rest.Utils.checkIfBelowZero;
+import static org.fsin.matomat.rest.Utils.*;
 
 @RestController
 public class ProductsController {
 
-    private Product mapEntryToProduct(ProductEntry entry) {
+    private Product mapEntryToProductInfo(ProductEntry entry) {
         Product product = new Product();
-        product.setPrice((int)(entry.getPrice().doubleValue()*100.00));
+        product.setBarcode(entry.getBarcode());
         product.setId(entry.getId());
-        product.setInfo_id(entry.getProductDetailId());
-        product.setValid_from(entry.getValidFrom().toLocalDateTime());
+        product.setIs_available(entry.isAvailable());
+        product.setItems_per_crate(entry.getItemsPerCrate());
+        product.setName(entry.getName());
+        product.setReorder_point(entry.getReorderPoint());
+        product.setThumbnail(entry.getImageUrl());
         return product;
     }
 
-    @RequestMapping("/v1/products")
-    public Product[] products(@RequestParam(value="onlyAvailable", defaultValue="false") boolean onlyAvailable)
-        throws Exception {
-        Database database = Database.getInstance();
-        List<ProductEntry> productEntries = onlyAvailable
-                ? database.productsGetActive()
-                : database.productsGetAll();
-        Product[] products = new Product[productEntries.size()];
-        for(int i = 0; i < products.length; i++) {
-            products[i] = mapEntryToProduct(productEntries.get(i));
-        }
-        return products;
+    private Price mapEntryToPrice(PriceEntry entry) {
+        Price price = new Price();
+        price.setPrice((int)(entry.getPrice().doubleValue()*100.00));
+        price.setId(entry.getId());
+        price.setInfo_id(entry.getProductDetailId());
+        price.setValid_from(entry.getValidFrom().toLocalDateTime());
+        return price;
     }
 
-    @RequestMapping("/v1/products/{id}")
-    public Product product(@PathVariable int id)
+
+    @RequestMapping("/v1/products")
+    public Product[] getInfos(@RequestParam(value="onlyAvailable", defaultValue="true") boolean onlyAvailable)
+        throws Exception {
+        Database db = Database.getInstance();
+        List<ProductEntry> entries = db.productsGetAll(onlyAvailable);
+        Product product[] = new Product[entries.size()];
+        for(int i = 0; i < product.length; i++) {
+            product[i] = mapEntryToProductInfo(entries.get(i));
+        }
+        return product;
+    }
+
+    @RequestMapping("/v1/products{id}")
+    public Product getInfo(@PathVariable int id)
         throws Exception {
         Database db = Database.getInstance();
         try {
-            return mapEntryToProduct(db.productsGetById(id));
+            return mapEntryToProductInfo(db.productDetailGetById(id));
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }
@@ -58,28 +69,28 @@ public class ProductsController {
 
     @PostMapping("/v1/products")
     public ResponseEntity addProduct(@RequestBody CreateProduct productAdd)
-        throws Exception {
+            throws Exception {
 
-        checkRequest(productAdd.getBarcode());
-        checkRequest(productAdd.getItems_per_crate());
-        checkRequest(productAdd.getName());
+        checkIfNotNull(productAdd.getBarcode());
+        checkIfNotNull(productAdd.getItems_per_crate());
+        checkIfNotNull(productAdd.getName());
         checkIfBelowZero(productAdd.getPrice());
         checkIfBelowZero(productAdd.getReorder_point());
-        checkRequest(productAdd.getThumbnail());
+        checkIfNotNull(productAdd.getThumbnail());
 
         try {
             Database db = Database.getInstance();
+            PriceEntry priceEntry = new PriceEntry();
+            priceEntry.setPrice(new BigDecimal((int)(productAdd.getPrice()/100.00)));
+
             ProductEntry productEntry = new ProductEntry();
-            productEntry.setPrice(new BigDecimal((int)(productAdd.getPrice()/100.00)));
+            productEntry.setBarcode(productAdd.getBarcode());
+            productEntry.setName(productAdd.getName());
+            productEntry.setItemsPerCrate(productAdd.getItems_per_crate());
+            productEntry.setReorderPoint(productAdd.getReorder_point());
+            productEntry.setImageUrl(productAdd.getThumbnail());
 
-            ProductDetailEntry productDetailEntry = new ProductDetailEntry();
-            productDetailEntry.setBarcode(productAdd.getBarcode());
-            productDetailEntry.setName(productAdd.getName());
-            productDetailEntry.setItemsPerCrate(productAdd.getItems_per_crate());
-            productDetailEntry.setReorderPoint(productAdd.getReorder_point());
-            productDetailEntry.setImageUrl(productAdd.getThumbnail());
-
-            db.productAdd(productEntry, productDetailEntry);
+            db.productAdd(productEntry, priceEntry);
             return new ResponseEntity(HttpStatus.CREATED);
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
@@ -87,23 +98,29 @@ public class ProductsController {
     }
 
     @PatchMapping("/v1/products/{id}")
-    public ResponseEntity updatePrice(@PathVariable int id, @RequestBody UpdateProduct updateProduct)
+    public ResponseEntity patchInfo(@PathVariable int id,
+                                    @RequestBody UpdateProduct change)
         throws Exception {
-        checkIfBelowZero(updateProduct.getPrice());
 
-        Database db = Database.getInstance();
-        ProductEntry entry = new ProductEntry();
-        entry.setId(id);
-        entry.setPrice(new BigDecimal(updateProduct.getPrice()/100.00));
-        db.productPriceUpdate(entry);
-        return new ResponseEntity(HttpStatus.ACCEPTED);
-    }
+        checkIfNotNull(change.getName());
+        checkIfNotNull(change.getThumbnail());
+        checkIfBelowZero(change.getReorder_point());
+        checkIfBelowZero(change.getItems_per_crate());
+        checkIfNotNull(change.getBarcode());
 
-    /***************** UTILS **************************/
-
-    private void checkRequest(Object object) throws BadRequestException {
-        if(object == null) {
-            throw new BadRequestException();
+        try {
+            Database db = Database.getInstance();
+            ProductEntry entry = db.productDetailGetById(id);
+            entry.setName(change.getName());
+            entry.setImageUrl(change.getThumbnail());
+            entry.setReorderPoint(change.getReorder_point());
+            entry.setItemsPerCrate(change.getItems_per_crate());
+            entry.setBarcode(change.getBarcode());
+            entry.setAvailable(change.isIs_available());
+            db.productUpdate(entry);
+            return new ResponseEntity(HttpStatus.ACCEPTED);
+        } catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException();
         }
     }
 }

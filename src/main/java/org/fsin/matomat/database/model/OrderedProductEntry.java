@@ -1,15 +1,15 @@
 package org.fsin.matomat.database.model;
 
 public class OrderedProductEntry {
-    private int info_id;
+    private int productId;
     private int count;
 
-    public int getInfo_id() {
-        return info_id;
+    public int getProductId() {
+        return productId;
     }
 
-    public void setInfo_id(int info_id) {
-        this.info_id = info_id;
+    public void setProductId(int productId) {
+        this.productId = productId;
     }
 
     public int getCount() {

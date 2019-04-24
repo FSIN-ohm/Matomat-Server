@@ -23,7 +23,6 @@ public class AdminDAO {
         adminEntry.setPassword(rs.getBytes("password"));
         adminEntry.setEmail(rs.getString("email"));
         adminEntry.setPassword(rs.getBytes("password_salt"));
-        adminEntry.setCorespondingUserId(rs.getInt("user_id"));
         adminEntry.setAvailable(rs.getBoolean("available"));
         adminEntry.setBalance(rs.getInt("balance"));
         adminEntry.setLastSeen(rs.getTimestamp("last_seen"));

@@ -80,22 +80,24 @@ CREATE VIEW products_stock AS
 DROP VIEW IF EXISTS products_all;
 CREATE VIEW `products_all` AS
   SELECT
-      id
-      price,
+      products.id,
+      prices.price,
       products.name AS name,
       products.reorder_point AS reorder_point,
       image_url,
       available,
       items_per_crate,
       barcode,
-      prices.valid_date
+      valp.valid_date,
+      products_stock.stock
   FROM products
   JOIN
       (SELECT product_id, MAX(valid_from) AS valid_date
         FROM product_prices
-        GROUP BY  product_id)
-      AS prices ON prices.product_id = products.id
-  ORDER BY id;
+        GROUP BY  product_id) AS valp ON valp.product_id = products.id
+  JOIN product_prices AS prices ON prices.product_id = products.id
+  JOIN products_stock on products_stock.id = products.id
+  ORDER BY products.id;
 
 DROP VIEW IF EXISTS transactions_total;
 CREATE VIEW `transactions_total` AS

@@ -53,11 +53,11 @@ def admins0():
 
 ##### PRODUCTS #####
 
-@app.route("/v1/products", methods=["GET", "POST"])
-def products():
-    return returnFileOnGet("products.json")
+@app.route("/v1/prices", methods=["GET", "POST"])
+def prices():
+    return returnFileOnGet("prices.json")
 
-@app.route("/v1/products/0", methods=["GET", "PATCH", "DELETE"])
+@app.route("/v1/prices/0", methods=["GET", "PATCH", "DELETE"])
 def product0():
     return returnFileOnGet("product0.json")
 

@@ -1,8 +1,6 @@
 package org.fsin.matomat.database.dao;
 
 import org.fsin.matomat.database.model.*;
-import org.fsin.matomat.rest.exceptions.BadRequestException;
-import org.fsin.matomat.rest.model.OrderedProduct;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -94,12 +92,12 @@ public class TransactionDAO {
                 orderEntry.getAdminId(),
                 orderEntry.getAmount());
 
-        String sql = "INSERT INTO ordered_products(order_transaction_id, product_detail_id, count) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO ordered_products(order_transaction_id, product_id, count) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = template.getDataSource().getConnection().prepareStatement(sql);
             for (OrderedProductEntry product : products) {
                 ps.setInt(1, transactionId);
-                ps.setInt(2, product.getInfo_id());
+                ps.setInt(2, product.getProductId());
                 ps.setInt(3, product.getCount());
                 ps.addBatch();
             }
@@ -115,12 +113,12 @@ public class TransactionDAO {
         int transactionId = template.queryForObject("call transaction_purchase(?)", int.class,
                 purchaseEntry.getSenderId());
 
-        String sql = "INSERT INTO purchase_amount_products(transaction_id, products_id, count) VALUES (?, ?, ?)";
+        String sql = "INSERT INTO purchase_amount_products(transaction_id, prices_id, count) VALUES (?, ?, ?)";
         try {
             PreparedStatement ps = template.getDataSource().getConnection().prepareStatement(sql);
             for (ProductCountEntry product : products) {
                 ps.setInt(1, transactionId);
-                ps.setInt(2, product.getProductsId());
+                ps.setInt(2, product.getPriceId());
                 ps.setInt(3, product.getCount());
                 ps.addBatch();
             }

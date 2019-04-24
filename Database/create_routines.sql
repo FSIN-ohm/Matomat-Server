@@ -209,9 +209,12 @@ BEGIN
 	UPDATE users SET `users`.`last_seen` = NOW() WHERE users.id = user_id;
 END;
 
-
-
-
-
-
-
+DROP PROCEDURE IF EXISTS user_balance_by_hash;
+CREATE PROCEDURE user_balance_by_hash(hash BINARY(20))
+BEGIN
+    DECLARE uid INT;
+    SELECT id INTO uid
+       FROM users WHERE auth_hash = hash;
+    SELECT * FROM user_balance
+      WHERE id = uid;
+END;

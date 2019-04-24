@@ -7,7 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -90,53 +89,53 @@ public class DBTest {
 
         // add mate, cola and bier
         {
+            PriceEntry matePrice = new PriceEntry();
             ProductEntry mate = new ProductEntry();
-            ProductDetailEntry mateDetail = new ProductDetailEntry();
-            mateDetail.setName("Mate");
-            mate.setPrice(new BigDecimal(2.0));
-            mateDetail.setReorderPoint(40);
-            mateDetail.setAvailable(true);
-            mateDetail.setImageUrl("localhost/404");
-            mateDetail.setItemsPerCrate(20);
-            mateDetail.setBarcode("f848f929fjiehald");
+            mate.setName("Mate");
+            matePrice.setPrice(new BigDecimal(2.0));
+            mate.setReorderPoint(40);
+            mate.setAvailable(true);
+            mate.setImageUrl("localhost/404");
+            mate.setItemsPerCrate(20);
+            mate.setBarcode("f848f929fjiehald");
 
-            db.productAdd(mate, mateDetail);
+            db.productAdd(mate, matePrice);
 
-            ProductEntry cola = new ProductEntry();
-            ProductDetailEntry colaDetail = new ProductDetailEntry();
-            colaDetail.setName("Kola");
-            cola.setPrice(new BigDecimal(1.5));
-            colaDetail.setReorderPoint(40);
-            colaDetail.setAvailable(true);
-            colaDetail.setImageUrl("localhost/404");
-            colaDetail.setItemsPerCrate(15);
-            colaDetail.setBarcode("ifj48jafighiejaf==");
+            PriceEntry colaPrice = new PriceEntry();
+            ProductEntry colaProduct = new ProductEntry();
+            colaProduct.setName("Kola");
+            colaPrice.setPrice(new BigDecimal(1.5));
+            colaProduct.setReorderPoint(40);
+            colaProduct.setAvailable(true);
+            colaProduct.setImageUrl("localhost/404");
+            colaProduct.setItemsPerCrate(15);
+            colaProduct.setBarcode("ifj48jafighiejaf==");
 
-            db.productAdd(cola, colaDetail);
+            db.productAdd(colaProduct, colaPrice);
 
-            ProductEntry bier = new ProductEntry();
-            ProductDetailEntry bierDetail = new ProductDetailEntry();
-            bierDetail.setName("Bier");
-            bier.setPrice(new BigDecimal(2.5));
-            bierDetail.setReorderPoint(30);
-            bierDetail.setAvailable(true);
-            bierDetail.setImageUrl("localhost/404");
-            bierDetail.setItemsPerCrate(10);
-            bierDetail.setBarcode("afihgeijafsdf3fasdf=");
+            PriceEntry bierPrice = new PriceEntry();
+            ProductEntry bierProduct = new ProductEntry();
+            bierProduct.setName("Bier");
+            bierPrice.setPrice(new BigDecimal(2.5));
+            bierProduct.setReorderPoint(30);
+            bierProduct.setAvailable(true);
+            bierProduct.setImageUrl("localhost/404");
+            bierProduct.setItemsPerCrate(10);
+            bierProduct.setBarcode("afihgeijafsdf3fasdf=");
 
-            db.productAdd(bier, bierDetail);
+            db.productAdd(bierProduct, bierPrice);
 
-            ProductEntry snickers = new ProductEntry();
-            ProductDetailEntry snickersDetail = new ProductDetailEntry();
-            snickersDetail.setName("Schickas");
-            snickers.setPrice(new BigDecimal(6.5));
-            snickersDetail.setReorderPoint(10);
-            snickersDetail.setAvailable(true);
-            snickersDetail.setImageUrl("localhost/404");
-            snickersDetail.setItemsPerCrate(200);
-            snickersDetail.setBarcode("if84hg8498e8jf8j8");
+            PriceEntry snickersPrice = new PriceEntry();
+            ProductEntry snickersProduct = new ProductEntry();
+            snickersProduct.setName("Schickas");
+            snickersPrice.setPrice(new BigDecimal(6.5));
+            snickersProduct.setReorderPoint(10);
+            snickersProduct.setAvailable(true);
+            snickersProduct.setImageUrl("localhost/404");
+            snickersProduct.setItemsPerCrate(200);
+            snickersProduct.setBarcode("if84hg8498e8jf8j8");
 
-            db.productAdd(snickers, snickersDetail);
+            db.productAdd(snickersProduct, snickersPrice);
 
         }
 
@@ -161,7 +160,7 @@ public class DBTest {
             purchaseEntry.setSenderId(user1.getId());
 
             ProductCountEntry product1 = new ProductCountEntry();
-            product1.setProductsId(1);
+            product1.setPriceId(1);
             product1.setCount(3);
 
             List<ProductCountEntry> products = new ArrayList<ProductCountEntry>();
@@ -210,27 +209,25 @@ public class DBTest {
                 System.out.print(admin.getUsername());
                 System.out.print("\t");
                 System.out.print(admin.getEmail());
-                System.out.print("\t");
-                System.out.println(admin.getCorespondingUserId());
             }
 
             System.out.println("\nAll Products");
             System.out.println("=======================================");
             System.out.println("ID\tPrice\tName\tReorder\tVerfügbar\tImage");
-            for (ProductEntry product : db.productsGetAll() ) {
-                System.out.print(product.getId());
+            for (PriceEntry price : db.pricesGetAll() ) {
+                System.out.print(price.getId());
                 System.out.print("\t");
-                System.out.print(product.getPrice());
+                System.out.print(price.getPrice());
                 System.out.print("\t");
             }
 
             System.out.println("\nAll Products");
             System.out.println("=======================================");
             System.out.println("ID\tPrice\tName\tReorder\tImage");
-            for (ProductEntry product : db.productsGetActive() ) {
-                System.out.print(product.getId());
+            for (PriceEntry price : db.pricesGetAll()) {
+                System.out.print(price.getId());
                 System.out.print("\t");
-                System.out.print(product.getPrice());
+                System.out.print(price.getPrice());
                 System.out.print("\t");
             }
 

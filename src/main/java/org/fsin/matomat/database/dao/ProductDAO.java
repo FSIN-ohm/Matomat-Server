@@ -1,6 +1,6 @@
 package org.fsin.matomat.database.dao;
 
-import org.fsin.matomat.database.model.ProductDetailEntry;
+import org.fsin.matomat.database.model.PriceEntry;
 import org.fsin.matomat.database.model.ProductEntry;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -19,36 +19,46 @@ public class ProductDAO {
     private RowMapper<ProductEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         ProductEntry entry = new ProductEntry();
         entry.setId(rs.getInt("id"));
+        entry.setImageUrl(rs.getString("image_url"));
+        entry.setReorderPoint(rs.getInt("reorder_point"));
+        entry.setAvailable(rs.getBoolean("available"));
+        entry.setBarcode(rs.getString("barcode"));
+        entry.setItemsPerCrate(rs.getInt("items_per_crate"));
+        entry.setName(rs.getString("name"));
+        entry.setStock(rs.getInt("stock"));
         entry.setPrice(rs.getBigDecimal("price"));
-        entry.setProductDetailId(rs.getInt("product_detail_id"));
-        entry.setValidFrom(rs.getTimestamp("valid_from"));
+        entry.setValidDate(rs.getTimestamp("balid_date"));
         return entry;
     };
 
-    public List<ProductEntry> getAll() throws DataAccessException {
-        return template.query("SELECT * FROM products", rowMapper);
-    }
-
-    public List<ProductEntry> getAllActive() throws DataAccessException {
-        return template.query("SELECT * FROM products_all where available = 1", rowMapper);
+    public List<ProductEntry> getAll(boolean onlyAvailable) throws DataAccessException {
+        if(onlyAvailable)
+            return template.query("SELECT * from products_all where available = 1", rowMapper);
+        return template.query("SELECT * from products", rowMapper);
     }
 
     public ProductEntry getById(int id) throws DataAccessException {
-        return template.queryForObject("SELECT * FROM products where id = ?", rowMapper, id);
+        return template.queryForObject("SELECT * from products_all where id = ?", rowMapper, id);
     }
 
-    public int addProduct(ProductEntry product, ProductDetailEntry productDetailEntry) throws DataAccessException {
+    public int updateProduct(ProductEntry entry) throws DataAccessException {
+        return template.update("call product_update(?, ?, ?, ?, ?, ?, ?)",
+                entry.getId(),
+                entry.getName(),
+                entry.getImageUrl(),
+                entry.getReorderPoint(),
+                entry.isAvailable(),
+                entry.getBarcode(),
+                entry.getItemsPerCrate());
+    }
+
+    public int addProduct(ProductEntry productEntry, PriceEntry priceEntry) throws DataAccessException {
         return template.update("call product_add(?, ?, ?, ?, ?, ?)",
-                productDetailEntry.getName(),
-                product.getPrice(),
-                productDetailEntry.getImageUrl(),
-                productDetailEntry.getReorderPoint(),
-                productDetailEntry.getBarcode(),
-                productDetailEntry.getItemsPerCrate());
-    }
-
-    public int updatePrice(ProductEntry product) throws DataAccessException {
-        return template.update("call product_update_price(?, ?)",
-                product.getId(), product.getPrice());
+                productEntry.getName(),
+                priceEntry.getPrice(),
+                productEntry.getImageUrl(),
+                productEntry.getReorderPoint(),
+                productEntry.getBarcode(),
+                productEntry.getItemsPerCrate());
     }
 }

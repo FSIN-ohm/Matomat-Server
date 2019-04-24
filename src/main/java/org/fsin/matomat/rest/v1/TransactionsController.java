@@ -36,14 +36,14 @@ public class TransactionsController {
     private ProductAmount mapProductAmount(ProductCountEntry entry) {
         ProductAmount amount = new ProductAmount();
         amount.setAmount(entry.getCount());
-        amount.setProduct(entry.getProductsId());
+        amount.setPrice(entry.getPriceId());
         return amount;
     }
 
     private OrderedProduct mapOrderedProduct(OrderedProductEntry entry) {
         OrderedProduct product = new OrderedProduct();
         product.setAmount(entry.getCount());
-        product.setProduct_info(entry.getInfo_id());
+        product.setProduct_info(entry.getProductId());
         return product;
     }
 
@@ -175,7 +175,7 @@ public class TransactionsController {
             checkIfBelowOne(op.getProduct_info());
 
             OrderedProductEntry ope = new OrderedProductEntry();
-            ope.setInfo_id(op.getProduct_info());
+            ope.setProductId(op.getProduct_info());
             ope.setCount(op.getAmount());
             orderedProductEntries.add(ope);
         }
@@ -195,10 +195,10 @@ public class TransactionsController {
         List<ProductCountEntry> productCountEntries = new ArrayList<>(purchase.getOrders().length);
         for(ProductAmount productAmount : purchase.getOrders()) {
             checkIfBelowOne(productAmount.getAmount());
-            checkIfBelowOne(productAmount.getProduct());
+            checkIfBelowOne(productAmount.getPrice());
 
             ProductCountEntry pe = new ProductCountEntry();
-            pe.setProductsId(productAmount.getProduct());
+            pe.setPriceId(productAmount.getPrice());
             pe.setCount(productAmount.getAmount());
             productCountEntries.add(pe);
         }

@@ -8,7 +8,6 @@ public class AdminEntry {
     private byte[] password;
     private byte[] passwordSalt;
     private String email;
-    private int corespondingUserId;
     private boolean isAvailable;
     private Timestamp lastSeen;
     private int balance;
@@ -36,14 +35,6 @@ public class AdminEntry {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public int getCorespondingUserId() {
-        return corespondingUserId;
-    }
-
-    public void setCorespondingUserId(int corespondingUserId) {
-        this.corespondingUserId = corespondingUserId;
     }
 
     public boolean isAvailable() {

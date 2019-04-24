@@ -18,7 +18,7 @@ public class ProductCountDAO {
     private static final RowMapper<ProductCountEntry> rowMapper = (ResultSet rs, int rowNum) -> {
         ProductCountEntry entry = new ProductCountEntry();
         entry.setCount(rs.getInt("count"));
-        entry.setProductsId(rs.getInt("products_id"));
+        entry.setPriceId(rs.getInt("products_id"));
         return entry;
     };
 

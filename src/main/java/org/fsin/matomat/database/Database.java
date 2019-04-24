@@ -2,7 +2,6 @@ package org.fsin.matomat.database;
 
 import org.fsin.matomat.database.dao.*;
 import org.fsin.matomat.database.model.*;
-import org.fsin.matomat.rest.model.ProductAmount;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
@@ -130,44 +129,36 @@ public class Database {
 
     /* ********** Products **********/
 
-    /**
-     * add a new product
-     * @param product details for the product
-     */
-    public void productAdd(ProductEntry product, ProductDetailEntry productDetail){
-        new ProductDAO(template).addProduct(product, productDetail);
+    public void productAdd(ProductEntry productEntry, PriceEntry priceEntry){
+        new ProductDAO(template).addProduct(productEntry, priceEntry);
     }
 
     /**
      * Change detail of a product
      * @param changedProduct
      */
-    public void productDetailUpdate(ProductDetailEntry changedProduct){
-        new ProductDetailDAO(template).updateDetail(changedProduct);
+    public void productUpdate(ProductEntry changedProduct){
+        new ProductDAO(template).updateProduct(changedProduct);
     }
 
-    public void productPriceUpdate(ProductEntry product) {
-        new ProductDAO(template).updatePrice(product);
+    public void productPriceUpdate(ProductEntry product, PriceEntry price) {
+        new PriceDAO(template).updatePrice(product, price);
     }
 
-    public List<ProductEntry> productsGetAll() {
-        return new ProductDAO(template).getAll();
+    public List<PriceEntry> pricesGetAll() {
+        return new PriceDAO(template).getAll();
     }
 
-    public List<ProductEntry> productsGetActive() {
-        return new ProductDAO(template).getAllActive();
+    public List<ProductEntry> productsGetAll(boolean onlyAvailable) {
+        return new ProductDAO(template).getAll(onlyAvailable);
     }
 
-    public List<ProductDetailEntry> productDetailGetAll() {
-        return new ProductDetailDAO(template).getAll();
-    }
-
-    public ProductDetailEntry productDetailGetById(int id) {
-        return new ProductDetailDAO(template).getById(id);
-    }
-
-    public ProductEntry productsGetById(int id) {
+    public ProductEntry productDetailGetById(int id) {
         return new ProductDAO(template).getById(id);
+    }
+
+    public PriceEntry productsGetById(int id) {
+        return new PriceDAO(template).getById(id);
     }
 
     /* ********** Transactions **********/

@@ -30,7 +30,7 @@ public class OrderDAO {
     private static final RowMapper<OrderedProductEntry> orderedProductsRowMapper = (ResultSet rs, int rowNum) -> {
         OrderedProductEntry entry = new OrderedProductEntry();
         entry.setCount(rs.getInt("count"));
-        entry.setInfo_id(rs.getInt("product_detail_id"));
+        entry.setProductId(rs.getInt("product_detail_id"));
         return entry;
     };
 
