@@ -105,10 +105,6 @@ public class ProductsController {
             Database db = Database.getInstance();
             ProductEntry entry = db.productDetailGetById(id);
 
-            /** check if price should be changed **/
-            if((int)(entry.getPrice().doubleValue()*100.00) != change.getPrice()) {
-                db.productPriceUpdate(entry);
-            }
 
             entry.setName(change.getName());
             entry.setImageUrl(change.getThumbnail());
@@ -117,6 +113,12 @@ public class ProductsController {
             entry.setBarcode(change.getBarcode());
             entry.setAvailable(change.isIs_available());
             db.productUpdate(entry);
+
+            /* check if price should be changed */
+            if((int)(entry.getPrice().doubleValue()*100.00) != change.getPrice()) {
+                entry.setPrice(new BigDecimal(change.getPrice()/100.00));
+                db.productPriceUpdate(entry);
+            }
 
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {
