@@ -1,7 +1,7 @@
 {
     "id": 2,
     "name": "Cola",
-    "thumbnail": "https://png.pngtree.com/png_detail/18/09/10/pngtree-coca-cola-png-clipart_1897638.jpg",
+    "thumbnail": "http://www.pngmart.com/files/1/Coca-Cola-PNG-Transparent-Image.png",
     "reorder_point": 10,
     "barcode": "ColaTest",
     "is_available": true,
