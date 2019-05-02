@@ -22,6 +22,7 @@ public class UsersDAO {
         entry.setLastSeen(rs.getTimestamp("last_seen"));
         entry.setAvailable(rs.getBoolean("available"));
         entry.setName(rs.getString("name"));
+        entry.setAuthHash(rs.getBytes("auth_hash"));
         return entry;
     };
 

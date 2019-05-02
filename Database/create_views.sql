@@ -126,7 +126,7 @@ CREATE VIEW `transactions_total` AS
 DROP TABLE IF EXISTS `matohmat`.`user_balance`;
 CREATE OR REPLACE VIEW `user_balance` AS
   SELECT
-      id, last_seen, (balance + IFNULL(in_amount, 0) - IFNULL(out_amount,0) ) AS balance, available, name
+      id, last_seen, (balance + IFNULL(in_amount, 0) - IFNULL(out_amount,0) ) AS balance, available, name, auth_hash
   FROM users
   LEFT JOIN
       (SELECT
