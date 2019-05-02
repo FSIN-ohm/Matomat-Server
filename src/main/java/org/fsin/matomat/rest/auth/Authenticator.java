@@ -75,7 +75,11 @@ public class Authenticator implements AuthenticationProvider {
 
             for(UserEntry entry : db.usersGetAll(0, 1000000, true)) {
                 if(entry.getId() > 2) // filter out default users as they are not supposed to be login capable
-                    users.put(new String(entry.getAuthHash()), new User(entry.getId(),new byte[]{}, new byte[]{}, Rolle.USER));
+                    users.put(new String(removeTailingZeros(entry.getAuthHash())),
+                            new User(entry.getId(),
+                                    new byte[]{},
+                                    new byte[]{},
+                                    Rolle.USER));
             }
 
             for(AdminEntry entry : db.adminGetAll(0, 10000000, true)) {
@@ -100,6 +104,10 @@ public class Authenticator implements AuthenticationProvider {
                             authentication.getName(), authentication.getCredentials().toString(), new ArrayList<>());
                 }
             }
+            if(user.getRolle() == Rolle.USER) {
+                return new UsernamePasswordAuthenticationToken(
+                        authentication.getName(), authentication.getCredentials().toString(), new ArrayList<>());
+            }
 
             return null;
         } catch (Exception e) {
@@ -111,5 +119,13 @@ public class Authenticator implements AuthenticationProvider {
     public boolean supports(Class<?> authentication) {
         return authentication.equals(
                 UsernamePasswordAuthenticationToken.class);
+    }
+
+    /** -------------- UTILS -------------------- **/
+    private byte[] removeTailingZeros(byte[] input) {
+        int firstNonZero = input.length-1;
+        while(input[firstNonZero] == 0
+            && firstNonZero != 0) firstNonZero--;
+        return Arrays.copyOfRange(input, 0, firstNonZero+1);
     }
 }
