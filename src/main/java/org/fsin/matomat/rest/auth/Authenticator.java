@@ -9,6 +9,8 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -101,12 +103,16 @@ public class Authenticator implements AuthenticationProvider {
                 if (Arrays.equals(DigestUtils.sha512((new String(user.getSalt()) + password).getBytes()),
                         user.getPassword())) {
                     return new UsernamePasswordAuthenticationToken(
-                            authentication.getName(), authentication.getCredentials().toString(), new ArrayList<>());
+                            authentication.getName(),
+                            authentication.getCredentials().toString(),
+                            Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                 }
             }
             if(user.getRolle() == Rolle.USER) {
                 return new UsernamePasswordAuthenticationToken(
-                        authentication.getName(), authentication.getCredentials().toString(), new ArrayList<>());
+                        authentication.getName(),
+                        authentication.getCredentials().toString(),
+                        Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             }
 
             return null;

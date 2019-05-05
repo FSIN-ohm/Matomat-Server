@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.List;
 import java.util.Random;
 
@@ -32,6 +33,7 @@ public class AdminsController {
         return admin;
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/admins")
     public Admin[] admins(@RequestParam(value="count", defaultValue="-1") int count,
                           @RequestParam(value="page", defaultValue="0") int page,
@@ -48,6 +50,7 @@ public class AdminsController {
         return admins;
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/admins/{id}")
     public Admin admin(@PathVariable int id)
         throws Exception {
@@ -59,6 +62,7 @@ public class AdminsController {
         }
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/v1/admins")
     public ResponseEntity createAdmin(@RequestBody CreateAdmin createAdmin)
         throws Exception {
@@ -83,6 +87,7 @@ public class AdminsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @PatchMapping("/v1/admins/{id}")
     public ResponseEntity patchAdmin(@PathVariable int id,
                                      @RequestBody UpdateAdmin adminChange)
@@ -107,6 +112,7 @@ public class AdminsController {
         return new ResponseEntity(HttpStatus.ACCEPTED);
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/v1/admins/{id}")
     public ResponseEntity deleteAdmin(@PathVariable int id)
         throws Exception {

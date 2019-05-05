@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -36,6 +37,7 @@ public class ProductsController {
         return product;
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/products")
     public Product[] getInfos(@RequestParam(value="onlyAvailable", defaultValue="true") boolean onlyAvailable)
         throws Exception {
@@ -48,6 +50,7 @@ public class ProductsController {
         return product;
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/products/{id}")
     public Product getInfo(@PathVariable int id)
         throws Exception {
@@ -59,6 +62,7 @@ public class ProductsController {
         }
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/v1/products")
     public ResponseEntity addProduct(@RequestBody CreateProduct productAdd)
             throws Exception {
@@ -89,6 +93,7 @@ public class ProductsController {
         }
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @PatchMapping("/v1/products/{id}")
     public ResponseEntity patchInfo(@PathVariable int id,
                                     @RequestBody UpdateProduct change)

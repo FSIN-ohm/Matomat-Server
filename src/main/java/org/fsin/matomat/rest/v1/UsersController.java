@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.annotation.security.RolesAllowed;
+
 import static org.fsin.matomat.rest.Utils.checkIfNotNull;
 
 import java.util.List;
@@ -28,7 +30,7 @@ public class UsersController {
         return user;
     }
 
-
+    @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/users")
     public User[] users(@RequestParam(value="count", defaultValue="-1") int count,
                         @RequestParam(value="page", defaultValue="0") int page,
@@ -46,6 +48,7 @@ public class UsersController {
         return users;
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/users/{id}")
     public User user(@PathVariable("id") int id)
         throws Exception {
@@ -72,6 +75,7 @@ public class UsersController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PatchMapping("/v1/users/{id}")
     public ResponseEntity patchUser(@PathVariable int id,
             @RequestBody UpdateUser updateUser)
@@ -89,6 +93,7 @@ public class UsersController {
         }
     }
 
+    @RolesAllowed("ROLE_ADMIN")
     @DeleteMapping("/v1/users/{id}")
     public ResponseEntity deleteUser(@PathVariable int id)
         throws Exception {

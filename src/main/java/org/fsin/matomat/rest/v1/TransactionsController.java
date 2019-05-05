@@ -12,6 +12,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +50,7 @@ public class TransactionsController {
         return price;
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/transactions")
     public Transaction[] transactions(@RequestParam(value="count", defaultValue="-1") int count,
                                       @RequestParam(value="page", defaultValue="0") int page,
@@ -77,6 +79,7 @@ public class TransactionsController {
         }
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/transactions/{id}")
     public Transaction transaction(@PathVariable long id)
         throws Exception {
@@ -119,7 +122,7 @@ public class TransactionsController {
         return purchase;
     }
 
-
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/transfer")
     public ResponseEntity createTransfer(@RequestBody CreateTransfer transfer)
         throws Exception {
@@ -136,6 +139,7 @@ public class TransactionsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/deposit")
     public ResponseEntity createDeposit(@RequestBody CreateDeposit deposit)
         throws Exception {
@@ -149,6 +153,7 @@ public class TransactionsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/withdraw")
     public ResponseEntity createWithdraw(@RequestBody CreateWithdraw withdraw)
         throws Exception {
@@ -162,6 +167,7 @@ public class TransactionsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/order")
     public ResponseEntity createOrder(@RequestBody CreateOrder order)
         throws Exception {
@@ -186,7 +192,7 @@ public class TransactionsController {
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/purchase")
     public ResponseEntity createPurchase(@RequestBody CreatePurchase purchase)
         throws Exception {

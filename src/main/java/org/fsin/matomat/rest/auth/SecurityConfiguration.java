@@ -3,11 +3,16 @@ package org.fsin.matomat.rest.auth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 
 @Configuration
+@EnableGlobalMethodSecurity(
+        prePostEnabled = true,
+        securedEnabled = true,
+        jsr250Enabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Autowired
@@ -19,14 +24,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http)
         throws Exception {
         http
-                    .csrf().disable()
-                    .sessionManagement()
-                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .csrf().disable()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                    .authorizeRequests().anyRequest().authenticated()
+                .httpBasic()
                 .and()
-                    .httpBasic()
-;
+                .authorizeRequests().anyRequest().authenticated(); /*
+                .antMatchers("/v1/admins/**").hasRole("ADMIN")
+                .antMatchers("/v1/users/**").hasRole("ADMIN")
+                .antMatchers("/v1/products/**").hasRole("ADMIN")*/
     }
 
 }
