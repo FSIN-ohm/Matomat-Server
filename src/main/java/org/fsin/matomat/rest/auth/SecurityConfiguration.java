@@ -30,10 +30,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .httpBasic()
                 .and()
-                .authorizeRequests().anyRequest().authenticated(); /*
-                .antMatchers("/v1/admins/**").hasRole("ADMIN")
-                .antMatchers("/v1/users/**").hasRole("ADMIN")
-                .antMatchers("/v1/products/**").hasRole("ADMIN")*/
+                .authorizeRequests().anyRequest().authenticated();
     }
 
 }

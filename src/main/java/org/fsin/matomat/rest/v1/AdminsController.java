@@ -4,6 +4,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.AdminEntry;
 import org.fsin.matomat.rest.auth.Authenticator;
+import org.fsin.matomat.rest.auth.UserPwdTocken;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
@@ -12,9 +13,11 @@ import org.fsin.matomat.rest.model.CreateAdmin;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
+import java.security.Principal;
 import java.util.List;
 import java.util.Random;
 
@@ -54,6 +57,18 @@ public class AdminsController {
     @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/admins/{id}")
     public Admin admin(@PathVariable int id)
+        throws Exception {
+        return getAdmin(id);
+    }
+
+    @RolesAllowed("ROLE_ADMIN")
+    @RequestMapping("/v1/admins/me")
+    public Admin getMe(@AuthenticationPrincipal UserPwdTocken user)
+        throws Exception {
+        return getAdmin(user.getId());
+    }
+
+    private Admin getAdmin(int id)
         throws Exception {
         try {
             Database db = Database.getInstance();

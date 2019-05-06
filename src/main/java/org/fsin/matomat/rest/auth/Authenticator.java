@@ -24,41 +24,6 @@ public class Authenticator implements AuthenticationProvider {
     private static Authenticator authenticator = null;
     private String deviceKeyFile = null;
 
-    private enum Role {
-        USER,
-        ADMIN,
-        DEVICE
-    }
-
-    private class User {
-        public User(int id, byte[] password, byte[] salt, Role role) {
-            this.id = id;
-            this.password = password;
-            this.role = role;
-            this.salt = salt;
-        }
-
-        public int getId() {
-            return id;
-        }
-
-        public byte[] getPassword() {
-            return password;
-        }
-
-        public Role getRole() {
-            return role;
-        }
-
-        public byte[] getSalt() {
-            return salt;
-        }
-
-        private int id;
-        private byte[] password;
-        private Role role;
-        private byte[] salt;
-    }
 
     private HashMap<String, User> users = null;
 
@@ -91,17 +56,23 @@ public class Authenticator implements AuthenticationProvider {
                             new User(entry.getId(),
                                     new byte[]{},
                                     new byte[]{},
-                                    Role.USER));
+                                    User.Role.USER));
             }
 
             for(AdminEntry entry : db.adminGetAll(0, 10000000, true)) {
                 users.put(entry.getUsername(),
-                        new User(entry.getId(), entry.getPassword(), entry.getPasswordSalt(), Role.ADMIN));
+                        new User(entry.getId(),
+                                entry.getPassword(),
+                                entry.getPasswordSalt(),
+                                User.Role.ADMIN));
             }
 
             for(String[] tuple : readDeviceKeyFile(deviceKeyFile)) {
                 users.put(tuple[1],
-                        new User(-1, new byte[]{}, new byte[]{}, Role.DEVICE));
+                        new User(-1,
+                                new byte[]{},
+                                new byte[]{},
+                                User.Role.DEVICE));
             }
         } catch (Exception e) {
             throw new RuntimeException("Could not invalidate login cache", e);
@@ -113,25 +84,28 @@ public class Authenticator implements AuthenticationProvider {
         throws AuthenticationException {
         try {
             User user = users.get(authentication.getName());
-            if (user.getRole() == Role.ADMIN) {
+            if (user.getRole() == User.Role.ADMIN) {
                 String password = (String) authentication.getCredentials();
                 if (Arrays.equals(DigestUtils.sha512((new String(user.getSalt()) + password).getBytes()),
                         user.getPassword())) {
-                    return new UsernamePasswordAuthenticationToken(
+                    return new UserPwdTocken (
+                            user.getId(),
                             authentication.getName(),
                             authentication.getCredentials().toString(),
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                 }
             }
-            if(user.getRole() == Role.USER) {
-                return new UsernamePasswordAuthenticationToken(
+            if(user.getRole() == User.Role.USER) {
+                return new UserPwdTocken (
+                        user.getId(),
                         authentication.getName(),
                         authentication.getCredentials().toString(),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             }
 
-            if(user.getRole() == Role.DEVICE) {
-                return new UsernamePasswordAuthenticationToken(
+            if(user.getRole() == User.Role.DEVICE) {
+                return new UserPwdTocken (
+                        user.getId(),
                         authentication.getName(),
                         authentication.getCredentials().toString(),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_DEVICE")));

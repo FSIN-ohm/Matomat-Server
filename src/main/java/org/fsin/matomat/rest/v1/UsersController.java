@@ -3,12 +3,14 @@ package org.fsin.matomat.rest.v1;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.UserEntry;
 import org.fsin.matomat.rest.auth.Authenticator;
+import org.fsin.matomat.rest.auth.UserPwdTocken;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -52,6 +54,18 @@ public class UsersController {
     @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/users/{id}")
     public User user(@PathVariable("id") int id)
+        throws Exception {
+        return getUser(id);
+    }
+
+    @RolesAllowed("ROLE_USER")
+    @RequestMapping("/v1/users/me")
+    public User user(@AuthenticationPrincipal UserPwdTocken user)
+        throws Exception {
+        return getUser(user.getId());
+    }
+
+    private User getUser(int id)
         throws Exception {
         try {
             Database database = Database.getInstance();
