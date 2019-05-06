@@ -6,6 +6,7 @@ import org.fsin.matomat.database.model.AdminEntry;
 import org.fsin.matomat.rest.auth.Authenticator;
 import org.fsin.matomat.rest.auth.UserPwdTocken;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
 import org.fsin.matomat.rest.model.UpdateAdmin;
@@ -135,6 +136,7 @@ public class AdminsController {
     public ResponseEntity deleteAdmin(@PathVariable int id)
         throws Exception {
         try {
+            if(id <= 3) throw new BadRequestException();
             Database db = Database.getInstance();
             AdminEntry entry = db.adminGetDetail(id);
             byte[] salt = generateRandomSalt();

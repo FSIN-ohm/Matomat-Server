@@ -5,6 +5,7 @@ import org.fsin.matomat.database.model.UserEntry;
 import org.fsin.matomat.rest.auth.Authenticator;
 import org.fsin.matomat.rest.auth.UserPwdTocken;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
+import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -116,6 +117,8 @@ public class UsersController {
     public ResponseEntity deleteUser(@PathVariable int id)
         throws Exception {
         try {
+            if(id <= 3) throw new BadRequestException();
+
             Database db = Database.getInstance();
             db.userDelete(id);
             Authenticator.getInstance().invalidate();
