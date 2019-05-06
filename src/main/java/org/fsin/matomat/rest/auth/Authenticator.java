@@ -90,6 +90,7 @@ public class Authenticator implements AuthenticationProvider {
                         user.getPassword())) {
                     return new UserPwdTocken (
                             user.getId(),
+                            user.getRole(),
                             authentication.getName(),
                             authentication.getCredentials().toString(),
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
@@ -98,6 +99,7 @@ public class Authenticator implements AuthenticationProvider {
             if(user.getRole() == User.Role.USER) {
                 return new UserPwdTocken (
                         user.getId(),
+                        user.getRole(),
                         authentication.getName(),
                         authentication.getCredentials().toString(),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
@@ -106,6 +108,7 @@ public class Authenticator implements AuthenticationProvider {
             if(user.getRole() == User.Role.DEVICE) {
                 return new UserPwdTocken (
                         user.getId(),
+                        user.getRole(),
                         authentication.getName(),
                         authentication.getCredentials().toString(),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_DEVICE")));

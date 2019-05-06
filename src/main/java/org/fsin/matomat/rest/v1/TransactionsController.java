@@ -4,12 +4,16 @@ import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.dao.ProductBoughtDAO;
 import org.fsin.matomat.database.dao.TransactionDAO;
 import org.fsin.matomat.database.model.*;
+import org.fsin.matomat.rest.auth.User;
+import org.fsin.matomat.rest.auth.UserPwdTocken;
+import org.fsin.matomat.rest.exceptions.AccessDeniedException;
 import org.fsin.matomat.rest.exceptions.BadRequestException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
@@ -55,8 +59,17 @@ public class TransactionsController {
     public Transaction[] transactions(@RequestParam(value="count", defaultValue="-1") int count,
                                       @RequestParam(value="page", defaultValue="0") int page,
                                       @RequestParam(value="user", defaultValue="-1") int user,
-                                      @RequestParam(value="type", defaultValue="") String typeRaw)
+                                      @RequestParam(value="type", defaultValue="") String typeRaw,
+                                      @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
+
+        if(userToken.getRole() != User.Role.ADMIN) {
+            if(user != -1)
+                throw new AccessDeniedException();
+            else
+                user = userToken.getId();
+        }
+
         try {
             TransactionEntry.TransactionType type = TransactionDAO.getTypeFromString(typeRaw);
             Database db = Database.getInstance();
@@ -67,7 +80,7 @@ public class TransactionsController {
                     : (count == -1
                         ? db.transactionsGetAll(1, 100, type, user)
                         : db.transactionsGetAll(1+count*page, 1+count*(page+1), type, user));
-            Transaction transactions[] = new Transaction[transactionEntries.size()];
+            Transaction[] transactions = new Transaction[transactionEntries.size()];
             for(int i = 0; i < transactions.length; i++) {
                 transactions[i] = mapSimpleTransaction(transactionEntries.get(i));
             }
@@ -81,17 +94,30 @@ public class TransactionsController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @RequestMapping("/v1/transactions/{id}")
-    public Transaction transaction(@PathVariable long id)
+    public Transaction transaction(@PathVariable long id,
+                                   @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
         try {
             Database db = Database.getInstance();
             TransactionEntry entry = db.transactionGet(id);
+
+            //check if user is authorised to access this data
+            if(userToken.getRole() != User.Role.ADMIN
+                    && entry.getSenderId() != userToken.getId()
+                    && entry.getRecipientId() != userToken.getId()) {
+                throw new ResourceNotFoundException();
+                // We throw a resource not found exception here although it should be a Unauthorized.
+                // The reason we do this is to prevent users form finding out which transaction was already
+                // conducted and which was not.
+            }
+
             if(entry.getType() == TransactionEntry.TransactionType.ORDER) {
                 return order(entry, db);
             } else if(entry.getType() == TransactionEntry.TransactionType.PURCHASE) {
                 return purchase(entry, db);
             }
             return mapSimpleTransaction(entry);
+
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }
@@ -124,8 +150,14 @@ public class TransactionsController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/transfer")
-    public ResponseEntity createTransfer(@RequestBody CreateTransfer transfer)
+    public ResponseEntity createTransfer(@RequestBody CreateTransfer transfer,
+                                         @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
+        if(userToken.getRole() == User.Role.ADMIN) {
+            checkIfNotNull(transfer.getSender());
+        } else {
+            transfer.setSender(userToken.getId());
+        }
         checkIfNotNull(transfer.getAmount());
         checkIfNotNull(transfer.getReceiver());
 
@@ -141,13 +173,14 @@ public class TransactionsController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/deposit")
-    public ResponseEntity createDeposit(@RequestBody CreateDeposit deposit)
+    public ResponseEntity createDeposit(@RequestBody CreateDeposit deposit,
+                                        @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
         checkIfNotNull(deposit.getAmount());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
-        entry.setRecipientId(3);    //TODO: Make this work with the current loged in user
+        entry.setRecipientId(userToken.getId());
         entry.setAmount(new BigDecimal(deposit.getAmount() / 100.00));
         db.transactionDeposit(entry);
         return new ResponseEntity(HttpStatus.CREATED);
@@ -155,28 +188,30 @@ public class TransactionsController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/withdraw")
-    public ResponseEntity createWithdraw(@RequestBody CreateWithdraw withdraw)
+    public ResponseEntity createWithdraw(@RequestBody CreateWithdraw withdraw,
+                                         @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
         checkIfNotNull(withdraw.getAmount());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
-        entry.setSenderId(3);  //TODO: Make this work with the current loged in user
+        entry.setSenderId(userToken.getId());
         entry.setAmount(new BigDecimal(withdraw.getAmount()/100.00));
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
 
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @RolesAllowed("ROLE_ADMIN")
     @PostMapping("/v1/transactions/order")
-    public ResponseEntity createOrder(@RequestBody CreateOrder order)
+    public ResponseEntity createOrder(@RequestBody CreateOrder order,
+                                      @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
         checkIfNotNull(order.getAmount());
         checkIfNotNull(order.getOrders());
 
         Database db = Database.getInstance();
         OrderEntry entry = new OrderEntry();
-        entry.setAdminId(3);        //TODO: Make this work with the current loged in admin
+        entry.setAdminId(userToken.getId());
         entry.setAmount(new BigDecimal(order.getAmount()/100.00));
         List<OrderedProductEntry> orderedProductEntries = new ArrayList<>(order.getOrders().length);
         for(OrderedProduct op : order.getOrders()) {
@@ -194,13 +229,14 @@ public class TransactionsController {
 
     @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
     @PostMapping("/v1/transactions/purchase")
-    public ResponseEntity createPurchase(@RequestBody CreatePurchase purchase)
+    public ResponseEntity createPurchase(@RequestBody CreatePurchase purchase,
+                                         @AuthenticationPrincipal UserPwdTocken userToken)
         throws Exception {
         checkIfNotNull(purchase.getOrders());
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
-        entry.setSenderId(3); //TODO: Make this work with the current loged in user
+        entry.setSenderId(userToken.getId());
 
         List<ProductBoughtEntry> productCountEntries = new ArrayList<>(purchase.getOrders().length);
         for(ProductAmount productAmount : purchase.getOrders()) {
