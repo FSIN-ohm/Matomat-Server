@@ -3,6 +3,7 @@ package org.fsin.matomat.rest.v1;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.AdminEntry;
+import org.fsin.matomat.rest.auth.Authenticator;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.Admin;
@@ -81,6 +82,7 @@ public class AdminsController {
             entry.setPassword(hexHashPwd(createAdmin.getPassword(), salt));
 
             db.adminCreate(entry);
+            Authenticator.getInstance().invalidate();
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
         }
@@ -106,6 +108,7 @@ public class AdminsController {
             entry.setPasswordSalt(salt);
             entry.setEmail(adminChange.getEmail());
             db.adminUpdate(entry);
+            Authenticator.getInstance().invalidate();
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }
@@ -124,6 +127,7 @@ public class AdminsController {
             entry.setPasswordSalt(salt);
             entry.setAvailable(false);
             db.adminUpdate(entry);
+            Authenticator.getInstance().invalidate();
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
         }

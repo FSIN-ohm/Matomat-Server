@@ -2,6 +2,7 @@ package org.fsin.matomat.rest.v1;
 
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.UserEntry;
+import org.fsin.matomat.rest.auth.Authenticator;
 import org.fsin.matomat.rest.exceptions.AlreadyExistsException;
 import org.fsin.matomat.rest.exceptions.ResourceNotFoundException;
 import org.fsin.matomat.rest.model.*;
@@ -48,7 +49,7 @@ public class UsersController {
         return users;
     }
 
-    @RolesAllowed({"ROLE_ADMIN", "ROLE_USER"})
+    @RolesAllowed("ROLE_ADMIN")
     @RequestMapping("/v1/users/{id}")
     public User user(@PathVariable("id") int id)
         throws Exception {
@@ -60,6 +61,7 @@ public class UsersController {
         }
     }
 
+    @RolesAllowed({"ROLE_ADMIN", "ROLE_DEVICE"})
     @PostMapping("/v1/users")
     public ResponseEntity createUser(@RequestBody CreateUser userCreate)
         throws Exception {
@@ -69,6 +71,7 @@ public class UsersController {
         try {
             Database database = Database.getInstance();
             database.userCreate(userCreate.getAuth_hash().getBytes());
+            Authenticator.getInstance().invalidate();
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
         }
@@ -87,6 +90,7 @@ public class UsersController {
         try {
             Database db = Database.getInstance();
             db.userUpdate(id, updateUser.getAuth_hash().getBytes(), updateUser.getName());
+            Authenticator.getInstance().invalidate();
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();
@@ -100,6 +104,7 @@ public class UsersController {
         try {
             Database db = Database.getInstance();
             db.userDelete(id);
+            Authenticator.getInstance().invalidate();
             return new ResponseEntity(HttpStatus.OK);
         } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException();

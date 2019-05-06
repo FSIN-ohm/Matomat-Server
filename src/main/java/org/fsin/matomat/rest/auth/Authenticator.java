@@ -9,28 +9,32 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 
 @Component
 public class Authenticator implements AuthenticationProvider {
     private static Authenticator authenticator = null;
+    private String deviceKeyFile = null;
 
-    private enum Rolle {
+    private enum Role {
         USER,
-        ADMIN
+        ADMIN,
+        DEVICE
     }
 
     private class User {
-        public User(int id, byte[] password, byte[] salt, Rolle rolle) {
+        public User(int id, byte[] password, byte[] salt, Role role) {
             this.id = id;
             this.password = password;
-            this.rolle = rolle;
+            this.role = role;
             this.salt = salt;
         }
 
@@ -42,8 +46,8 @@ public class Authenticator implements AuthenticationProvider {
             return password;
         }
 
-        public Rolle getRolle() {
-            return rolle;
+        public Role getRole() {
+            return role;
         }
 
         public byte[] getSalt() {
@@ -52,22 +56,28 @@ public class Authenticator implements AuthenticationProvider {
 
         private int id;
         private byte[] password;
-        private Rolle rolle;
+        private Role role;
         private byte[] salt;
     }
 
     private HashMap<String, User> users = null;
 
-    public static Authenticator getInstance() {
-        if(authenticator == null){
+    public static void init(String keyFile) {
+        if(authenticator == null) {
             authenticator = new Authenticator();
-            authenticator.invalidate();
+        }
+        authenticator.deviceKeyFile = keyFile;
+        authenticator.invalidate();
+    }
+
+    public static Authenticator getInstance() {
+        if(authenticator == null || authenticator.deviceKeyFile == null) {
+            throw new RuntimeException("init() has not been called on authenticator");
         }
         return authenticator;
     }
 
     private Authenticator() {
-
     }
 
     public void invalidate() {
@@ -81,12 +91,17 @@ public class Authenticator implements AuthenticationProvider {
                             new User(entry.getId(),
                                     new byte[]{},
                                     new byte[]{},
-                                    Rolle.USER));
+                                    Role.USER));
             }
 
             for(AdminEntry entry : db.adminGetAll(0, 10000000, true)) {
                 users.put(entry.getUsername(),
-                        new User(entry.getId(), entry.getPassword(), entry.getPasswordSalt(), Rolle.ADMIN));
+                        new User(entry.getId(), entry.getPassword(), entry.getPasswordSalt(), Role.ADMIN));
+            }
+
+            for(String[] tuple : readDeviceKeyFile(deviceKeyFile)) {
+                users.put(tuple[1],
+                        new User(-1, new byte[]{}, new byte[]{}, Role.DEVICE));
             }
         } catch (Exception e) {
             throw new RuntimeException("Could not invalidate login cache", e);
@@ -98,7 +113,7 @@ public class Authenticator implements AuthenticationProvider {
         throws AuthenticationException {
         try {
             User user = users.get(authentication.getName());
-            if (user.getRolle() == Rolle.ADMIN) {
+            if (user.getRole() == Role.ADMIN) {
                 String password = (String) authentication.getCredentials();
                 if (Arrays.equals(DigestUtils.sha512((new String(user.getSalt()) + password).getBytes()),
                         user.getPassword())) {
@@ -108,13 +123,19 @@ public class Authenticator implements AuthenticationProvider {
                             Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN")));
                 }
             }
-            if(user.getRolle() == Rolle.USER) {
+            if(user.getRole() == Role.USER) {
                 return new UsernamePasswordAuthenticationToken(
                         authentication.getName(),
                         authentication.getCredentials().toString(),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             }
 
+            if(user.getRole() == Role.DEVICE) {
+                return new UsernamePasswordAuthenticationToken(
+                        authentication.getName(),
+                        authentication.getCredentials().toString(),
+                        Arrays.asList(new SimpleGrantedAuthority("ROLE_DEVICE")));
+            }
             return null;
         } catch (Exception e) {
             return null;
@@ -133,5 +154,22 @@ public class Authenticator implements AuthenticationProvider {
         while(input[firstNonZero] == 0
             && firstNonZero != 0) firstNonZero--;
         return Arrays.copyOfRange(input, 0, firstNonZero+1);
+    }
+
+
+    private List<String[]> readDeviceKeyFile(String fileName) {
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(fileName));
+
+            String line = "";
+            ArrayList<String[]> content = new ArrayList<>();
+            while((line = file.readLine()) != null) {
+                content.add(line.split(":"));
+            }
+            file.close();
+            return content;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
