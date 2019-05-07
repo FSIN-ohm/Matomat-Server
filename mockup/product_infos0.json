@@ -1,9 +1,0 @@
-{
-    "id": 2,
-    "name": "Cola",
-    "thumbnail": "http://www.pngmart.com/files/1/Coca-Cola-PNG-Transparent-Image.png",
-    "reorder_point": 10,
-    "barcode": "ColaTest",
-    "is_available": true,
-    "items_per_crate": 12
-}
