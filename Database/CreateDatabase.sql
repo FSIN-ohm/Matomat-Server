@@ -207,6 +207,6 @@ USE `matohmat`;
 INSERT INTO `matohmat`.`users` (`id`, `auth_hash`, `balance`, `last_seen`, `name`) VALUES (1, 0x7C211433F02071597741E6FF5A8EA34789ABBF43, 0, NOW(), 'world');
 INSERT INTO `matohmat`.`users` (`id`, `auth_hash`, `balance`, `last_seen`, `name`) VALUES (2, 0x88B0A95EA070652373AC2436EC1FB0ECB1E2F424, 0, NOW(), 'matohmat');
 INSERT INTO `matohmat`.`users` (`id`, `auth_hash`, `balance`, `last_seen`, `name`) VALUES (3, 0x4E7AFEBCFBAE200B22C7C85E5560F89A2A0280B4, 0, NOW(), 'root');
-INSERT INTO `matohmat`.`admins` (`id`, `username`, `password`, `email`, `password_salt`) VALUES (3, 'Admin', 0x1195F4253D04DF4FACBC02CB25572CD1C46AF1A0, 'fachsachft-in@th-nuernberg.de', 0xC36A23B24114C01E387B976A88687411B4BBDD7A);
+INSERT INTO `matohmat`.`admins` (`id`, `username`, `password`, `email`, `password_salt`) VALUES (3, 'Admin', 0x737101E51A67FB96616F066CF18003E7AA05CF08098645720B9E4C912067111DDD122B6A8727D1C6BA384CD2FAA66C976C2062338802F98B94CB71954AE3E80A, 'fachsachft-in@th-nuernberg.de', 0xF5F02AA4DDEF803F723C8F50177B9CFC92D4F5184F18813C04ACCBC546DFA726D0CF4BBBDB0AE441861BE9AF90D4B11390D8BE3541E03DA40A95E7EBA36221EB);
 
 COMMIT;
