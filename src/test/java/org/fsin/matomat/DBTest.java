@@ -18,7 +18,7 @@ public class DBTest {
 
     @BeforeClass
     public static void setupClass() throws Exception {
-        Database.init("127.0.0.1", "matohmat", "root", "root");
+        Database.init("127.0.0.1", "matohmat", "matomat_system", "<password_here>");
         db = Database.getInstance();
     }
 
