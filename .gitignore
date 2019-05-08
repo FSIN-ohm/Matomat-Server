@@ -3,3 +3,4 @@ out
 .idea 
 *.mbw.bak
 build
+*.tar.gz
