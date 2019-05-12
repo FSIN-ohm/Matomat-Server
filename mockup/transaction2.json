@@ -4,8 +4,8 @@
     "sender": 2,
     "receiver": 7,
     "amount": 2398,
-    "buy_cost": 2843,
     "transaction_type": "order",
+    "admin":1,
     "purchased": [
         {
             "product": 1,
