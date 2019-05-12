@@ -1,18 +1,18 @@
 package org.fsin.matomat;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.fsin.matomat.database.Database;
 import org.fsin.matomat.database.model.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import java.math.BigDecimal;
-import java.security.MessageDigest;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
 
-public class TestScenario {
+public class DBTest {
 
     static Database db;
 
@@ -59,10 +59,7 @@ public class TestScenario {
          * display transaction interleaved with their products
          */
 
-        MessageDigest sha1;
         Random rand;
-
-        sha1 = MessageDigest.getInstance("SHA1");
         rand = new Random();
 
         // create admin 1
@@ -71,10 +68,10 @@ public class TestScenario {
             admin1.setUsername("DER Admin");
             admin1.setEmail("DERadministrator@example.net");
 
-            byte[] salt = new byte[20];
+            byte[] salt = new byte[64];
             rand.nextBytes(salt);
-            admin1.setPasswordSalt(new String(salt));
-            admin1.setPassword(new String(sha1.digest((new String(salt) + "TestPassword1").getBytes())));
+            admin1.setPasswordSalt(salt);
+            admin1.setPassword(DigestUtils.sha512((new String(salt) + "TestPassword1").getBytes()));
 
             db.adminCreate(admin1);
 
@@ -92,41 +89,53 @@ public class TestScenario {
 
         // add mate, cola and bier
         {
+            PriceEntry matePrice = new PriceEntry();
             ProductEntry mate = new ProductEntry();
             mate.setName("Mate");
-            mate.setPrice(new BigDecimal(2.0));
-            mate.setReorderPoint(10);
+            matePrice.setPrice(new BigDecimal(2.0));
+            mate.setReorderPoint(40);
             mate.setAvailable(true);
             mate.setImageUrl("localhost/404");
+            mate.setItemsPerCrate(20);
+            mate.setBarcode("f848f929fjiehald");
 
-            db.productAdd(mate);
+            db.productAdd(mate, matePrice);
 
-            ProductEntry cola = new ProductEntry();
-            cola.setName("Kola");
-            cola.setPrice(new BigDecimal(1.5));
-            cola.setReorderPoint(10);
-            cola.setAvailable(true);
-            cola.setImageUrl("localhost/404");
+            PriceEntry colaPrice = new PriceEntry();
+            ProductEntry colaProduct = new ProductEntry();
+            colaProduct.setName("Kola");
+            colaPrice.setPrice(new BigDecimal(1.5));
+            colaProduct.setReorderPoint(40);
+            colaProduct.setAvailable(true);
+            colaProduct.setImageUrl("localhost/404");
+            colaProduct.setItemsPerCrate(15);
+            colaProduct.setBarcode("ifj48jafighiejaf==");
 
-            db.productAdd(cola);
+            db.productAdd(colaProduct, colaPrice);
 
-            ProductEntry bier = new ProductEntry();
-            bier.setName("Bier");
-            bier.setPrice(new BigDecimal(2.5));
-            bier.setReorderPoint(10);
-            bier.setAvailable(true);
-            bier.setImageUrl("localhost/404");
+            PriceEntry bierPrice = new PriceEntry();
+            ProductEntry bierProduct = new ProductEntry();
+            bierProduct.setName("Bier");
+            bierPrice.setPrice(new BigDecimal(2.5));
+            bierProduct.setReorderPoint(30);
+            bierProduct.setAvailable(true);
+            bierProduct.setImageUrl("localhost/404");
+            bierProduct.setItemsPerCrate(10);
+            bierProduct.setBarcode("afihgeijafsdf3fasdf=");
 
-            db.productAdd(bier);
+            db.productAdd(bierProduct, bierPrice);
 
-            ProductEntry snickers = new ProductEntry();
-            snickers.setName("Schickas");
-            snickers.setPrice(new BigDecimal(6.5));
-            snickers.setReorderPoint(10);
-            snickers.setAvailable(true);
-            snickers.setImageUrl("localhost/404");
+            PriceEntry snickersPrice = new PriceEntry();
+            ProductEntry snickersProduct = new ProductEntry();
+            snickersProduct.setName("Schickas");
+            snickersPrice.setPrice(new BigDecimal(6.5));
+            snickersProduct.setReorderPoint(10);
+            snickersProduct.setAvailable(true);
+            snickersProduct.setImageUrl("localhost/404");
+            snickersProduct.setItemsPerCrate(200);
+            snickersProduct.setBarcode("if84hg8498e8jf8j8");
 
-            db.productAdd(snickers);
+            db.productAdd(snickersProduct, snickersPrice);
 
         }
 
@@ -140,25 +149,24 @@ public class TestScenario {
             user1 = db.userAuthenticate( user1.getAuthHash() );
 
             // deposit
-            TransferEntry deposit = new TransferEntry();
+            TransactionEntry deposit = new TransactionEntry();
             deposit.setRecipientId(user1.getId());
-            deposit.setCharged_amount(new BigDecimal(10.0));
+            deposit.setAmount(new BigDecimal(10.0));
             db.transactionDeposit(deposit);
 
-            // purchase
-            Purchase purchase = new Purchase();
+            // purchaseEntry
+            TransactionEntry purchaseEntry = new TransactionEntry();
 
-            purchase.setSenderId(user1.getId());
+            purchaseEntry.setSenderId(user1.getId());
 
-            PurchaseEntry product1 = new PurchaseEntry();
-            product1.setProductsId(1);
+            ProductBoughtEntry product1 = new ProductBoughtEntry();
+            product1.setProductId(1);
             product1.setCount(3);
 
-            List<PurchaseEntry> products = new ArrayList<PurchaseEntry>();
+            List<ProductBoughtEntry> products = new ArrayList<>();
             products.add(product1);
-            purchase.setProducts(products);
 
-            db.transactionPurchase(purchase);
+            db.transactionPurchase(purchaseEntry, products);
         }
 
         // create user 2
@@ -195,52 +203,38 @@ public class TestScenario {
             System.out.println("\nAdmins");
             System.out.println("=======================================");
             System.out.println("ID\tUsername\teMail\t\tUserID");
-            for (AdminEntry admin : db.adminGetAll() ) {
+            for (AdminEntry admin : db.adminGetAll(1, 100000, true)) {
                 System.out.print(admin.getId());
                 System.out.print("\t");
                 System.out.print(admin.getUsername());
                 System.out.print("\t");
                 System.out.print(admin.getEmail());
-                System.out.print("\t");
-                System.out.println(admin.getCorespondingUserId());
             }
 
             System.out.println("\nAll Products");
             System.out.println("=======================================");
             System.out.println("ID\tPrice\tName\tReorder\tVerfügbar\tImage");
-            for (ProductEntry product : db.productsGetAll() ) {
-                System.out.print(product.getId());
+            for (PriceEntry price : db.pricesGetAll() ) {
+                System.out.print(price.getId());
                 System.out.print("\t");
-                System.out.print(product.getPrice());
+                System.out.print(price.getPrice());
                 System.out.print("\t");
-                System.out.print(product.getName());
-                System.out.print("\t");
-                System.out.print(product.getReorderPoint());
-                System.out.print("\t");
-                System.out.print(product.isAvailable() ? "Ja":"Nein");
-                System.out.print("\t");
-                System.out.println(product.getImageUrl());
             }
 
             System.out.println("\nAll Products");
             System.out.println("=======================================");
             System.out.println("ID\tPrice\tName\tReorder\tImage");
-            for (ProductEntry product : db.productsGetActive() ) {
-                System.out.print(product.getId());
+            for (PriceEntry price : db.pricesGetAll()) {
+                System.out.print(price.getId());
                 System.out.print("\t");
-                System.out.print(product.getPrice());
+                System.out.print(price.getPrice());
                 System.out.print("\t");
-                System.out.print(product.getName());
-                System.out.print("\t");
-                System.out.print(product.getReorderPoint());
-                System.out.print("\t\t");
-                System.out.println(product.getImageUrl());
             }
 
             System.out.println("\nUsers");
             System.out.println("=======================================");
             System.out.println("ID\tLast Seen\tBalance");
-            for (UserEntry user : db.usersGetAll() ) {
+            for (UserEntry user : db.usersGetAll(0, 100000, false) ) {
                 System.out.print(user.getId());
                 System.out.print("\t");
                 System.out.print(user.getLastSeen());
@@ -251,7 +245,9 @@ public class TestScenario {
             System.out.println("\nTransactions");
             System.out.println("=======================================");
             System.out.println("ID\tDate\t\tSender\tReciever\tTotal");
-            for (TransactionEntry transaction : db.transactionsGetAll() ) {
+            for (TransactionEntry transaction : db.transactionsGetAll(1,
+                    100,
+                    TransactionEntry.TransactionType.ANY) ) {
                 System.out.print(transaction.getId());
                 System.out.print("\t");
                 System.out.print(transaction.getDate());
@@ -261,28 +257,8 @@ public class TestScenario {
                 System.out.print(transaction.getRecipientId());
                 System.out.print("\t\t\t");
                 System.out.println(transaction.getAmount());
-
-                for (PurchaseEntry product : db.transactionGetProducts(transaction.getId() ) ) {
-                    System.out.println("\t\t----------------------------------------");
-                    System.out.println("\t\t|ID\tName\t\tPrice\tCount\tImege Url");
-                    System.out.print("\t\t|");
-                    System.out.print(product.getProductsId());
-                    System.out.print("\t");
-                    System.out.print(product.getName());
-                    System.out.print("\t\t");
-                    System.out.print(product.getPrice());
-                    System.out.print("\t");
-                    System.out.print(product.getCount());
-                    System.out.print("\t");
-                    System.out.println(product.getImage_url());
-                    System.out.println("\t\t----------------------------------------");
-                }
             }
 
-
-            //db.transactionsGetAll();
-
-            // list all the things
         }
     }
 }

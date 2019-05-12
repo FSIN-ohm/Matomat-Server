@@ -7,6 +7,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 
 import java.sql.Connection;
 import java.util.List;
+import java.util.Random;
 
 public class Database {
 
@@ -38,6 +39,10 @@ public class Database {
 
     /* ********** Users **********/
 
+    public List<UserEntry> usersGetAll(int from, int to, boolean onlyAvailable) {
+        return new UsersDAO(template).getAll(from, to, onlyAvailable);
+    }
+
     /**
      * Create a user
      * @param authHash the users authentication hash
@@ -48,28 +53,42 @@ public class Database {
         new UsersDAO(template).addUser(user);
     }
 
+    /**
+     * Update a user
+     * @param authHash the users authentication hash
+     **/
+    public void userUpdate(int id, byte[] authHash, String name){
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAuthHash(authHash);
+        entry.setName(name);
+        dao.updateUser(entry);
+    }
+
+    public void userDelete(int id) {
+        UsersDAO dao = new UsersDAO(template);
+        UserEntry entry = dao.getUser(id);
+        entry.setAvailable(false);
+        entry.setAuthHash(generateRandomBinary());
+        dao.updateUser(entry);
+    }
+
     /** Authenticate a user by his hash
-     * If the user does not exist it is created
      * @param authHash the users authentication hash value
      * @return the users id
      */
-    public UserEntry userAuthenticate(byte[] authHash){
+    public UserEntry userAuthenticate(byte[] authHash) throws Exception {
+        return new UsersDAO(template).getUser(authHash);
+    }
 
-        UserEntry user = null;
-
-        try {
-            user = new UsersDAO(template).getUser(authHash);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-
-        return user;
+    public UserEntry getUser(int id) {
+        return new UsersDAO(template).getUser(id);
     }
 
     /* ********** Admins **********/
 
-    public List<AdminEntry> adminGetAll() {
-        return new AdminDAO(template).getAll();
+    public List<AdminEntry> adminGetAll(int from, int to, boolean onlyAvailable) {
+        return new AdminDAO(template).getAll(from, to, onlyAvailable);
     }
 
     /**
@@ -100,89 +119,105 @@ public class Database {
      * @param id id of the admin
      * @return details for the admin
      */
-    public AdminEntry adminGetDetail(int id){ return null; }
+    public AdminEntry adminGetDetail(int id) {
+        return new AdminDAO(template).getAdmin(id);
+    }
+
+    public void adminUpdate(AdminEntry detail) {
+        new AdminDAO(template).updateAdmin(detail);
+    }
 
     /* ********** Products **********/
 
-    /**
-     * add a new product
-     * @param product details for the product
-     */
-    public void productAdd(ProductEntry product){
-        new ProductDAO(template).addProduct(product);
+    public void productAdd(ProductEntry productEntry, PriceEntry priceEntry){
+        new ProductDAO(template).addProduct(productEntry, priceEntry);
     }
 
     /**
      * Change detail of a product
-     * Checks if the the price or other details have changed and performs the appropriate action.
      * @param changedProduct
      */
     public void productUpdate(ProductEntry changedProduct){
-        ProductEntry currentProduct = productGetDetail(changedProduct.getId());
-        if(changedProduct.getPrice() == currentProduct.getPrice()){
-            new ProductDAO(template).updatePrice(changedProduct);
-        }
         new ProductDAO(template).updateProduct(changedProduct);
     }
 
-    /**
-     * Get all existing products
-     * Includes inactive products
-     * @return List of products
-     */
-    public List<ProductEntry> productsGetAll() {
-        return new ProductDAO(template).getAll();
+    public void productPriceUpdate(ProductEntry product) {
+        new ProductDAO(template).updatePrice(product);
     }
 
-    /**
-     * Get All products currently on offer
-     * Excludes all inactive products
-     * @return List of products
-     */
-    public List<ProductEntry> productsGetActive(){
-        return new ProductDAO(template).getActive();
+    public List<PriceEntry> pricesGetAll() {
+        return new PriceDAO(template).getAll();
     }
 
-    /**
-     * Get detail for a Product
-     * @param id id of the product
-     * @return Detail of the product
-     */
-    public ProductEntry productGetDetail(int id){
-        return new ProductDAO(template).getDetail(id);
+    public List<ProductEntry> productsGetAll(boolean onlyAvailable) {
+        return new ProductDAO(template).getAll(onlyAvailable);
+    }
+
+    public ProductEntry productDetailGetById(int id) {
+        return new ProductDAO(template).getById(id);
+    }
+
+    public PriceEntry productsGetById(int id) {
+        return new PriceDAO(template).getById(id);
     }
 
     /* ********** Transactions **********/
 
 
-    public void transactionPurchase(Purchase purchase){
-        new TransactionDAO(template).addPurchase(purchase);
+    public void transactionPurchase(TransactionEntry purchaseEntry, List<ProductBoughtEntry> products){
+        new TransactionDAO(template).addPurchase(purchaseEntry, products);
     }
 
-    public void transactionDeposit(TransferEntry deposit){
+    public void transactionDeposit(TransactionEntry deposit){
         new TransactionDAO(template).addDeposit(deposit);
     }
 
-    public void transactionWithdraw(TransferEntry withdraw){
+    public void transactionWithdraw(TransactionEntry withdraw){
         new TransactionDAO(template).addWithdraw(withdraw);
     }
 
-    public void transactionTransfer(TransferEntry transfer){
-        new TransferDAO(template).addTransfare(transfer);
+    public void transactionTransfer(TransactionEntry transfer){
+        new TransactionDAO(template).addTransfer(transfer);
     }
 
-    public void transactionOrder(Order order){
-        new TransactionDAO(template).addOrder(order);
+    public void transactionOrder(OrderEntry orderEntry, List<OrderedProductEntry> products){
+        new TransactionDAO(template).addOrder(orderEntry, products);
     }
 
-    public List<TransactionEntry> transactionsGetAll(){ return new TransactionDAO(template).getAll(); }
+    public List<TransactionEntry> transactionsGetAll(long from, long to, TransactionEntry.TransactionType type){
+        return new TransactionDAO(template).getAll(from, to, type);
+    }
 
-    public List<PurchaseEntry> transactionGetProducts(int TransactionId){ return new TransactionDAO(template).getProducts(TransactionId); }
+    public List<TransactionEntry> transactionsGetAll(long from, long to, TransactionEntry.TransactionType type, int user){
+        return new TransactionDAO(template).getAll(from, to, type, user);
+    }
 
-    public List<UserEntry> usersGetAll() { return new UsersDAO(template).getAll();
+    public TransactionEntry transactionGet(long id) {
+        return new TransactionDAO(template).getTransaction(id);
+    }
+
+    public List<ProductBoughtEntry> purchaseGetProducts(TransactionEntry purchase) {
+        return new ProductBoughtDAO(template).getByPurchase(purchase);
+    }
+
+    public OrderEntry orderGet(long id) {
+        return new OrderDAO(template).getOrder(id);
+    }
+
+    public List<OrderedProductEntry> orderGetProducts(OrderEntry order) {
+        return new OrderDAO(template).getOrderedProducts(order);
     }
 
     public JdbcTemplate getTemplate() {
         return template;
+    }
+
+
+    /***************** UTILS **************************/
+
+    private byte[] generateRandomBinary() {
+        byte[] array = new byte[20]; // length is bounded by 7
+        new Random().nextBytes(array);
+        return array;
     }
 }

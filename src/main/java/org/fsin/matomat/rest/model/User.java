@@ -1,11 +1,11 @@
 package org.fsin.matomat.rest.model;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 public class User {
     private long id;
     private int balance;
-    private Date last_seen;
+    private LocalDateTime last_seen;
     private boolean available;
     private String name;
 
@@ -25,14 +25,6 @@ public class User {
         this.balance = balance;
     }
 
-    public Date getLast_seen() {
-        return last_seen;
-    }
-
-    public void setLast_seen(Date last_seen) {
-        this.last_seen = last_seen;
-    }
-
     public boolean isAvailable() {
         return available;
     }
@@ -47,5 +39,13 @@ public class User {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public LocalDateTime getLast_seen() {
+        return last_seen;
+    }
+
+    public void setLast_seen(LocalDateTime last_seen) {
+        this.last_seen = last_seen;
     }
 }

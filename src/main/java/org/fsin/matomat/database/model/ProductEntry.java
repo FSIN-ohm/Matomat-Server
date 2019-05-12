@@ -1,22 +1,25 @@
 package org.fsin.matomat.database.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
 
 public class ProductEntry {
-    private Integer id;
+    private int id;
     private String name;
-    private BigDecimal price;
     private String imageUrl;
-    private Integer reorderPoint;
-    private boolean isAvailable;
+    private int reorderPoint;
+    private boolean available;
     private String barcode;
-    private Integer itemsPerCrate;
+    private int itemsPerCrate;
+    private int stock;
+    private Timestamp valid_date;
+    private BigDecimal price;
 
-    public Integer getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -28,14 +31,6 @@ public class ProductEntry {
         this.name = name;
     }
 
-    public BigDecimal getPrice() {
-        return price;
-    }
-
-    public void setPrice(BigDecimal price) {
-        this.price = price;
-    }
-
     public String getImageUrl() {
         return imageUrl;
     }
@@ -44,20 +39,20 @@ public class ProductEntry {
         this.imageUrl = imageUrl;
     }
 
-    public Integer getReorderPoint() {
+    public int getReorderPoint() {
         return reorderPoint;
     }
 
-    public void setReorderPoint(Integer reorderPoint) {
+    public void setReorderPoint(int reorderPoint) {
         this.reorderPoint = reorderPoint;
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return available;
     }
 
     public void setAvailable(boolean available) {
-        isAvailable = available;
+        this.available = available;
     }
 
     public String getBarcode() {
@@ -68,11 +63,35 @@ public class ProductEntry {
         this.barcode = barcode;
     }
 
-    public Integer getItemsPerCrate() {
+    public int getItemsPerCrate() {
         return itemsPerCrate;
     }
 
-    public void setItemsPerCrate(Integer itemsPerCrate) {
+    public void setItemsPerCrate(int itemsPerCrate) {
         this.itemsPerCrate = itemsPerCrate;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public Timestamp getValid_date() {
+        return valid_date;
+    }
+
+    public void setValidDate(Timestamp valid_date) {
+        this.valid_date = valid_date;
+    }
+
+    public BigDecimal getPrice() {
+        return price;
+    }
+
+    public void setPrice(BigDecimal price) {
+        this.price = price;
     }
 }

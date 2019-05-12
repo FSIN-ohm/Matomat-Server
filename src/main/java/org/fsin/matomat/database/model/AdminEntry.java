@@ -1,13 +1,16 @@
 package org.fsin.matomat.database.model;
 
+import java.sql.Timestamp;
+
 public class AdminEntry {
-    private Integer id;
+    private int id;
     private String username;
-    private String password;
+    private byte[] password;
+    private byte[] passwordSalt;
     private String email;
-    private String passwordSalt;
-    private int corespondingUserId;
     private boolean isAvailable;
+    private Timestamp lastSeen;
+    private int balance;
 
     public Integer getId() {
         return id;
@@ -25,13 +28,6 @@ public class AdminEntry {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getEmail() {
         return email;
@@ -41,27 +37,43 @@ public class AdminEntry {
         this.email = email;
     }
 
-    public String getPasswordSalt() {
-        return passwordSalt;
-    }
-
-    public void setPasswordSalt(String passwordSalt) {
-        this.passwordSalt = passwordSalt;
-    }
-
-    public int getCorespondingUserId() {
-        return corespondingUserId;
-    }
-
-    public void setCorespondingUserId(int corespondingUserId) {
-        this.corespondingUserId = corespondingUserId;
-    }
-
     public boolean isAvailable() {
         return isAvailable;
     }
 
     public void setAvailable(boolean available) {
         isAvailable = available;
+    }
+
+    public Timestamp getLastSeen() {
+        return lastSeen;
+    }
+
+    public void setLastSeen(Timestamp lastSeen) {
+        this.lastSeen = lastSeen;
+    }
+
+    public int getBalance() {
+        return balance;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
+    public byte[] getPassword() {
+        return password;
+    }
+
+    public void setPassword(byte[] password) {
+        this.password = password;
+    }
+
+    public byte[] getPasswordSalt() {
+        return passwordSalt;
+    }
+
+    public void setPasswordSalt(byte[] passwordSalt) {
+        this.passwordSalt = passwordSalt;
     }
 }

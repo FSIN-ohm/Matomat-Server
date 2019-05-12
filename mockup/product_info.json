@@ -1,0 +1,52 @@
+[
+    {
+        "id": 1,
+        "name": "Mate",
+        "price": 120,
+        "thumbnail": "https://cdn.shopify.com/s/files/1/0015/6198/5097/products/club_mate_dc594378-e79a-403e-bca7-bf9e77bb97bd_300x300.png?v=1549710927",
+        "reorder_point": 10,
+        "barcode": "MateTest",
+        "is_available": true,
+        "items_per_crate": 12
+    },
+    {
+        "id": 2,
+        "name": "Cola",
+        "price": 140,
+        "thumbnail": "https://png.pngtree.com/png_detail/18/09/10/pngtree-coca-cola-png-clipart_1897638.jpg",
+        "reorder_point": 10,
+        "barcode": "ColaTest",
+        "is_available": true,
+        "items_per_crate": 12
+    },
+    {
+        "id": 3,
+        "name": "Snickers",
+        "price": 70,
+        "thumbnail": "https://icon2.kisspng.com/20180323/jgw/kisspng-ice-cream-mars-bounty-twix-snickers-snickers-5ab4ebd4eade70.369264651521806292962.jpg",
+        "reorder_point": 14,
+        "barcode": "SnickersTest",
+        "is_available": true,
+        "items_per_crate": 20
+    },
+    {
+        "id": 4,
+        "name": "Bier",
+        "price": 180,
+        "thumbnail": "https://banner2.kisspng.com/20180310/twq/kisspng-beer-germany-australia-ale-german-flag-beer-5aa447c88104a6.8225440015207157205285.jpg",
+        "reorder_point": 20,
+        "barcode": "BierTest",
+        "is_available": true,
+        "items_per_crate": 12
+    },
+    {
+        "id": 5,
+        "name": "Center Shock",
+        "price": 10,
+        "thumbnail": "https://skills-shop.ch/wp-content/uploads/2018/10/Centershocks-Splashing-Cola-600x450.png",
+        "reorder_point": 13,
+        "barcode": "CenterShockTest",
+        "is_available": true,
+        "items_per_crate": 15
+    }
+]

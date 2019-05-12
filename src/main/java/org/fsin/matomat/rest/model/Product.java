@@ -1,14 +1,18 @@
 package org.fsin.matomat.rest.model;
 
+import java.time.LocalDateTime;
+
 public class Product {
     private int id;
     private String name;
-    private int price;
     private String thumbnail;
     private int reorder_point;
     private String barcode;
     private boolean is_available;
     private int items_per_crate;
+    private int price;
+    private LocalDateTime valid_date;
+    private int stock;
 
     public int getId() {
         return id;
@@ -24,14 +28,6 @@ public class Product {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public int getPrice() {
-        return price;
-    }
-
-    public void setPrice(int price) {
-        this.price = price;
     }
 
     public String getThumbnail() {
@@ -72,5 +68,29 @@ public class Product {
 
     public void setItems_per_crate(int items_per_crate) {
         this.items_per_crate = items_per_crate;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public LocalDateTime getValid_date() {
+        return valid_date;
+    }
+
+    public void setValid_date(LocalDateTime valid_date) {
+        this.valid_date = valid_date;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
     }
 }

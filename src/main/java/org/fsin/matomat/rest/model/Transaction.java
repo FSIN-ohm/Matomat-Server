@@ -10,6 +10,19 @@ public class Transaction {
     private int amount;
     private String transaction_type;
 
+    public Transaction() {
+
+    }
+
+    public Transaction(Transaction t) {
+        this.id = t.id;
+        this.date = t.date;
+        this.sender = t.sender;
+        this.receiver = t.receiver;
+        this.amount = t.amount;
+        this.transaction_type = t.transaction_type;
+    }
+
     public int getId() {
         return id;
     }

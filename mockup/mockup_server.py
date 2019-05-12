@@ -57,10 +57,10 @@ def admins0():
 ##### PRODUCTS #####
 
 @app.route("/v1/products", methods=["GET", "POST"])
-def products():
+def prices():
     return returnFileOnGet("products.json")
 
-@app.route("/v1/products/0", methods=["GET", "PATCH", "DELETE"])
+@app.route("/v1/prices/0", methods=["GET", "PATCH", "DELETE"])
 def product0():
     return returnFileOnGet("product0.json")
 
@@ -85,6 +85,10 @@ def transactions2():
 @app.route("/v1/transactions/3")
 def transactions3():
     return returnFileOnGet("transaction3.json")
+
+@app.route("/v1/product_infos")
+def productinfo():
+    return returnFileOnGet("product_info.json")
 
 if __name__ == '__main__':
     app.run(debug=True)

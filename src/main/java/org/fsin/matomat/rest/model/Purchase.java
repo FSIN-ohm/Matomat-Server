@@ -1,13 +1,17 @@
 package org.fsin.matomat.rest.model;
 
 public class Purchase extends Transaction {
-    private Product[] products;
+    private ProductCountPrice[] purchased;
 
-    public Product[] getProducts() {
-        return products;
+    public Purchase(Transaction t) {
+        super(t);
     }
 
-    public void setProducts(Product[] products) {
-        this.products = products;
+    public ProductCountPrice[] getPurchased() {
+        return purchased;
+    }
+
+    public void setPurchased(ProductCountPrice[] purchased) {
+        this.purchased = purchased;
     }
 }
