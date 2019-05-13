@@ -38,6 +38,8 @@ public class Main {
             Authenticator.init(deviceKeys);
         } catch (Exception e) {
             e.printStackTrace();
+            //quit if we can not reach the database. let docker restart the server
+            System.exit(1);
         }
 
         SpringApplication.run(Main.class, argv);
