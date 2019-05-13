@@ -188,7 +188,7 @@ CREATE TABLE IF NOT EXISTS `matohmat`.`ordered_products` (
     ON UPDATE NO ACTION)
 ENGINE = InnoDB;
 
-CREATE USER 'matomat_system' IDENTIFIED BY '<password_here>';
+CREATE USER 'matomat_system' IDENTIFIED BY 'password_here';
 
 GRANT EXECUTE ON `matohmat`.* TO 'matomat_system'@'%';
 GRANT SELECT, INSERT, TRIGGER ON TABLE `matohmat`.* TO 'matomat_system';
