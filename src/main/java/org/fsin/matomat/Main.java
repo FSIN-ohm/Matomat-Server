@@ -11,8 +11,13 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class Main {
-    String origin = "";
+    static String[] origins = new String[]{};
 
+    /**
+     * In order to develop and test the server you will want to put certain parameters in the run configuration:
+     * 127.0.0.1 matohmat matomat_system password_here device_keys.txt null
+     * @param argv for debuging should be "127.0.0.1 matohmat matomat_system password_here device_keys.txt null"
+     */
     public static void main(String[] argv) {
         if(argv.length < 6) {
             System.err.println("Server can not start up as not all required parameters are given. \n" +
@@ -25,11 +30,11 @@ public class Main {
         String dbUser = argv[2];
         String dbPwd = argv[3];
         String deviceKeys = argv[4];
-        String origin = argv[5];
+        origins = argv[5].split(":");
 
         try{
-            Database.init("127.0.0.1", "matohmat", "matomat_system", "password_here");
-            //Database.init(dbHost, schema, dbUser, dbPwd);
+            //Database.init("127.0.0.1", "matohmat", "matomat_system", "password_here");
+            Database.init(dbHost, schema, dbUser, dbPwd);
             Authenticator.init(deviceKeys);
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,9 +48,8 @@ public class Main {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                //registry.addMapping("/").allowedOrigins(origin);
                 registry.addMapping("/**")
-                        .allowedOrigins("http://localhost:8080", "null")
+                        .allowedOrigins(origins)
                         .allowedMethods("POST", "GET", "OPTIONS", "DELETE", "PATCH");
             }
         };
