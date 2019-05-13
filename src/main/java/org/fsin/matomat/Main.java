@@ -30,7 +30,7 @@ public class Main {
         String dbUser = argv[2];
         String dbPwd = argv[3];
         String deviceKeys = argv[4];
-        origins = argv[5].split(":");
+        origins = argv[5].split("::");
 
         try{
             //Database.init("127.0.0.1", "matohmat", "matomat_system", "password_here");
