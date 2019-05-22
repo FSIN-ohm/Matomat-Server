@@ -16,7 +16,7 @@ public class Main {
     /**
      * In order to develop and test the server you will want to put certain parameters in the run configuration:
      * 127.0.0.1 matohmat matomat_system password_here device_keys.txt null
-     * @param argv for debuging should be "127.0.0.1 matohmat matomat_system password_here device_keys.txt null"
+     * @param argv for debuging should be "127.0.0.1 matohmat matomat_system password_here device_keys.txt null /"
      */
     public static void main(String[] argv) {
         if(argv.length < 6) {
@@ -25,11 +25,12 @@ public class Main {
                     "<ip/host name of db> <db schema> <db user> <db password> <device_kes_file> <CORS origin>");
             System.exit(1);
         }
-        String dbHost = argv[0];
-        String schema = argv[1];
-        String dbUser = argv[2];
-        String dbPwd = argv[3];
-        String deviceKeys = argv[4];
+        final String dbHost = argv[0];
+        final String schema = argv[1];
+        final String dbUser = argv[2];
+        final String dbPwd = argv[3];
+        final String deviceKeys = argv[4];
+        final String contextPath = argv[5];
         origins = argv[5].split("::");
 
         try{
@@ -42,6 +43,7 @@ public class Main {
             System.exit(1);
         }
 
+        System.setProperty("server.servlet.context-path", contextPath);
         SpringApplication.run(Main.class, argv);
     }
 
