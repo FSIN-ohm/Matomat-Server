@@ -19,31 +19,35 @@ public class Main {
      * @param argv for debuging should be "127.0.0.1 matohmat matomat_system password_here device_keys.txt null /"
      */
     public static void main(String[] argv) {
-        if(argv.length < 6) {
-            System.err.println("Server can not start up as not all required parameters are given. \n" +
-                    "The Parameters have to be: \n" +
-                    "<ip/host name of db> <db schema> <db user> <db password> <device_kes_file> <CORS origin>");
-            System.exit(1);
+        final String configFile;
+        if(argv.length != 1) {
+            System.err.println("In order to start the server you need to provide a location for the config file.");
+            configFile = "./server.conf";
+        } else {
+            configFile = argv[0];
         }
-        final String dbHost = argv[0];
-        final String schema = argv[1];
-        final String dbUser = argv[2];
-        final String dbPwd = argv[3];
-        final String deviceKeys = argv[4];
-        origins = argv[5].split("::");
-        final String contextPath = argv[6];
 
         try{
-            //Database.init("127.0.0.1", "matohmat", "matomat_system", "password_here");
+            Configurator.init(configFile);
+            Configurator conf = Configurator.getInstance();
+            final String dbHost = conf.getValueString("db_host");
+            final String schema = conf.getValueString("db_schema");
+            final String dbUser = conf.getValueString("db_user");
+            final String dbPwd = conf.getValueString("db_password");
+            final String deviceKeys = conf.getValueString("device_keys_file");
+            origins = conf.getValueString("origin").split(";;");
+            final String contextPath = conf.getValueString("context_path");
             Database.init(dbHost, schema, dbUser, dbPwd);
             Authenticator.init(deviceKeys);
+
+            System.setProperty("server.servlet.context-path", contextPath);
         } catch (Exception e) {
             e.printStackTrace();
+            System.err.println("Could not init server. Maybe the configuration is not correct.");
             //quit if we can not reach the database. let docker restart the server
             System.exit(1);
         }
 
-        System.setProperty("server.servlet.context-path", contextPath);
         SpringApplication.run(Main.class, argv);
     }
 
