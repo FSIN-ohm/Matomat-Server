@@ -1,0 +1,8 @@
+Hello this is Fsin Matohmat,
+
+aparently <{product}> is below reorderpoint.
+Order this amount of crates as soon as possible:
+
+<{product_crate_list}>
+
+rgds Matohmat
