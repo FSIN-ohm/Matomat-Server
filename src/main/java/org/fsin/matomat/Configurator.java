@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class Configurator {
-    private static Configurator config = null;
+    private static volatile Configurator config = null;
 
     private final HashMap<String, String> configuration;
 
@@ -26,14 +26,24 @@ public class Configurator {
     }
 
     public String getValueString(String key) {
+        if(configuration.get(key) == null)
+            throw new RuntimeException(key + " not knwon");
         return configuration.get(key);
     }
 
     public int getValueInt(String key) {
         try {
-            return Integer.getInteger(configuration.get(key));
+            return Integer.valueOf(getValueString(key));
         } catch (NumberFormatException nfe) {
             throw new RuntimeException(key + " is no number", nfe);
+        }
+    }
+
+    public boolean getValueBool(String key) {
+        try {
+            return getValueString(key).toLowerCase().equals("true");
+        } catch (Exception e) {
+            throw new RuntimeException(key + " could not be identified as boolean", e);
         }
     }
 

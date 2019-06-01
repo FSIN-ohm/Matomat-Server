@@ -2,6 +2,7 @@ package org.fsin.matomat;
 
 import org.fsin.matomat.database.Database;
 
+import org.fsin.matomat.inventory_watch.Mailer;
 import org.fsin.matomat.rest.auth.Authenticator;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -47,6 +48,9 @@ public class Main {
             //quit if we can not reach the database. let docker restart the server
             System.exit(1);
         }
+
+        Mailer mailer = new Mailer();
+        mailer.sendMessage("chris.schabesberger@mailbox.org", "gurken");
 
         SpringApplication.run(Main.class, argv);
     }
