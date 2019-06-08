@@ -204,8 +204,13 @@ public class Database {
         return new OrderDAO(template).getOrder(id);
     }
 
+
     public List<OrderedProductEntry> orderGetProducts(OrderEntry order) {
         return new OrderDAO(template).getOrderedProducts(order);
+    }
+
+    public List<OrderedProductEntry> orderGetAverageOrProductsPerOrder() {
+        return new OrderDAO(template).getAverageOfProductPerOrder();
     }
 
     public JdbcTemplate getTemplate() {

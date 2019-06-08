@@ -16,7 +16,7 @@ import java.util.Properties;
 
 public class Mailer {
 
-    public class CratesPerProduct {
+    public static class CratesPerProduct {
         String product;
         int crates;
 
@@ -43,7 +43,7 @@ public class Mailer {
                 });
     }
 
-    public void sendReorderMessage(String productOutOfStock, CratesPerProduct[] cratesPerProduct) {
+    public void sendReorderMessage(String productOutOfStock, CratesPerProduct[] cratesLeft) {
         try {
             Database db = Database.getInstance();
             List<AdminEntry> admins = db.adminGetAll(0, 10000, true);
@@ -51,7 +51,7 @@ public class Mailer {
 
             String message = buildMessage(
                     loadTemplate(config.getValueString("mail_template_file")),
-                    productOutOfStock, cratesPerProduct);
+                    productOutOfStock, cratesLeft);
 
             String subject = config.getValueString("mail_subject")
                     .replace("<{product}>", productOutOfStock);
@@ -89,17 +89,17 @@ public class Mailer {
         }
     }
 
-    private String buildMessage(String template, String product, CratesPerProduct[] cratesPerProduct) {
+    private String buildMessage(String template, String product, CratesPerProduct[] cratesLeft) {
 
         StringBuilder productCrateList = new StringBuilder();
-        for(CratesPerProduct cpp : cratesPerProduct) {
+        for(CratesPerProduct cpp : cratesLeft) {
             productCrateList.append(cpp.getProduct());
             productCrateList.append(":\t");
             productCrateList.append(cpp.getCrates());
             productCrateList.append("\n");
         }
         return template.replace("<{product}>", product)
-                .replace("<{product_crate_list}>", productCrateList.toString());
+                .replace("<{crates_left_list}>", productCrateList.toString());
     }
 
     private void sendMessage(String recipient, String mesg, String subject) {

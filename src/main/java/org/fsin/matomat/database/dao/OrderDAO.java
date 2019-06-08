@@ -41,4 +41,8 @@ public class OrderDAO {
     public List<OrderedProductEntry> getOrderedProducts(OrderEntry order) {
         return template.query("select * from ordered_products where order_transaction_id = ?", orderedProductsRowMapper, order.getId());
     }
+
+    public List<OrderedProductEntry> getAverageOfProductPerOrder() {
+        return template.query("SELECT product_id, AVG(count) as count FROM ordered_products GROUP BY product_id;", orderedProductsRowMapper);
+    }
 }
