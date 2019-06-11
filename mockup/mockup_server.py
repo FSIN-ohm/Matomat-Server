@@ -86,6 +86,27 @@ def transactions2():
 def transactions3():
     return returnFileOnGet("transaction3.json")
 
+@app.runtime("/v1/transactions/transfer", methods=["POST"]
+def transactionTransfer():
+    return returnFileOnGet("");
+
+@app.runtime("/v1/transactions/deposit", methods=["POST"]
+def transactionDeposit():
+    return returnFileOnGet("");
+
+@app.runtime("/v1/transactions/withdraw", methods=["POST"]
+def transactionWithdraw():
+    return returnFileOnGet("");
+
+@app.runtime("/v1/transactions/order", methods=["POST"]
+def transactionOrder():
+    return returnFileOnGet("");
+
+@app.runtime("/v1/transactions/purchases", methods=["POST"]
+def transactionPurchases():
+    return returnFileOnGet("");
+
+
 if __name__ == '__main__':
     app.run(debug=True)
 
