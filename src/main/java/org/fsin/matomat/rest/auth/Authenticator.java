@@ -84,6 +84,9 @@ public class Authenticator implements AuthenticationProvider {
         throws AuthenticationException {
         try {
             User user = users.get(authentication.getName().substring(0,20));
+            if(user == null) {
+                user = users.get(authentication.getName());
+            }
             if (user.getRole() == User.Role.ADMIN) {
                 String password = (String) authentication.getCredentials();
                 if (Arrays.equals(DigestUtils.sha512((new String(user.getSalt()) + password).getBytes()),
