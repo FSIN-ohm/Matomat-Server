@@ -85,7 +85,7 @@ public class UsersController {
 
         try {
             Database database = Database.getInstance();
-            database.userCreate(userCreate.getAuth_hash().getBytes());
+            database.userCreate(userCreate.getAuth_hash().substring(0, 20).getBytes());
             Authenticator.getInstance().invalidate();
         } catch (java.sql.SQLIntegrityConstraintViolationException e) {
             throw new AlreadyExistsException();
@@ -104,7 +104,7 @@ public class UsersController {
 
         try {
             Database db = Database.getInstance();
-            db.userUpdate(id, updateUser.getAuth_hash().getBytes(), updateUser.getName());
+            db.userUpdate(id, updateUser.getAuth_hash().substring(0,20).getBytes(), updateUser.getName());
             Authenticator.getInstance().invalidate();
             return new ResponseEntity(HttpStatus.ACCEPTED);
         } catch (EmptyResultDataAccessException e) {

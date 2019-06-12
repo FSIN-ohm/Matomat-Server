@@ -83,7 +83,7 @@ public class Authenticator implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication)
         throws AuthenticationException {
         try {
-            User user = users.get(authentication.getName());
+            User user = users.get(authentication.getName().substring(0,20));
             if (user.getRole() == User.Role.ADMIN) {
                 String password = (String) authentication.getCredentials();
                 if (Arrays.equals(DigestUtils.sha512((new String(user.getSalt()) + password).getBytes()),
@@ -100,8 +100,8 @@ public class Authenticator implements AuthenticationProvider {
                 return new UserPwdTocken (
                         user.getId(),
                         user.getRole(),
-                        authentication.getName(),
-                        authentication.getCredentials().toString(),
+                        authentication.getName().substring(0,20),
+                        authentication.getName().substring(0,20),
                         Arrays.asList(new SimpleGrantedAuthority("ROLE_USER")));
             }
 
