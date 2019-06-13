@@ -77,7 +77,7 @@ public class ProductsController {
         try {
             Database db = Database.getInstance();
             PriceEntry priceEntry = new PriceEntry();
-            priceEntry.setPrice(new BigDecimal((int)(productAdd.getPrice()/100.00)));
+            priceEntry.setPrice(new BigDecimal(productAdd.getPrice()/100.00));
 
             ProductEntry productEntry = new ProductEntry();
             productEntry.setBarcode(productAdd.getBarcode());
