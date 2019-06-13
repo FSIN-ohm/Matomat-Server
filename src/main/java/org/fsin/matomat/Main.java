@@ -2,6 +2,7 @@ package org.fsin.matomat;
 
 import org.fsin.matomat.database.Database;
 
+import org.fsin.matomat.inventory_watch.InventorySentinel;
 import org.fsin.matomat.inventory_watch.Mailer;
 import org.fsin.matomat.rest.auth.Authenticator;
 import org.springframework.boot.SpringApplication;
@@ -57,6 +58,10 @@ public class Main {
 
             System.setProperty("server.servlet.context-path", contextPath);
 
+            if(conf.getValueBool("mail_enabled")) {
+                InventorySentinel.getInstance()
+                        .startCheckingService(conf.getValueInt("check_interval"));
+            }
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +69,6 @@ public class Main {
             //quit if we can not reach the database. let docker restart the server
             System.exit(1);
         }
-
 
 
         SpringApplication.run(Main.class, argv);
