@@ -34,7 +34,7 @@ public class ProductDAO {
     public List<ProductEntry> getAll(boolean onlyAvailable) throws DataAccessException {
         if(onlyAvailable)
             return template.query("SELECT * from products_all where available = 1", rowMapper);
-        return template.query("SELECT * from products", rowMapper);
+        return template.query("SELECT * from products_all", rowMapper);
     }
 
     public ProductEntry getById(int id) throws DataAccessException {
