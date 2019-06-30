@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.security.RolesAllowed;
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,10 +30,12 @@ import static org.fsin.matomat.rest.Utils.checkIfNotNull;
 @RestController
 public class TransactionsController {
 
+    private static final MathContext mc = new MathContext(2, RoundingMode.DOWN);
+
     private Transaction mapSimpleTransaction(TransactionEntry entry) {
         Transaction transaction = new Transaction();
         transaction.setDate(entry.getDate());
-        transaction.setAmount((int)(entry.getAmount().doubleValue()*100.00));
+        transaction.setAmount(entry.getAmount().multiply(new BigDecimal(100)).intValue());
         transaction.setId(entry.getId());
         transaction.setReceiver(entry.getRecipientId());
         transaction.setSender(entry.getSenderId());
@@ -49,7 +53,7 @@ public class TransactionsController {
     private ProductCountPrice mapProductCountPrice(ProductBoughtEntry entry) {
         ProductCountPrice price = new ProductCountPrice();
         price.setAmount(entry.getCount());
-        price.setPrice_per_unit((int)(entry.getUnitPrice().doubleValue()*100.00));
+        price.setPrice_per_unit(entry.getUnitPrice().multiply(new BigDecimal(100)).intValue());
         price.setProduct(entry.getProductId());
         return price;
     }
@@ -163,7 +167,7 @@ public class TransactionsController {
 
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
-        entry.setAmount(new BigDecimal(transfer.getAmount() / 100.00));
+        entry.setAmount(new BigDecimal(transfer.getAmount()).divide(new BigDecimal(100)));
         entry.setSenderId(transfer.getSender());
         entry.setRecipientId(transfer.getReceiver());
         db.transactionTransfer(entry);
@@ -181,7 +185,7 @@ public class TransactionsController {
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
         entry.setRecipientId(userToken.getId());
-        entry.setAmount(new BigDecimal(deposit.getAmount() / 100.00));
+        entry.setAmount(new BigDecimal(deposit.getAmount()).divide(new BigDecimal(100.00), mc));
         db.transactionDeposit(entry);
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -196,7 +200,7 @@ public class TransactionsController {
         Database db = Database.getInstance();
         TransactionEntry entry = new TransactionEntry();
         entry.setSenderId(userToken.getId());
-        entry.setAmount(new BigDecimal(withdraw.getAmount()/100.00));
+        entry.setAmount(new BigDecimal(withdraw.getAmount()).divide(new BigDecimal(100.00), mc));
 
         return new ResponseEntity(HttpStatus.CREATED);
     }
@@ -212,7 +216,7 @@ public class TransactionsController {
         Database db = Database.getInstance();
         OrderEntry entry = new OrderEntry();
         entry.setAdminId(userToken.getId());
-        entry.setAmount(new BigDecimal(order.getAmount()/100.00));
+        entry.setAmount(new BigDecimal(order.getAmount()).divide(new BigDecimal(100.00), mc));
         List<OrderedProductEntry> orderedProductEntries = new ArrayList<>(order.getOrders().length);
         for(OrderedProduct op : order.getOrders()) {
             checkIfBelowOne(op.getAmount());
