@@ -102,7 +102,7 @@ def transactionWithdraw():
 def transactionOrder():
     return returnFileOnGet("");
 
-@app.route("/v1/transactions/purchases", methods=["POST"])
+@app.route("/v1/transactions/purchase", methods=["POST"])
 def transactionPurchases():
     return returnFileOnGet("");
 
