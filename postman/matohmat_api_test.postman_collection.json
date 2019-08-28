@@ -1,0 +1,4519 @@
+{
+	"info": {
+		"_postman_id": "b5b9e15f-267a-4218-a67d-20928338b151",
+		"name": "matohmat api test",
+		"description": "This is a vollection of requests that are used to test the matohmat api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "v1",
+			"item": [
+				{
+					"name": "unauthorized",
+					"item": [
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "get admins",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4d0f9e8-827b-40e7-a672-4d83ec8c1d7e",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "get a list of all the damins"
+									},
+									"response": []
+								},
+								{
+									"name": "get admin by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f4dd4bd3-7ea0-4c85-af34-2b4a4d7f040b",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/3",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"3"
+											]
+										},
+										"description": "get a information about an admin by its id"
+									},
+									"response": []
+								},
+								{
+									"name": "get current admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "fd7b296c-e21f-4b5b-9aa2-cb1d041bc775",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"me"
+											]
+										},
+										"description": "get a information about the currently logged in admin"
+									},
+									"response": []
+								},
+								{
+									"name": "create admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4336bb3-45c0-4c16-b6e3-3c8441ec6ff1",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"TestAdmin1\",\n   \"password\":\"NotATestPassword1\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "create a new admin"
+									},
+									"response": []
+								},
+								{
+									"name": "change admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c12ceae9-3486-41ea-a038-5fd3b6b4c5d1",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"NewUserName\",\n   \"password\":\"NotANewPassword\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "make changes to the details of an admin"
+									},
+									"response": []
+								},
+								{
+									"name": "delete an admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "75248be4-cc2c-4479-b47a-dc47039edeca",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "disable an admin account"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "get users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c0b3d24e-50a0-4b43-a03a-2d154db84169",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get user by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "db4a1b11-47d1-4dd8-aff6-6f499cda0ad6",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "28682f1c-ff0a-4373-b29e-8fedb959c79c",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "13e11f4c-1c7e-4719-969c-26dec94c3f41",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":{{user_login}}\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/user",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"user"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "edit user",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "174a13b2-30e5-4650-ad1c-f53c193b63df",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "b5329867-f19d-419d-8865-81ca8decf9b4",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":{{user_login}},\n   \"name\":\"HansPeter\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{admin_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3c1a4139-bd3d-4fe3-9dd0-43a95d2f7785",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{admin_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "get available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c3098631-69be-4cc8-aa6f-20e4fdbb7e73",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get explicitly available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "856ee31a-d58c-45ad-b007-947c0b35e55c",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products&onlyAvailable=true",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products&onlyAvailable=true"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a1e8bfd5-1ab0-4346-8650-60c3a8bcb2ec",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products&onlyAvailable=false",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products&onlyAvailable=false"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get single product detail",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9bbecb0d-940e-4aaf-927f-6ff02b95c661",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "add product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "16e7f1a7-07d1-49f5-b47b-ec1880089efa",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":1000,\n   \"name\":\"TestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":100,\n   \"barcode\":\"0\",\n   \"items_per_crate\":10\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d05431c5-0246-4063-a580-35e51b3ce6e4",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":12.0,\n   \"name\":\"NeuesTestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":80,\n   \"barcode\":\"0\",\n   \"items_per_crate\":5,\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "get transactions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6ddba3a9-6179-4d1c-88f3-f8415f652571",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transaction by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "43316b26-64ee-46b2-85fa-3b8753b62973",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "admin transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "827257f5-2ecb-47b6-9d9a-feae660284eb",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"sender\": 1,\n   \"receiver\": 2,\n   \"amount\": 300\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "07d68384-e71f-4797-b8cd-4ef27dff8b67",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"receiver\": 2,\n   \"amount\": 500\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deposit transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "15bc74aa-ff5b-4ae1-9460-8f0d3cfe6f95",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/deposit",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"deposit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "withdraw transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c0461b2a-900f-4029-919c-b8ed0fee0afc",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/withdraw",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"withdraw"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "order transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0c72cea0-68e6-4a02-a1e9-d9fb03993780",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":10000,\n   \"orders\": [\n      {\n         \"product_info\": 1,\n         \"amount\": 10\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/order",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"order"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "purchase transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "48103035-2950-4ebe-8185-fcb0847c31c2",
+												"exec": [
+													"pm.test(\"Status code is 401\", function () {",
+													"    pm.response.to.have.status(401);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"orders\": [\n      {\n         \"product\": 1,\n         \"amount\": 11\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/purchase",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"purchase"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"auth": {
+						"type": "noauth"
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "090de8b1-e500-401c-a6e4-b789c7648535",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "017bcc18-0c86-458d-b7f6-54bd65d38a86",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "as admin",
+					"item": [
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "create admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4336bb3-45c0-4c16-b6e3-3c8441ec6ff1",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "4e2a62e8-b068-469b-8a80-78715b3b5775",
+												"exec": [
+													"var admin=\"admin\";",
+													"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+													"    for( var i=0; i < 8; i++ )",
+													"        admin += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+													"        ",
+													"pm.variables.set(\"random_admin\", admin);"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"{{random_admin}}\",\n   \"password\":\"NotATestPassword1\",\n   \"email\":\"{{random_admin}}@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "create a new admin"
+									},
+									"response": []
+								},
+								{
+									"name": "get current admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "fd7b296c-e21f-4b5b-9aa2-cb1d041bc775",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});",
+													"",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"me"
+											]
+										},
+										"description": "get a information about the currently logged in admin"
+									},
+									"response": []
+								},
+								{
+									"name": "get admins",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4d0f9e8-827b-40e7-a672-4d83ec8c1d7e",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    ",
+													"    var data = pm.response.json();",
+													"    console.log(data[data.length -1].id);",
+													"    if(data[data.length -1].id > 3){",
+													"        pm.variables.set(\"admin_id\", data[data.length -1].id);",
+													"    }",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "get a list of all the damins"
+									},
+									"response": []
+								},
+								{
+									"name": "get admin by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f4dd4bd3-7ea0-4c85-af34-2b4a4d7f040b",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/3",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"3"
+											]
+										},
+										"description": "get a information about an admin by its id"
+									},
+									"response": []
+								},
+								{
+									"name": "change admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c12ceae9-3486-41ea-a038-5fd3b6b4c5d1",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"new{{random_admin}}\",\n   \"password\":\"NotANewPassword\",\n   \"email\":\"new{{random_admin}}@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "make changes to the details of an admin"
+									},
+									"response": []
+								},
+								{
+									"name": "delete an admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "75248be4-cc2c-4479-b47a-dc47039edeca",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "disable an admin account"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "cfb63f0b-3e9e-458c-a162-2509d48eaa2c",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "47e44d60-ddd8-4715-886b-5f6b0ac982e4",
+												"exec": [
+													"var user=\"user\";",
+													"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+													"    for( var i=0; i < 32; i++ )",
+													"        user += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+													"",
+													"pm.variables.set(\"user_login\", user);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f14c23f1-3fb7-419a-9022-e300d7946f89",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    ",
+													"    var data = pm.response.json();",
+													"    console.log(data[data.length -1].id);",
+													"    if(data[data.length -1].id > 3){",
+													"        pm.variables.set(\"user_id\", data[data.length -1].id);",
+													"    }",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get user by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "3fbb975d-df74-4c46-99f9-ddef46ece056",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{user_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{user_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "28682f1c-ff0a-4373-b29e-8fedb959c79c",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "edit user",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "174a13b2-30e5-4650-ad1c-f53c193b63df",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "bf76289f-dbef-41eb-aa8a-7273bc6847b8",
+												"exec": [
+													"pm.test(\"Successful request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\",\n   \"name\":\"HansPeter\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{user_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{user_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "a3c4a018-3966-4118-bbc9-ee0ef2c0761a",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{user_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{user_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "add product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "9d526289-826b-4ba6-a25b-2fbf4f2d9784",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "7d404195-89be-4321-83c6-811a58a3d043",
+												"exec": [
+													"var product=\"product\";",
+													"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+													"    for( var i=0; i < 8; i++ )",
+													"        product += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+													"",
+													"pm.variables.set(\"random_product\", product);",
+													"",
+													"pm.variables.set(\"random_barcode\", (Math.floor(Math.random() * 10000)));"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":1000,\n   \"name\":\"{{random_product}}\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":100,\n   \"barcode\":\"{{random_barcode}}\",\n   \"items_per_crate\":10\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "269e6220-70db-42a0-9bdf-eb852d370e50",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    ",
+													"    var data = pm.response.json();",
+													"    console.log(data[data.length -1].id);",
+													"    if(data[data.length -1].id > 3){",
+													"        pm.variables.set(\"product_id\", data[data.length -1].id);",
+													"    }",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get explicitly available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6b71ff18-53a5-464a-86d5-6eaf5c7a80f2",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=true",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "242314d1-3547-477c-9adb-7190ff4b4d31",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=false",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get single product detail",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b497beab-8567-4931-b83e-a90f95b44ad8",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products/{{product_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"{{product_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f562a0b6-e881-4d62-9de7-7b589886c479",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201, 202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":12.0,\n   \"name\":\"Neues{{random_product}}\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":80,\n   \"barcode\":\"{{random_barcode}}2\",\n   \"items_per_crate\":5\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products/{{product_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"{{product_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "get transactions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b58ed9fd-9e34-4d30-bb6f-89f3038b7ec6",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transaction by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4d2ed131-6415-41d3-846e-d848b524bf5e",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "admin transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "1a497823-3250-454d-a941-01ea0f84380f",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"sender\": 1,\n   \"receiver\": 2,\n   \"amount\": 300\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4a84809a-5600-4844-89b6-76f45f95d5e8",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"receiver\": 2,\n   \"amount\": 500\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deposit transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "4e83c339-bd3f-4bec-b77c-55aeefcab999",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/deposit",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"deposit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "withdraw transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "35881185-a362-4756-8a1b-388b36f3f181",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/withdraw",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"withdraw"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "order transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e0e31458-8169-4df2-b499-622d111199fe",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":10000,\n   \"orders\": [\n      {\n         \"product_info\": 1,\n         \"amount\": 10\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/order",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"order"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "purchase transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "383b8c89-8d47-4663-8757-9e7bd4eb8476",
+												"exec": [
+													"pm.test(\"Status code is 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"orders\": [\n      {\n         \"product\": 1,\n         \"amount\": 11\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/purchase",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"purchase"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "password",
+								"value": "{{admin_pw}}",
+								"type": "string"
+							},
+							{
+								"key": "username",
+								"value": "{{admin_login}}",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "090de8b1-e500-401c-a6e4-b789c7648535",
+								"type": "text/javascript",
+								"exec": [
+									"var admin=\"admin\";",
+									"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+									"    for( var i=0; i < 8; i++ )",
+									"        admin += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+									"        ",
+									"pm.variables.set(\"random_admin\", admin);",
+									"",
+									"var product=\"product\";",
+									"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+									"    for( var i=0; i < 8; i++ )",
+									"        product += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+									"",
+									"pm.variables.set(\"random_product\", product);",
+									"",
+									"pm.variables.set(\"random_barcode\", (Math.floor(Math.random() * 10000)));"
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "017bcc18-0c86-458d-b7f6-54bd65d38a86",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "as device",
+					"item": [
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "get admins",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4d0f9e8-827b-40e7-a672-4d83ec8c1d7e",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "get a list of all the damins"
+									},
+									"response": []
+								},
+								{
+									"name": "get admin by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f4dd4bd3-7ea0-4c85-af34-2b4a4d7f040b",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/3",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"3"
+											]
+										},
+										"description": "get a information about an admin by its id"
+									},
+									"response": []
+								},
+								{
+									"name": "get current admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "fd7b296c-e21f-4b5b-9aa2-cb1d041bc775",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"me"
+											]
+										},
+										"description": "get a information about the currently logged in admin"
+									},
+									"response": []
+								},
+								{
+									"name": "create admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4336bb3-45c0-4c16-b6e3-3c8441ec6ff1",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"TestAdmin1\",\n   \"password\":\"NotATestPassword1\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "create a new admin"
+									},
+									"response": []
+								},
+								{
+									"name": "change admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c12ceae9-3486-41ea-a038-5fd3b6b4c5d1",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"NewUserName\",\n   \"password\":\"NotANewPassword\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "make changes to the details of an admin"
+									},
+									"response": []
+								},
+								{
+									"name": "delete an admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "75248be4-cc2c-4479-b47a-dc47039edeca",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "disable an admin account"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "get users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f8ab49c7-99f4-4a67-b24b-c1055dce67e3",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get user by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "dae29be4-b75a-477d-a3fa-42e89235f036",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "28682f1c-ff0a-4373-b29e-8fedb959c79c",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d0c06986-4e66-4524-b543-3145d3167350",
+												"exec": [
+													"pm.test(\"Status code is 200 or 201\", function () {",
+													"    pm.response.to.have.status(201);",
+													"});",
+													"",
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "f173ea73-8d26-4785-8a28-10e53ae1523a",
+												"exec": [
+													"var user=\"user\";",
+													"var charset = \"abcdefghijklmnopqrstuvwxyz0123456789\";",
+													"    for( var i=0; i < 32; i++ )",
+													"        user += charset.charAt(Math.floor(Math.random() * charset.length));    ",
+													"",
+													"pm.variables.set(\"user_login\", user);",
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"auth": {
+											"type": "basic",
+											"basic": [
+												{
+													"key": "username",
+													"value": "testKey",
+													"type": "string"
+												},
+												{
+													"key": "password",
+													"value": "",
+													"type": "string"
+												}
+											]
+										},
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "edit user",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "174a13b2-30e5-4650-ad1c-f53c193b63df",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "ab819baa-1d94-4f7d-a414-e07fa64e24fc",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\",\n   \"name\":\"HansPeter\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{admin_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d819d30e-ad02-443c-953a-5443687de7b8",
+												"exec": [
+													"pm.test(\"Status code is 401 or 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{admin_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "get available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "16dd51fd-5f88-4ae9-aa68-2ba074cad22a",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get explicitly available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b0a3400e-8935-4fec-8f75-c8356f50277b",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=true",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "58d968f6-f045-46b1-94b0-9d16c576e881",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=false",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get single product detail",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2b095beb-1e25-4c25-8f11-8bef9a8b4675",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "add product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ae5aae7c-c820-4c74-9f46-88ec4cc774c1",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":1000,\n   \"name\":\"TestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":100,\n   \"barcode\":\"0\",\n   \"items_per_crate\":10\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "cf294df7-b836-4b3c-83d6-08aef8eafd61",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":12.0,\n   \"name\":\"NeuesTestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":80,\n   \"barcode\":\"0\",\n   \"items_per_crate\":5\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"1"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "get transactions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "788a8ac2-fdf0-407f-9c36-2afa455ef30c",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transaction by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0b0b9766-d9a3-4b3e-8e5b-11d4701ac8f4",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/1",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"1"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "admin transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "2a142c2f-5bc5-4f7c-8892-42215777a29c",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"sender\": 1,\n   \"receiver\": 2,\n   \"amount\": 300\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "bc6e298c-f91b-4765-a9a8-6e7a0b4e0f6b",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"receiver\": 2,\n   \"amount\": 500\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deposit transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "5b5383d6-5b42-4fb9-9b92-6b732d035f40",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/deposit",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"deposit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "withdraw transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "10cd6847-aedb-4272-9d82-5ac1ca7a1ab7",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/withdraw",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"withdraw"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "order transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0f427f8f-1286-4540-8136-2470620329e4",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":10000,\n   \"orders\": [\n      {\n         \"product_info\": 1,\n         \"amount\": 10\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/order",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"order"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "purchase transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "26361183-219f-42a7-b659-7ec0268ee43f",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"orders\": [\n      {\n         \"product\": 1,\n         \"amount\": 11\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/purchase",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"purchase"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "username",
+								"value": "{{matohmat_key}}",
+								"type": "string"
+							},
+							{
+								"key": "password",
+								"value": "",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "090de8b1-e500-401c-a6e4-b789c7648535",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "017bcc18-0c86-458d-b7f6-54bd65d38a86",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "as user",
+					"item": [
+						{
+							"name": "admin",
+							"item": [
+								{
+									"name": "get admins",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4d0f9e8-827b-40e7-a672-4d83ec8c1d7e",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "get a list of all the damins"
+									},
+									"response": []
+								},
+								{
+									"name": "get admin by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f4dd4bd3-7ea0-4c85-af34-2b4a4d7f040b",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/3",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"3"
+											]
+										},
+										"description": "get a information about an admin by its id"
+									},
+									"response": []
+								},
+								{
+									"name": "get current admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "fd7b296c-e21f-4b5b-9aa2-cb1d041bc775",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"me"
+											]
+										},
+										"description": "get a information about the currently logged in admin"
+									},
+									"response": []
+								},
+								{
+									"name": "create admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c4336bb3-45c0-4c16-b6e3-3c8441ec6ff1",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"TestAdmin1\",\n   \"password\":\"NotATestPassword1\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins"
+											]
+										},
+										"description": "create a new admin"
+									},
+									"response": []
+								},
+								{
+									"name": "change admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "c12ceae9-3486-41ea-a038-5fd3b6b4c5d1",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"user_name\":\"NewUserName\",\n   \"password\":\"NotANewPassword\",\n   \"email\":\"notanemail@th-nuernberg.de\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "make changes to the details of an admin"
+									},
+									"response": []
+								},
+								{
+									"name": "delete an admin",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "75248be4-cc2c-4479-b47a-dc47039edeca",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/admins/{{admin_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"admins",
+												"{{admin_id}}"
+											]
+										},
+										"description": "disable an admin account"
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "users",
+							"item": [
+								{
+									"name": "create user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "1750e9a5-5c2a-47d1-900f-88b7c0efe558",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "5d73031a-fde9-43f7-9f90-95a1b2ad6733",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get users",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "cf7fe34f-2db8-4487-a36a-c7461bdfd21e",
+												"exec": [
+													"pm.test(\"Status code is 401 or 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get user by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "7653c2e4-9726-401d-8dae-8fa572108e5c",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/4",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"4"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get current user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "28682f1c-ff0a-4373-b29e-8fedb959c79c",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    ",
+													"    var data = pm.response.json();",
+													"    console.log(data.id);",
+													"    if(data.id > 3){",
+													"        pm.variables.set(\"current_user_id\", data.id);",
+													"    }",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "c1f6b24d-6118-45dc-8d3b-564470b0ea7e",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/me",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"me"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "edit user",
+									"event": [
+										{
+											"listen": "prerequest",
+											"script": {
+												"id": "174a13b2-30e5-4650-ad1c-f53c193b63df",
+												"exec": [
+													""
+												],
+												"type": "text/javascript"
+											}
+										},
+										{
+											"listen": "test",
+											"script": {
+												"id": "51655f85-1e67-46c9-8b43-e9eb6f6e8464",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200, 201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"auth_hash\":\"{{user_login}}\",\n   \"name\":\"HansPeter\"\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{current_user_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{current_user_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "delete user",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e1f6c422-51ba-484b-b5ea-f0e98857f7a5",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "DELETE",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/users/{{current_user_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"users",
+												"{{current_user_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "products",
+							"item": [
+								{
+									"name": "get available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "d685c80c-eb77-48a5-beb7-8e4187961470",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get explicitly available products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "dc51bbf5-f21e-46b5-94fa-b592066e30ff",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=true",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "true"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get all products",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "f5a7097b-b12c-4adb-ac25-ab4d0614f993",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products?onlyAvailable=false",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											],
+											"query": [
+												{
+													"key": "onlyAvailable",
+													"value": "false"
+												}
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get single product detail",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "b3ce891e-7fea-458f-bb77-a0d99a23e4a7",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/products/{{product_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"{{product_id}}"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "add product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "8606a57f-a1a0-425a-b8c5-1e3c5bb83c46",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":1000,\n   \"name\":\"TestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":100,\n   \"barcode\":\"0\",\n   \"items_per_crate\":10\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "change product",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "ec4a793c-aea3-4942-afc4-2277c7f6815a",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "PATCH",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"price\":12.0,\n   \"name\":\"NeuesTestProdukt\",\n   \"thumbnail\":\"https://i.imgur.com/N5YTcoS.png\",\n   \"reorder_point\":80,\n   \"barcode\":\"0\",\n   \"items_per_crate\":5\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/products/{{product_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"products",
+												"{{product_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						},
+						{
+							"name": "transactions",
+							"item": [
+								{
+									"name": "admin transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "814a3e03-6ea1-458e-8a37-acad7f0c2232",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"sender\": {{admin_id}},\n   \"receiver\": {{current_user_id}},\n   \"amount\": 300\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "user transfer transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "6bd238d0-16b9-4c17-833a-f337879cf96d",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"receiver\": {{admin_id}},\n   \"amount\": 500\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/transfer",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"transfer"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "deposit transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "1f256384-626d-4e06-98aa-b036615a0695",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/deposit",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"deposit"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "withdraw transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "e8437475-efea-44c8-9f48-f0ef88a1d5f6",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":800\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/withdraw",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"withdraw"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "order transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "389b5a1d-2d28-48f4-88cb-3a7d20dbfce0",
+												"exec": [
+													"pm.test(\"Status code is 403\", function () {",
+													"    pm.response.to.have.status(403);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"amount\":10000,\n   \"orders\": [\n      {\n         \"product_info\": 1,\n         \"amount\": 10\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/order",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"order"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "purchase transaction",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "84f742d8-2d19-4cec-b488-2b5098d1de39",
+												"exec": [
+													"pm.test(\"Successful POST request\", function () {",
+													"    pm.expect(pm.response.code).to.be.oneOf([200,201,202]);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "POST",
+										"header": [
+											{
+												"key": "Content-Type",
+												"name": "Content-Type",
+												"value": "application/json",
+												"type": "text"
+											}
+										],
+										"body": {
+											"mode": "raw",
+											"raw": "{\n   \"orders\": [\n      {\n         \"product\": 1,\n         \"amount\": 11\n      }\n   ]\n}"
+										},
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/purchase",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"purchase"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transactions",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "0ac70446-10c8-4c11-9ac2-c0e0a7ac5074",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"    ",
+													"    var data = pm.response.json();",
+													"    console.log(data[data.length -1].id);",
+													"    if(data[data.length -1].id > 3){",
+													"        pm.variables.set(\"user_transaction_id\", data[data.length -1].id);",
+													"    }",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions"
+											]
+										}
+									},
+									"response": []
+								},
+								{
+									"name": "get transaction by id",
+									"event": [
+										{
+											"listen": "test",
+											"script": {
+												"id": "79b568a1-5543-4026-a860-d14d380fc26d",
+												"exec": [
+													"pm.test(\"Status code is 200\", function () {",
+													"    pm.response.to.have.status(200);",
+													"});"
+												],
+												"type": "text/javascript"
+											}
+										}
+									],
+									"request": {
+										"method": "GET",
+										"header": [],
+										"url": {
+											"raw": "{{HOST}}/v1/transactions/{{user_transaction_id}}",
+											"host": [
+												"{{HOST}}"
+											],
+											"path": [
+												"v1",
+												"transactions",
+												"{{user_transaction_id}}"
+											]
+										}
+									},
+									"response": []
+								}
+							],
+							"_postman_isSubFolder": true
+						}
+					],
+					"auth": {
+						"type": "basic",
+						"basic": [
+							{
+								"key": "username",
+								"value": "{{user_login}}",
+								"type": "string"
+							},
+							{
+								"key": "password",
+								"value": "",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "090de8b1-e500-401c-a6e4-b789c7648535",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "017bcc18-0c86-458d-b7f6-54bd65d38a86",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"_postman_isSubFolder": true
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "af2b44a8-0d25-4df4-8669-458f900faccc",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "0dfcc409-68f8-4af3-b1d7-480d73df87a9",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "9a46330f-15be-4b83-9108-31d1c18d655a",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "4576ded3-9bfa-4aa0-9615-558ca1d88aed",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "9bbf1b7e-d1d7-479c-86b4-eaeb9a2345d6",
+			"key": "HOST",
+			"value": "localhost",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "c3187c1d-2a27-4820-8ab7-48a3be84e61d",
+			"key": "admin_login",
+			"value": "{{admin_login}}",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "ac8d7a32-f105-44b0-b98a-ce3a76a93656",
+			"key": "admin_pw",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"id": "8f17c618-67f0-4ce9-8094-f3a71a1061be",
+			"key": "matohmat_key",
+			"value": "",
+			"type": "string",
+			"disabled": true
+		}
+	]
+}
